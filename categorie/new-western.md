@@ -5,5 +5,5 @@ tipo_menu: "beverage"
 parent_category: "selezione-di-gin"
 icona: "💐"
 visibile: false
-order: 0
+order: 6
 ---

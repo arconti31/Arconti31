@@ -5,5 +5,5 @@ tipo_menu: "food"
 icona: "⚽"
 immagine: "https://res.cloudinary.com/ducwseofw/image/upload/v1765584256/arconti31/arnsgtm4tbvaornjjxja.jpg"
 visibile: false
-order: 2
+order: 12
 ---

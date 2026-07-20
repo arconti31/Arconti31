@@ -4,5 +4,5 @@ slug: "selezione-di-whisky"
 tipo_menu: "beverage"
 icona: "🥃"
 visibile: false
-order: 0
+order: 10
 ---

@@ -6,5 +6,5 @@ icona: "☕"
 immagine: "images/minicard sezioni/caffetteria.jpg"
 descrizione: "Caffè e bevande calde"
 visibile: true
-order: 21
+order: 31
 ---

@@ -5,5 +5,5 @@ folder: "ammazza-caffe"
 tipo_menu: "beverage"
 icona: "🥃"
 visibile: true
-order: 0
+order: 4
 ---

@@ -6,5 +6,5 @@ icona: "🥯"
 immagine: "images/minicard sezioni/piadine.jpg"
 descrizione: "Piadine romagnole farcite"
 visibile: true
-order: 7
+order: 17
 ---

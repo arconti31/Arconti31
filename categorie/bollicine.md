@@ -6,5 +6,5 @@ icona: "🥂"
 immagine: "images/minicard sezioni/bollicine.jpg"
 descrizione: "Spumanti e prosecchi"
 visibile: true
-order: 20
+order: 30
 ---

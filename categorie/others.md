@@ -4,5 +4,5 @@ slug: "others"
 tipo_menu: "beverage"
 parent_category: "selezione-di-gin"
 visibile: false
-order: 0
+order: 8
 ---

@@ -5,5 +5,5 @@ folder: "i-nostri-rhum"
 tipo_menu: "beverage"
 icona: "🍫"
 visibile: false
-order: 0
+order: 3
 ---

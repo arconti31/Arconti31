@@ -6,5 +6,5 @@ icona: "❄️"
 immagine: "images/minicard sezioni/frigo-birre.png"
 descrizione: "Birre dal frigo"
 visibile: true
-order: 14
+order: 24
 ---

@@ -6,5 +6,5 @@ icona: "🍻"
 immagine: "images/minicard sezioni/birra-spina.png"
 descrizione: "Birre alla spina classiche"
 visibile: true
-order: 12
+order: 22
 ---
