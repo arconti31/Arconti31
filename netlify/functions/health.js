@@ -1,7 +1,8 @@
 // Health check — verifica presenza config senza leak di secret
-// GET o POST
+// GET o POST — dettagli completi solo con token valido (M2)
 
 const { resolveRepoConfig } = require('./repo-config');
+const { verifyToken } = require('./auth');
 
 function buildChecks() {
   const repoOwner = !!(process.env.REPO_OWNER || '').trim();
@@ -53,7 +54,7 @@ exports.handler = async (event) => {
         ...headers,
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type'
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization'
       },
       body: ''
     };
@@ -63,6 +64,20 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
 
+  // M2: Unauthenticated requests get only basic liveness (no config exposure, no GitHub ping)
+  const authHeader = event.headers.authorization || event.headers.Authorization || '';
+  const token = authHeader.replace('Bearer ', '').trim();
+  const isAuthenticated = !!verifyToken(token);
+
+  if (!isAuthenticated) {
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ ok: true })
+    };
+  }
+
+  // Authenticated: full diagnostics
   const checks = buildChecks();
   let ok = checks.repoOwner && checks.repoName && checks.githubToken && checks.adminEmail && checks.adminPassword;
 

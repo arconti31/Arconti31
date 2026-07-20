@@ -229,22 +229,29 @@ exports.handler = async (event, context) => {
 
     const mdFiles = files.filter(f => f.name.endsWith('.md') && f.name !== '.gitkeep');
 
-    const items = await Promise.all(mdFiles.map(async file => {
-      try {
-        const fileData = await githubRequest(
-          'GET',
-          `/repos/${REPO_OWNER}/${REPO_NAME}/contents/${folder}/${file.name}`,
-          null,
-          GITHUB_TOKEN
-        );
-        const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
-        const parsedItem = parseFrontmatter(content);
-        return { content, filename: file.name, sha: fileData.sha, parsedItem };
-      } catch (e) {
-        console.error(`Error loading ${file.name}:`, e);
-        return null;
-      }
-    }));
+    // Bounded concurrency (max 8) to avoid GitHub secondary rate limits (M4)
+    const CONCURRENCY = 8;
+    const items = [];
+    for (let i = 0; i < mdFiles.length; i += CONCURRENCY) {
+      const batch = mdFiles.slice(i, i + CONCURRENCY);
+      const batchResults = await Promise.all(batch.map(async file => {
+        try {
+          const fileData = await githubRequest(
+            'GET',
+            `/repos/${REPO_OWNER}/${REPO_NAME}/contents/${folder}/${file.name}`,
+            null,
+            GITHUB_TOKEN
+          );
+          const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
+          const parsedItem = parseFrontmatter(content);
+          return { content, filename: file.name, sha: fileData.sha, parsedItem };
+        } catch (e) {
+          console.error(`Error loading ${file.name}:`, e);
+          return null;
+        }
+      }));
+      items.push(...batchResults);
+    }
 
     return {
       statusCode: 200,

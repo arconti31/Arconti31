@@ -1309,13 +1309,14 @@ function renderSidebar() {
 
   // Helper to render category image
   const renderCatThumb = (cat) => {
-    let img = cat.immagine || '';
+    let img = safeUrl(cat.immagine || '');
     if (img && !img.startsWith('http') && !img.startsWith('../')) {
       img = '../' + img;
     }
+    const safeIcon = escapeHtml(cat.icona || '📦');
     return img
-      ? `<img src="${img}" class="tree-item-thumb" alt="" onerror="this.outerHTML='<div class=\\'tree-item-thumb-placeholder\\'>${cat.icona || '📦'}</div>'">`
-      : `<div class="tree-item-thumb-placeholder">${cat.icona || '📦'}</div>`;
+      ? `<img src="${escapeHtml(img)}" class="tree-item-thumb" alt="" onerror="this.outerHTML='<div class=\\'tree-item-thumb-placeholder\\'>${safeIcon}</div>'">`
+      : `<div class="tree-item-thumb-placeholder">${safeIcon}</div>`;
   };
 
   // Helper per indicare se una categoria è nascosta nel frontend
@@ -1327,18 +1328,18 @@ function renderSidebar() {
     if (subcats.length > 0) {
       return `
         <div class="tree-subsection-inline">
-          <div class="tree-header tree-header-inline${cat.visibile === false ? ' is-hidden' : ''}" data-collection="food" data-category="${cat.nome}" data-expandable="true">
+          <div class="tree-header tree-header-inline${cat.visibile === false ? ' is-hidden' : ''}" data-collection="food" data-category="${escapeHtml(cat.nome)}" data-expandable="true">
             <span class="tree-toggle">▶</span>
             ${renderCatThumb(cat)}
-            <span class="tree-label">${cat.nome}</span>
+            <span class="tree-label">${escapeHtml(cat.nome)}</span>
             ${hiddenBadge(cat)}
             <span class="tree-count">${foodCounts[cat.nome] || 0}</span>
           </div>
           <div class="tree-children tree-subsection">
             ${subcats.map(sub => `
-              <div class="tree-item${sub.visibile === false ? ' is-hidden' : ''}" data-collection="food" data-category="${sub.nome}">
+              <div class="tree-item${sub.visibile === false ? ' is-hidden' : ''}" data-collection="food" data-category="${escapeHtml(sub.nome)}">
                 ${renderCatThumb(sub)}
-                <span class="tree-item-name">${sub.nome}</span>
+                <span class="tree-item-name">${escapeHtml(sub.nome)}</span>
                 ${hiddenBadge(sub)}
                 <span class="tree-item-count">${foodCounts[sub.nome] || 0}</span>
               </div>
@@ -1347,9 +1348,9 @@ function renderSidebar() {
         </div>`;
     }
     return `
-      <div class="tree-item${cat.visibile === false ? ' is-hidden' : ''}" data-collection="food" data-category="${cat.nome}">
+      <div class="tree-item${cat.visibile === false ? ' is-hidden' : ''}" data-collection="food" data-category="${escapeHtml(cat.nome)}">
         ${renderCatThumb(cat)}
-        <span class="tree-item-name">${cat.nome}</span>
+        <span class="tree-item-name">${escapeHtml(cat.nome)}</span>
         ${hiddenBadge(cat)}
         <span class="tree-item-count">${foodCounts[cat.nome] || 0}</span>
       </div>`;
@@ -1364,10 +1365,10 @@ function renderSidebar() {
       // Parent with subcategories — expandable tree
       return `
         <div class="tree-section">
-          <div class="tree-header${cat.visibile === false ? ' is-hidden' : ''}" ${collection ? `data-collection="${collection}"` : ''} data-expandable="true">
+          <div class="tree-header${cat.visibile === false ? ' is-hidden' : ''}" ${collection ? `data-collection="${escapeHtml(collection)}"` : ''} data-expandable="true">
             <span class="tree-toggle">▶</span>
             ${renderCatThumb(cat)}
-            <span class="tree-label">${cat.nome}</span>
+            <span class="tree-label">${escapeHtml(cat.nome)}</span>
             ${hiddenBadge(cat)}
           </div>
           <div class="tree-children tree-subsection">
@@ -1376,13 +1377,13 @@ function renderSidebar() {
               if (!subColl) return `
                 <div class="tree-item disabled${sub.visibile === false ? ' is-hidden' : ''}">
                   ${renderCatThumb(sub)}
-                  <span class="tree-item-name">${sub.nome} ⚠️</span>
+                  <span class="tree-item-name">${escapeHtml(sub.nome)} ⚠️</span>
                   ${hiddenBadge(sub)}
                 </div>`;
               return `
-                <div class="tree-item${sub.visibile === false ? ' is-hidden' : ''}" data-collection="${subColl}">
+                <div class="tree-item${sub.visibile === false ? ' is-hidden' : ''}" data-collection="${escapeHtml(subColl)}">
                   ${renderCatThumb(sub)}
-                  <span class="tree-item-name">${sub.nome}</span>
+                  <span class="tree-item-name">${escapeHtml(sub.nome)}</span>
                   ${hiddenBadge(sub)}
                 </div>`;
             }).join('')}
@@ -1396,16 +1397,16 @@ function renderSidebar() {
         <div class="tree-section">
           <div class="tree-item disabled${cat.visibile === false ? ' is-hidden' : ''}" title="Collezione non configurata">
             ${renderCatThumb(cat)}
-            <span class="tree-item-name">${cat.nome} ⚠️</span>
+            <span class="tree-item-name">${escapeHtml(cat.nome)} ⚠️</span>
             ${hiddenBadge(cat)}
           </div>
         </div>`;
     }
     return `
       <div class="tree-section">
-        <div class="tree-item${cat.visibile === false ? ' is-hidden' : ''}" data-collection="${collection}">
+        <div class="tree-item${cat.visibile === false ? ' is-hidden' : ''}" data-collection="${escapeHtml(collection)}">
           ${renderCatThumb(cat)}
-          <span class="tree-item-name">${cat.nome}</span>
+          <span class="tree-item-name">${escapeHtml(cat.nome)}</span>
           ${hiddenBadge(cat)}
         </div>
       </div>`;
@@ -1440,9 +1441,9 @@ function renderSidebar() {
       </div>
       <div class="tree-children tree-subsection">
         ${beerCategories.map(cat => `
-          <div class="tree-item${cat.visibile === false ? ' is-hidden' : ''}" data-collection="beers" data-beer-section="${cat.nome}">
+          <div class="tree-item${cat.visibile === false ? ' is-hidden' : ''}" data-collection="beers" data-beer-section="${escapeHtml(cat.nome)}">
             ${renderCatThumb(cat)}
-            <span class="tree-item-name">${cat.nome}</span>
+            <span class="tree-item-name">${escapeHtml(cat.nome)}</span>
             ${hiddenBadge(cat)}
           </div>
         `).join('')}
@@ -1541,7 +1542,7 @@ function updateCategoryFilter(name) {
   const field = collection.fields.find(f => f.type === 'dynamic-select' || f.name === 'category' || f.name === 'sezione');
   if (field) {
     const options = field.type === 'dynamic-select' ? getCategoriesForType(field.categoryType) : field.options;
-    if (options) options.forEach(opt => select.innerHTML += `<option value="${opt}">${opt}</option>`);
+    if (options) options.forEach(opt => select.innerHTML += `<option value="${escapeHtml(opt)}">${escapeHtml(opt)}</option>`);
   }
 }
 
@@ -1689,8 +1690,8 @@ function renderGroupedItems(items, reorderOk = canReorderList()) {
     const catData = state.categories.find(c => c.nome === cat);
     html += `<div class="category-group">
       <div class="category-header">
-        <span class="category-icon">${catData?.icona || '📦'}</span>
-        <span class="category-name">${cat}</span>
+        <span class="category-icon">${escapeHtml(catData?.icona || '📦')}</span>
+        <span class="category-name">${escapeHtml(cat)}</span>
         <span class="category-count">${grouped[cat].length}</span>
       </div>
       <div class="category-items" data-reorder-scope="group">${grouped[cat].map(item => renderItemCard(item, false, reorderOk)).join('')}</div>
@@ -1707,14 +1708,15 @@ function renderItemCard(item, showCheckbox = false, reorderOk = canReorderList()
     thumb = '../' + thumb;
   }
 
-  const thumbHtml = thumb
-    ? `<img src="${thumb}" class="item-thumb" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">`
+  const safeThumb = safeUrl(thumb);
+  const thumbHtml = safeThumb
+    ? `<img src="${escapeHtml(safeThumb)}" class="item-thumb" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">`
     : '<div class="item-thumb-placeholder" aria-hidden="true">📷</div>';
 
   // For categories, show icon instead of price
   const isCategory = state.currentCollection === 'categorie';
   const metaHtml = isCategory
-    ? `<span class="item-icon">${item.icona || '📦'}</span>`
+    ? `<span class="item-icon">${escapeHtml(item.icona || '📦')}</span>`
     : `<span class="item-price">€${formatPriceDisplay(item.prezzo)}</span>`;
 
   const statusOn = item.disponibile !== false && item.visibile !== false;
@@ -1722,29 +1724,31 @@ function renderItemCard(item, showCheckbox = false, reorderOk = canReorderList()
     ? (item.visibile === false ? 'Nascosta' : 'Visibile')
     : (item.disponibile === false ? 'Non disponibile' : 'Disponibile');
 
+  const safeFilename = escapeHtml(item.filename || '');
+
   // Checkbox for bulk selection (categories only)
   const checkboxHtml = showCheckbox
     ? `<label class="item-check-wrap" onclick="event.stopPropagation()">
-        <input type="checkbox" class="item-checkbox" data-filename="${item.filename}" aria-label="Seleziona ${item.nome || ''}">
+        <input type="checkbox" class="item-checkbox" data-filename="${safeFilename}" aria-label="Seleziona ${escapeHtml(item.nome || '')}">
       </label>`
     : '';
 
   const reorderHtml = reorderOk
     ? `<div class="item-reorder">
-        <button type="button" class="btn-reorder btn-reorder-up" data-filename="${item.filename}" title="Sposta su" aria-label="Sposta su">↑</button>
+        <button type="button" class="btn-reorder btn-reorder-up" data-filename="${safeFilename}" title="Sposta su" aria-label="Sposta su">↑</button>
         <div class="drag-handle" title="Trascina per riordinare" aria-label="Trascina per riordinare" role="button">
           <span></span><span></span><span></span>
         </div>
-        <button type="button" class="btn-reorder btn-reorder-down" data-filename="${item.filename}" title="Sposta giù" aria-label="Sposta giù">↓</button>
+        <button type="button" class="btn-reorder btn-reorder-down" data-filename="${safeFilename}" title="Sposta giù" aria-label="Sposta giù">↓</button>
       </div>`
     : '';
 
-  return `<div class="item-card ${statusOn ? '' : 'unavailable'}" data-filename="${item.filename}" data-order="${item.order || 0}" draggable="false">
+  return `<div class="item-card ${statusOn ? '' : 'unavailable'}" data-filename="${safeFilename}" data-order="${escapeHtml(String(item.order || 0))}" draggable="false">
     ${reorderHtml}
     ${checkboxHtml}
     ${thumbHtml}
     <div class="item-info">
-      <div class="item-name">${item.nome || 'Senza nome'}</div>
+      <div class="item-name">${escapeHtml(item.nome || 'Senza nome')}</div>
       <div class="item-meta">
         ${metaHtml}
         <span class="item-status-pill ${statusOn ? 'is-on' : 'is-off'}">
@@ -2207,7 +2211,7 @@ function showSearchSuggestions() {
   }).slice(0, 8);
 
   if (!matches.length) {
-    suggestions.innerHTML = '<div class="search-no-results">Nessun risultato per "' + query + '"</div>';
+    suggestions.innerHTML = '<div class="search-no-results">Nessun risultato per "' + escapeHtml(query) + '"</div>';
     suggestions.classList.add('active');
     return;
   }
@@ -2218,18 +2222,18 @@ function showSearchSuggestions() {
       thumb = '../' + thumb;
     }
     const thumbHtml = thumb
-      ? `<img src="${thumb}" class="suggestion-thumb" alt="" onerror="this.style.display='none'">`
+      ? `<img src="${escapeHtml(safeUrl(thumb))}" class="suggestion-thumb" alt="" onerror="this.style.display='none'">`
       : '<div class="suggestion-thumb-placeholder">📷</div>';
 
     const cat = item.category || item.sezione || item.tipo_menu || '';
     const price = item.prezzo ? `€${formatPriceDisplay(item.prezzo)}` : '';
 
-    return `<div class="suggestion-item" data-filename="${item.filename}">
+    return `<div class="suggestion-item" data-filename="${escapeHtml(item.filename)}">
       ${thumbHtml}
       <div class="suggestion-info">
-        <div class="suggestion-name">${item.nome || 'Senza nome'}</div>
+        <div class="suggestion-name">${escapeHtml(item.nome || 'Senza nome')}</div>
         <div class="suggestion-meta">
-          ${cat ? `<span class="suggestion-category">${cat}</span>` : ''}
+          ${cat ? `<span class="suggestion-category">${escapeHtml(cat)}</span>` : ''}
           ${price ? `<span class="suggestion-price">${price}</span>` : ''}
         </div>
       </div>
@@ -2474,7 +2478,7 @@ function renderEditForm(data) {
   const headerHtml = `
     <div class="edit-form-header">
       <div class="edit-form-badge">${isNew ? '➕ Nuovo' : '✏️ Modifica'}</div>
-      ${itemTitle ? `<div class="edit-form-title">${itemTitle}</div>` : ''}
+      ${itemTitle ? `<div class="edit-form-title">${escapeHtml(itemTitle)}</div>` : ''}
     </div>
   `;
 
@@ -2506,7 +2510,7 @@ function renderEditForm(data) {
           <label class="form-label">${field.label}</label>
           <select name="${field.name}" class="form-select">
             <option value="">-- Seleziona --</option>
-            ${field.options.map(opt => `<option value="${opt}" ${value === opt ? 'selected' : ''}>${opt}</option>`).join('')}
+            ${field.options.map(opt => `<option value="${escapeHtml(opt)}" ${value === opt ? 'selected' : ''}>${escapeHtml(opt)}</option>`).join('')}
           </select>
         </div>`;
 
@@ -2516,7 +2520,7 @@ function renderEditForm(data) {
           <label class="form-label">${field.label}</label>
           <select name="${field.name}" class="form-select">
             <option value="">-- Seleziona --</option>
-            ${cats.map(opt => `<option value="${opt}" ${value === opt ? 'selected' : ''}>${opt}</option>`).join('')}
+            ${cats.map(opt => `<option value="${escapeHtml(opt)}" ${value === opt ? 'selected' : ''}>${escapeHtml(opt)}</option>`).join('')}
           </select>
         </div>`;
 
@@ -2530,7 +2534,7 @@ function renderEditForm(data) {
           <label class="form-label">${field.label}</label>
           <select name="${field.name}" class="form-select" id="parent-category-select">
             <option value="">-- Nessuna (categoria principale) --</option>
-            ${parentOpts.map(cat => `<option value="${cat.slug}" data-tipo="${cat.tipo_menu}" ${value === cat.slug ? 'selected' : ''}>${cat.icona || '📁'} ${cat.nome} (${cat.tipo_menu})</option>`).join('')}
+            ${parentOpts.map(cat => `<option value="${escapeHtml(cat.slug)}" data-tipo="${escapeHtml(cat.tipo_menu)}" ${value === cat.slug ? 'selected' : ''}>${escapeHtml(cat.icona || '📁')} ${escapeHtml(cat.nome)} (${escapeHtml(cat.tipo_menu)})</option>`).join('')}
           </select>
           ${field.hint ? `<div class="form-hint">${field.hint}</div>` : ''}
         </div>`;
@@ -2636,9 +2640,10 @@ function renderImageField(field, value) {
   if (displayValue && !displayValue.startsWith('http') && !displayValue.startsWith('../') && !displayValue.startsWith('/')) {
     displayValue = '../' + displayValue;
   }
+  displayValue = safeUrl(displayValue);
 
-  const previewHtml = hasImage
-    ? `<img src="${displayValue}" alt="Preview" class="image-preview-img" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23333%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2214%22%3E❌ Errore%3C/text%3E%3C/svg%3E'">`
+  const previewHtml = hasImage && displayValue
+    ? `<img src="${escapeHtml(displayValue)}" alt="Preview" class="image-preview-img" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23333%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2214%22%3E❌ Errore%3C/text%3E%3C/svg%3E'">`
     : '<div class="image-placeholder">📷 Nessuna immagine</div>';
 
   return `<div class="form-group">
@@ -2689,8 +2694,11 @@ async function handleImageUpload(e, fieldName) {
   reader.onload = async (evt) => {
     const base64Data = evt.target.result;
 
-    // Show preview immediately
-    preview.innerHTML = `<img src="${base64Data}" alt="Preview" class="image-preview-img">`;
+    // Show preview immediately (escape + protocol check)
+    const safePreview = safeUrl(base64Data);
+    preview.innerHTML = safePreview
+      ? `<img src="${escapeHtml(safePreview)}" alt="Preview" class="image-preview-img">`
+      : '<div class="image-placeholder">📷 Preview non disponibile</div>';
     if (removeBtn) removeBtn.style.display = 'inline-flex';
 
     // Try upload via Netlify Function (signed upload)
@@ -2721,7 +2729,10 @@ async function handleImageUpload(e, fieldName) {
         }
 
         // Aggiorna preview con URL Cloudinary
-        preview.innerHTML = `<img src="${imageUrl}" alt="Preview" class="image-preview-img">`;
+        const safeCloudUrl = safeUrl(imageUrl);
+        preview.innerHTML = safeCloudUrl
+          ? `<img src="${escapeHtml(safeCloudUrl)}" alt="Preview" class="image-preview-img">`
+          : '<div class="image-placeholder">📷 Preview non disponibile</div>';
         state.formDirty = true;
         toast('✅ Immagine caricata!', 'success');
         return;
@@ -2739,8 +2750,21 @@ async function handleImageUpload(e, fieldName) {
 }
 
 function escapeHtml(text) {
-  if (typeof text !== 'string') return text;
-  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  if (text === null || text === undefined) return '';
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/** Sanitizza URL per uso in attributi src (blocca javascript: e protocolli non sicuri) */
+function safeUrl(url) {
+  if (!url) return '';
+  const s = String(url).trim();
+  if (/^\s*javascript:/i.test(s) || /^\s*vbscript:/i.test(s) || /^\s*data:text\/html/i.test(s)) return '';
+  return s;
 }
 
 
@@ -3345,7 +3369,7 @@ async function performGlobalSearch(query) {
   const limitedMatches = allMatches.slice(0, 15);
 
   if (!limitedMatches.length) {
-    results.innerHTML = '<div class="global-search-empty">Nessun risultato per "' + query + '"</div>';
+    results.innerHTML = '<div class="global-search-empty">Nessun risultato per "' + escapeHtml(query) + '"</div>';
     return;
   }
 
@@ -3364,7 +3388,7 @@ async function performGlobalSearch(query) {
     div.dataset.filename = item.filename;
 
     const thumbHtml = thumb
-      ? `<img src="${thumb}" class="global-result-thumb" alt="" loading="lazy" onerror="this.style.display='none'">`
+      ? `<img src="${escapeHtml(safeUrl(thumb))}" class="global-result-thumb" alt="" loading="lazy" onerror="this.style.display='none'">`
       : '<div class="global-result-placeholder">📷</div>';
 
     const price = item.prezzo ? `€${formatPriceDisplay(item.prezzo)}` : '';
@@ -3372,9 +3396,9 @@ async function performGlobalSearch(query) {
     div.innerHTML = `
       ${thumbHtml}
       <div class="global-result-info">
-        <div class="global-result-name">${item.nome || 'Senza nome'}</div>
+        <div class="global-result-name">${escapeHtml(item.nome || 'Senza nome')}</div>
         <div class="global-result-meta">
-          <span class="global-result-section">${item._collectionLabel}</span>
+          <span class="global-result-section">${escapeHtml(item._collectionLabel)}</span>
           ${price ? ` · ${price}` : ''}
         </div>
       </div>

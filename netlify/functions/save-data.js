@@ -48,23 +48,46 @@ const MARKDOWN_STRIP_KEYS = new Set([
   'tipo' // derivato in beverages.json, non nel frontmatter sorgente
 ]);
 const LOGIN_RATE_MAX = 10;
+const LOGIN_ATTEMPTS_MAX_KEYS = 500;
 const loginAttempts = new Map(); // key -> { count, firstAt }
 
 function getClientIp(event) {
+  // Prefer Netlify-provided IP (trusted) over client-supplied X-Forwarded-For (spoofable)
+  const nfIp = event.headers['x-nf-client-connection-ip'];
+  if (nfIp) return nfIp.trim();
+  const clientIp = event.headers['client-ip'];
+  if (clientIp) return clientIp.trim();
   const xff = event.headers['x-forwarded-for'] || event.headers['X-Forwarded-For'] || '';
   if (xff) return String(xff).split(',')[0].trim();
-  return event.headers['client-ip'] || event.headers['x-nf-client-connection-ip'] || 'unknown';
+  return 'unknown';
+}
+
+/** Evict stale keys; if still over hard cap, drop oldest first. */
+function pruneLoginAttempts(now = Date.now()) {
+  for (const [k, v] of loginAttempts) {
+    if (now - v.firstAt > LOGIN_RATE_WINDOW_MS) loginAttempts.delete(k);
+  }
+  if (loginAttempts.size <= LOGIN_ATTEMPTS_MAX_KEYS) return;
+  const sorted = [...loginAttempts.entries()].sort((a, b) => a[1].firstAt - b[1].firstAt);
+  const excess = loginAttempts.size - LOGIN_ATTEMPTS_MAX_KEYS;
+  for (let i = 0; i < excess; i++) {
+    loginAttempts.delete(sorted[i][0]);
+  }
 }
 
 function checkLoginRateLimit(ip, email) {
   const key = `${ip}|${String(email || '').toLowerCase().trim()}`;
   const now = Date.now();
+  // Always prune: stale window + hard cap (prevents unbounded growth under IP rotation)
+  pruneLoginAttempts(now);
+
   let entry = loginAttempts.get(key);
   if (!entry || now - entry.firstAt > LOGIN_RATE_WINDOW_MS) {
     entry = { count: 0, firstAt: now };
     loginAttempts.set(key, entry);
   }
   entry.count += 1;
+
   if (entry.count > LOGIN_RATE_MAX) {
     return false;
   }
@@ -418,17 +441,21 @@ async function handleSaveDataRequest(event) {
       const treeEntries = [];
       let updatedCount = 0;
       const byFile = new Map(allItems.map(i => [i._filename, i]));
+      const expectedShas = []; // OCC: blob SHA letti prima del commit
 
       for (const filename of filenames) {
         let mdData;
+        let blobSha = null;
+        const repoPath = `${collection}/${filename}`;
         try {
-          const mdContent = await readRepoFileContent(
-            `${collection}/${filename}`,
+          const meta = await readRepoFileWithMeta(
+            repoPath,
             GITHUB_TOKEN,
             REPO_OWNER,
             REPO_NAME
           );
-          mdData = parseFrontmatter(mdContent) || {};
+          mdData = parseFrontmatter(meta.content) || {};
+          blobSha = meta.sha;
         } catch (e) {
           console.warn(`[batch-set-visibility] skip ${filename}: ${e.message}`);
           continue;
@@ -446,8 +473,11 @@ async function handleSaveDataRequest(event) {
           byFile.get(filename).visibile = nextVisible;
         }
 
+        // OCC solo per blob che stiamo davvero riscrivendo
+        if (blobSha) expectedShas.push({ path: repoPath, sha: blobSha });
+
         treeEntries.push({
-          path: `${collection}/${filename}`,
+          path: repoPath,
           mode: '100644',
           type: 'blob',
           content: generateMarkdown(mdData)
@@ -501,7 +531,14 @@ async function handleSaveDataRequest(event) {
         repo: REPO_NAME,
         message: `CMS: Batch visibility ${collection} (${updatedCount} → ${nextVisible ? 'visible' : 'hidden'})`,
         treeEntries,
-        branch: REPO_BRANCH
+        branch: REPO_BRANCH,
+        preCommitCheck: makeBatchOccRecheck(
+          expectedShas,
+          GITHUB_TOKEN,
+          REPO_OWNER,
+          REPO_NAME,
+          REPO_BRANCH
+        )
       });
 
       console.log(`✅ Batch visibility: ${updatedCount} in ${collection}`);
@@ -536,6 +573,7 @@ async function handleSaveDataRequest(event) {
 
       const treeEntries = [];
       let updatedCount = 0;
+      const expectedShas = []; // OCC: blob SHA letti prima del commit
 
       for (const item of allItems) {
         const newOrder = orderMap.get(item._filename);
@@ -545,14 +583,17 @@ async function handleSaveDataRequest(event) {
 
         // Leggi markdown autoritativo e patcha solo order
         let mdData;
+        let blobSha = null;
+        const repoPath = `${collection}/${item._filename}`;
         try {
-          const mdContent = await readRepoFileContent(
-            `${collection}/${item._filename}`,
+          const meta = await readRepoFileWithMeta(
+            repoPath,
             GITHUB_TOKEN,
             REPO_OWNER,
             REPO_NAME
           );
-          mdData = parseFrontmatter(mdContent) || {};
+          mdData = parseFrontmatter(meta.content) || {};
+          blobSha = meta.sha;
         } catch (e) {
           console.warn(`[batch-save-order] skip ${item._filename}: ${e.message}`);
           continue;
@@ -561,8 +602,10 @@ async function handleSaveDataRequest(event) {
         mdData.order = Number.parseInt(newOrder, 10) || 0;
         item.order = mdData.order;
 
+        if (blobSha) expectedShas.push({ path: repoPath, sha: blobSha });
+
         treeEntries.push({
-          path: `${collection}/${item._filename}`,
+          path: repoPath,
           mode: '100644',
           type: 'blob',
           content: generateMarkdown(mdData)
@@ -649,7 +692,14 @@ async function handleSaveDataRequest(event) {
         repo: REPO_NAME,
         message: `CMS: Reorder ${collection} (${updatedCount} items)`,
         treeEntries,
-        branch: BRANCH
+        branch: BRANCH,
+        preCommitCheck: makeBatchOccRecheck(
+          expectedShas,
+          GITHUB_TOKEN,
+          REPO_OWNER,
+          REPO_NAME,
+          BRANCH
+        )
       });
 
       console.log(`✅ Batch reorder: ${updatedCount} items in ${collection} (order-only MD patch)`);
@@ -911,6 +961,42 @@ async function readRepoFileContent(repoPath, token, owner, repo) {
   return Buffer.from(fileData.content, 'base64').toString('utf-8');
 }
 
+/** Content + blob SHA for OCC recheck on batch commits */
+async function readRepoFileWithMeta(repoPath, token, owner, repo) {
+  const fileData = await githubRequest('GET', `/repos/${owner}/${repo}/contents/${repoPath}`, null, token);
+  return {
+    content: Buffer.from(fileData.content, 'base64').toString('utf-8'),
+    sha: fileData.sha || null
+  };
+}
+
+/**
+ * Re-verify blob SHAs on NFF retry so batch commits don't silently clobber concurrent edits.
+ * @param {{ path: string, sha: string }[]} expected
+ */
+function makeBatchOccRecheck(expected, token, owner, repo, branch = 'main') {
+  const checks = (expected || []).filter(e => e && e.path && e.sha);
+  if (!checks.length) return null;
+  return async () => {
+    for (const { path, sha } of checks) {
+      try {
+        const fileData = await githubRequest(
+          'GET',
+          `/repos/${owner}/${repo}/contents/${path}?ref=${encodeURIComponent(branch)}`,
+          null,
+          token
+        );
+        if (fileData && fileData.sha && fileData.sha !== sha) {
+          throw new Error('Conflitto: il contenuto è stato modificato. Ricarica e riprova.');
+        }
+      } catch (error) {
+        if (String(error.message || '').includes('Conflitto:')) throw error;
+        console.warn(`[batch OCC recheck] ${path}: ${error.message}`);
+      }
+    }
+  };
+}
+
 async function readJsonFileFromRepo(repoPath, token, owner, repo) {
   return JSON.parse(await readRepoFileContent(repoPath, token, owner, repo));
 }
@@ -1060,7 +1146,7 @@ function isNonFastForwardError(error) {
   );
 }
 
-async function createCommitFromEntries({ token, owner, repo, message, treeEntries, branch = 'main' }) {
+async function createCommitFromEntries({ token, owner, repo, message, treeEntries, branch = 'main', preCommitCheck = null }) {
   if (!treeEntries.length) {
     throw new Error('Nessuna modifica da salvare');
   }
@@ -1069,6 +1155,11 @@ async function createCommitFromEntries({ token, owner, repo, message, treeEntrie
   let lastError;
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
+      // M3: On retry, re-verify OCC SHA to avoid silently overwriting concurrent edits
+      if (attempt > 0 && preCommitCheck) {
+        await preCommitCheck();
+      }
+
       const branchContext = await getBranchContext(token, owner, repo, branch);
       const newTree = await githubRequest(
         'POST',
@@ -1309,13 +1400,32 @@ async function saveItemAtomically({ collection, filename, data, sha, token, owne
     treeEntries.push(jsonEntry);
   }
 
+  // M3: Re-verify SHA on each retry to prevent OCC bypass after concurrent write
+  const occRecheck = sha ? async () => {
+    try {
+      const fileData = await githubRequest(
+        'GET',
+        `/repos/${owner}/${repo}/contents/${collection}/${filename}?ref=${encodeURIComponent(branch)}`,
+        null,
+        token
+      );
+      if (fileData && fileData.sha && fileData.sha !== sha) {
+        throw new Error('Conflitto: il contenuto è stato modificato. Ricarica e riprova.');
+      }
+    } catch (error) {
+      if (String(error.message || '').includes('Conflitto:')) throw error;
+      console.warn(`[saveItemAtomically] OCC recheck: ${error.message}`);
+    }
+  } : null;
+
   const commit = await createCommitFromEntries({
     token,
     owner,
     repo,
     message: `CMS: Update ${collection}/${filename}`,
     treeEntries,
-    branch
+    branch,
+    preCommitCheck: occRecheck
   });
 
   return {
@@ -1378,13 +1488,32 @@ async function deleteItemAtomically({ collection, filename, token, owner, repo, 
     treeEntries.push(jsonEntry);
   }
 
+  // M3: Re-verify SHA on each retry to prevent OCC bypass after concurrent write
+  const occRecheck = sha ? async () => {
+    try {
+      const fileData = await githubRequest(
+        'GET',
+        `/repos/${owner}/${repo}/contents/${collection}/${filename}?ref=${encodeURIComponent(branch)}`,
+        null,
+        token
+      );
+      if (fileData && fileData.sha && fileData.sha !== sha) {
+        throw new Error('Conflitto: il contenuto è stato modificato. Ricarica e riprova.');
+      }
+    } catch (error) {
+      if (String(error.message || '').includes('Conflitto:')) throw error;
+      console.warn(`[deleteItemAtomically] OCC recheck: ${error.message}`);
+    }
+  } : null;
+
   return createCommitFromEntries({
     token,
     owner,
     repo,
     message: `CMS: Delete ${collection}/${filename}`,
     treeEntries,
-    branch
+    branch,
+    preCommitCheck: occRecheck
   });
 }
 
@@ -1415,13 +1544,27 @@ async function githubRequest(method, path, body, token) {
     options.body = JSON.stringify(body);
   }
 
-  // Retry semplice su 429/502/503 (max 3 tentativi, backoff 300ms * attempt)
+  // Retry su 429/502/503/403-rate-limit e network errors (max 3 tentativi, backoff 300ms * attempt)
   let lastError;
   for (let attempt = 1; attempt <= 3; attempt++) {
     console.log(`GitHub ${method} ${path}${attempt > 1 ? ` (retry ${attempt}/3)` : ''}`);
 
-    const response = await fetch(url, options);
-    const data = await response.text();
+    let response;
+    let data;
+    try {
+      response = await fetch(url, options);
+      data = await response.text();
+    } catch (networkErr) {
+      // Network error (DNS, timeout, connection reset) — retriable
+      lastError = networkErr;
+      if (attempt < 3) {
+        const delay = 300 * attempt;
+        console.warn(`[githubRequest] network error, backoff ${delay}ms: ${networkErr.message}`);
+        await sleep(delay);
+        continue;
+      }
+      throw networkErr;
+    }
 
     if (response.ok) {
       const parsed = data ? JSON.parse(data) : {};
@@ -1435,7 +1578,9 @@ async function githubRequest(method, path, body, token) {
       return parsed;
     }
 
-    const retriable = response.status === 429 || response.status === 502 || response.status === 503;
+    // 403 with rate-limit body is a secondary rate limit (retriable)
+    const is403RateLimit = response.status === 403 && /rate limit|secondary|abuse/i.test(data);
+    const retriable = response.status === 429 || response.status === 502 || response.status === 503 || is403RateLimit;
     if (retriable && attempt < 3) {
       let delay = 300 * attempt;
       const retryAfter = response.headers.get('retry-after') || response.headers.get('Retry-After');
@@ -1512,21 +1657,27 @@ async function readCollectionFiles(folder, token, owner, repo, overrides = {}) {
 
     const mdFiles = files.filter(f => f.name.endsWith('.md') && f.name !== '.gitkeep');
 
-    // Read all files in parallel for speed (avoids Netlify function timeout)
-    const results = await Promise.all(mdFiles.map(async (file) => {
-      try {
-        const fileData = await githubRequest('GET', `/repos/${owner}/${repo}/contents/${folder}/${file.name}`, null, token);
-        const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
-        const parsed = parseFrontmatter(content);
-        if (parsed) {
-          parsed._filename = file.name;
-          return parsed;
+    // M4: Bounded concurrency (max 8 parallel reads) to avoid GitHub secondary rate limits
+    const CONCURRENCY = 8;
+    const results = [];
+    for (let i = 0; i < mdFiles.length; i += CONCURRENCY) {
+      const batch = mdFiles.slice(i, i + CONCURRENCY);
+      const batchResults = await Promise.all(batch.map(async (file) => {
+        try {
+          const fileData = await githubRequest('GET', `/repos/${owner}/${repo}/contents/${folder}/${file.name}`, null, token);
+          const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
+          const parsed = parseFrontmatter(content);
+          if (parsed) {
+            parsed._filename = file.name;
+            return parsed;
+          }
+        } catch (e) {
+          console.error(`Errore lettura ${file.name}:`, e.message);
         }
-      } catch (e) {
-        console.error(`Errore lettura ${file.name}:`, e.message);
-      }
-      return null;
-    }));
+        return null;
+      }));
+      results.push(...batchResults);
+    }
 
     return results.filter(Boolean);
   } catch (e) {
