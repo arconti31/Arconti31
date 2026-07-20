@@ -336,6 +336,25 @@
       "_filename": "arnate-calcio.md"
     },
     {
+      "nome": "test",
+      "category": "Vegetariano/ Vegano ",
+      "prezzo": "8.00",
+      "descrizione": "test",
+      "allergeni": [
+        "Glutine",
+        "Arachidi",
+        "Sedano"
+      ],
+      "tags": [
+        "Novità",
+        "Piccante"
+      ],
+      "disponibile": true,
+      "order": 0,
+      "category_slug": "vegetariano-vegano",
+      "_filename": "test.md"
+    },
+    {
       "nome": "Bacon burger",
       "category": "Hamburger Fassona e Street food",
       "prezzo": "14.00",
@@ -1173,6 +1192,25 @@
         "order": 0,
         "category_slug": "vegetariano-vegano",
         "_filename": "arnate-calcio.md"
+      },
+      {
+        "nome": "test",
+        "category": "Vegetariano/ Vegano ",
+        "prezzo": "8.00",
+        "descrizione": "test",
+        "allergeni": [
+          "Glutine",
+          "Arachidi",
+          "Sedano"
+        ],
+        "tags": [
+          "Novità",
+          "Piccante"
+        ],
+        "disponibile": true,
+        "order": 0,
+        "category_slug": "vegetariano-vegano",
+        "_filename": "test.md"
       },
       {
         "nome": "Cajello vegano",
