@@ -6,7 +6,7 @@ const crypto = require('crypto');
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
 const ADMIN_EMAILS = ADMIN_EMAIL.split(',').map(e => e.toLowerCase().trim()).filter(e => e);
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
-const TOKEN_EXPIRY_HOURS = 24 * 7; // 7 days
+const TOKEN_EXPIRY_HOURS = 24 * 30; // 30 days
 
 let _warnedPasswordSecret = false;
 
