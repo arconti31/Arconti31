@@ -1141,6 +1141,18 @@
       "_filename": "birrettipa-birrone.md"
     },
     {
+      "nome": "IPA 7 - L’Angelus",
+      "sezione": "Birre artigianali alla spina a rotazione",
+      "prezzo": "7.00",
+      "descrizione": "Double IPA\nLuppolata e dal carattere deciso, con note agrumate e resinose che ne fanno una birra vivace e contemporanea.",
+      "formato": "0,4 l",
+      "gradazione": "7 %",
+      "disponibile": true,
+      "order": 0,
+      "sezione_slug": "birre-artigianali",
+      "_filename": "ipa-7-langelus.md"
+    },
+    {
       "nome": "Lager - Ayinger",
       "sezione": "Birre alla spina",
       "prezzo": "6.00",
@@ -2456,6 +2468,18 @@
         "order": 0,
         "sezione_slug": "birre-artigianali",
         "_filename": "birrettipa-birrone.md"
+      },
+      {
+        "nome": "IPA 7 - L’Angelus",
+        "sezione": "Birre artigianali alla spina a rotazione",
+        "prezzo": "7.00",
+        "descrizione": "Double IPA\nLuppolata e dal carattere deciso, con note agrumate e resinose che ne fanno una birra vivace e contemporanea.",
+        "formato": "0,4 l",
+        "gradazione": "7 %",
+        "disponibile": true,
+        "order": 0,
+        "sezione_slug": "birre-artigianali",
+        "_filename": "ipa-7-langelus.md"
       },
       {
         "nome": "Rochefort",
