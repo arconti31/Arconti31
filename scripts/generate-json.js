@@ -323,9 +323,33 @@ if (buildWarnings.length > 0) {
 }
 
 if (buildErrors.length > 0) {
-  console.error('\n❌ Build interrotta: trovati file markdown non validi.');
+  console.error(`\n⚠️  ${buildErrors.length} file markdown non valido/i: saltato/i (il resto del menù viene comunque pubblicato).`);
   buildErrors.forEach(error => console.error(`- ${error}`));
-  process.exit(1);
+  console.error('   → Correggi i file elencati sopra per reintegrarli nel menù. Il deploy prosegue con i contenuti validi.');
+}
+
+// BUILD-002: Rete di sicurezza anti-corruzione di massa.
+// Un singolo .md rotto viene saltato (sopra) e il resto pubblicato, così un errore
+// isolato NON congela tutti gli aggiornamenti durante il servizio. Ma se una collection
+// crolla drasticamente rispetto al JSON già pubblicato MENTRE ci sono file non validi,
+// è sintomo di corruzione estesa → interrompiamo il deploy per preservare l'ultimo menù valido.
+function assertNoMassWipe(jsonRelPath, arrayKey, newLength) {
+  if (buildErrors.length === 0) return;
+  let previous;
+  try {
+    previous = JSON.parse(fs.readFileSync(path.join(ROOT, jsonRelPath), 'utf8'));
+  } catch {
+    return; // nessun JSON precedente valido con cui confrontare
+  }
+  const previousLength = Array.isArray(previous && previous[arrayKey]) ? previous[arrayKey].length : 0;
+  if (previousLength >= 4 && newLength < previousLength * 0.5) {
+    console.error(
+      `\n❌ Anti-wipe build: "${jsonRelPath}" passerebbe da ${previousLength} a ${newLength} elementi ` +
+      `con ${buildErrors.length} file non validi. Deploy interrotto per preservare l'ultimo menù valido. ` +
+      `Correggi i file sopra e ripubblica.`
+    );
+    process.exit(1);
+  }
 }
 
 // Scrivi i file JSON
@@ -333,6 +357,7 @@ const beersOutput = {
   beers,
   beersBySection 
 };
+assertNoMassWipe('beers/beers.json', 'beers', beers.length);
 fs.writeFileSync(
   path.join(ROOT, 'beers/beers.json'),
   JSON.stringify(beersOutput, null, 2)
@@ -345,6 +370,7 @@ const foodOutput = {
   categoryOrder: foodCategoryOrder
 };
 if (!fs.existsSync(foodDir)) fs.mkdirSync(foodDir);
+assertNoMassWipe('food/food.json', 'food', foodItems.length);
 fs.writeFileSync(
   path.join(ROOT, 'food/food.json'),
   JSON.stringify(foodOutput, null, 2)
@@ -358,6 +384,7 @@ const categoriesOutput = {
 };
 const categoriesDir = path.join(ROOT, 'categorie');
 if (!fs.existsSync(categoriesDir)) fs.mkdirSync(categoriesDir);
+assertNoMassWipe('categorie/categorie.json', 'categories', dynamicCategories.length);
 fs.writeFileSync(
   path.join(categoriesDir, 'categorie.json'),
   JSON.stringify(categoriesOutput, null, 2)
@@ -371,6 +398,7 @@ const beveragesOutput = {
 const beveragesDir = path.join(ROOT, 'beverages');
 if (!fs.existsSync(beveragesDir)) fs.mkdirSync(beveragesDir);
 
+assertNoMassWipe('beverages/beverages.json', 'beverages', allBeverages.length);
 fs.writeFileSync(
   path.join(beveragesDir, 'beverages.json'),
   JSON.stringify(beveragesOutput, null, 2)
