@@ -1074,7 +1074,7 @@
         "Più venduto",
         "Specialità"
       ],
-      "disponibile": false,
+      "disponibile": true,
       "order": 48,
       "category_slug": "hamburger-fassona",
       "_filename": "hamburger-autunnale.md"
@@ -1435,7 +1435,7 @@
           "Più venduto",
           "Specialità"
         ],
-        "disponibile": false,
+        "disponibile": true,
         "order": 48,
         "category_slug": "hamburger-fassona",
         "_filename": "hamburger-autunnale.md"
@@ -2252,14 +2252,14 @@
     ]
   },
   "categoryOrder": {
-    "Vegetariano/ Vegano ": 0,
-    "Hamburger di bufala": 3,
-    "Hamburger Fassona e Street food": 4,
-    "Panini Ciabatta": 5,
-    "Piatti Speciali e griglieria": 6,
-    "Piadine": 7,
-    "Fritti": 8,
-    "Dolci": 9,
-    "Aperitivo": 10
+    "Vegetariano/ Vegano ": 11,
+    "Hamburger di bufala": 13,
+    "Hamburger Fassona e Street food": 14,
+    "Panini Ciabatta": 15,
+    "Piatti Speciali e griglieria": 16,
+    "Piadine": 17,
+    "Fritti": 18,
+    "Dolci": 19,
+    "Aperitivo": 20
   }
 }
