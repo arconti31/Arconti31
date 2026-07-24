@@ -4,7 +4,7 @@
    ======================================== */
 
 // Version updated on each deploy to bust stale SW cache
-const CACHE_VERSION = '2026-07-20-secfix2';
+const CACHE_VERSION = '2026-07-24-cacheswitch';
 const CACHE_NAME = `arconti31-cms-${CACHE_VERSION}`;
 const STATIC_CACHE = `arconti31-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `arconti31-dynamic-${CACHE_VERSION}`;

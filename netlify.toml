@@ -54,6 +54,15 @@
     Expires = "0"
     Access-Control-Allow-Origin = "*"
 
+# 2b. Admin JSON (version.json + manifest.json): mai in cache, cosi' il kill-switch
+# della cache legge sempre l'ultima cacheVersion pubblicata.
+[[headers]]
+  for = "/admin/*.json"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
 # 3. Static Assets
 # Images: short cache + SWR. CSS/JS: no fingerprint → always revalidate (zero risk stale FE).
 [[headers]]

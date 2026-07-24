@@ -4,7 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Arconti31 - Gestione Menù</title>
-  
+
+  <!-- Cache kill-switch: forza SOLO l'aggiornamento del codice app (cache Service Worker) su tutti
+       i dispositivi quando cambia admin/version.json. NON tocca la SmartCache dei prodotti
+       (IndexedDB) ne' la sessione (cms_session): i soci restano loggati e i dati restano intatti. -->
+  <script>
+    (function () {
+      var VKEY = 'cms_cache_version';
+      function purgeShellAndReload(newVersion) {
+        // Registra la nuova versione PRIMA del reload (anti-loop). Storage bloccato -> esci senza fare nulla.
+        try { localStorage.setItem(VKEY, newVersion); } catch (e) { return; }
+        var tasks = [];
+        // Svuota SOLO la Cache API del Service Worker (shell admin: HTML/JS/CSS).
+        // La SmartCache dei prodotti vive in IndexedDB: NON viene toccata.
+        if (window.caches && caches.keys) {
+          tasks.push(caches.keys().then(function (keys) {
+            return Promise.all(keys.map(function (k) { return caches.delete(k); }));
+          }).catch(function () {}));
+        }
+        // Aggiorna il Service Worker all'ultima versione pubblicata.
+        if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
+          tasks.push(navigator.serviceWorker.getRegistrations().then(function (regs) {
+            return Promise.all(regs.map(function (r) { return r.update().catch(function () {}); }));
+          }).catch(function () {}));
+        }
+        Promise.all(tasks).then(function () { location.reload(); });
+      }
+      try {
+        fetch('version.json?_=' + Date.now(), { cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (data) {
+            var v = data && data.cacheVersion;
+            if (!v) return;
+            var stored = null;
+            try { stored = localStorage.getItem(VKEY); } catch (e) { return; }
+            if (stored === v) return;      // gia' aggiornato
+            purgeShellAndReload(v);        // versione nuova (o primo avvio) -> pulizia shell + reload
+          })
+          .catch(function () { /* offline o file assente: nessun impatto */ });
+      } catch (e) { /* no-op */ }
+    })();
+  </script>
+
   <!-- PWA Meta Tags -->
   <meta name="description" content="CMS per la gestione del menù Arconti31">
   <meta name="theme-color" content="#d4af37">
@@ -88,6 +129,9 @@
         <div class="header-actions">
           <button id="sync-btn" class="btn-icon" title="Sincronizza">
             <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+          </button>
+<button id="refresh-devices-btn" class="btn-icon" title="Aggiorna dispositivi (pulisce la cache del gestionale su tutti i dispositivi)">
+            <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
           </button>
           <button id="logout-btn" class="btn-icon" title="Esci">
             <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
@@ -176,7 +220,7 @@
     };
   </script>
   <script src="../js/smart-cache.js?v=20260720c"></script>
-  <script src="cms-simple.js?v=20260720-ui3"></script>
+  <script src="cms-simple.js?v=20260724-cacheswitch"></script>
   
   <!-- PWA Service Worker Registration -->
   <script>

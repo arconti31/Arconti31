@@ -558,6 +558,7 @@ function setupEventListeners() {
   $('#sync-btn').addEventListener('click', () => {
     loadAllData();
   });
+  $('#refresh-devices-btn')?.addEventListener('click', refreshAllDevices);
   $('#logout-btn').addEventListener('click', logout);
 
   // Search with live suggestions
@@ -652,6 +653,38 @@ function logout() {
   clearStoredSessions();
   showLoginScreen();
   toast('Logout effettuato', 'info');
+}
+
+/**
+ * Aggiorna il codice del gestionale su TUTTI i dispositivi dei soci.
+ * Pubblica una nuova cacheVersion (admin/version.json): al successivo caricamento
+ * ogni dispositivo svuota SOLO la cache del Service Worker (shell HTML/JS/CSS) e ricarica.
+ * NON tocca la SmartCache dei prodotti (IndexedDB) ne' la sessione: i soci restano loggati.
+ */
+async function refreshAllDevices() {
+  if (!confirm('Aggiornare il gestionale su tutti i dispositivi dei soci?\n\nVerra\' ricaricato il codice dell\'app (nessun dato dei prodotti viene toccato e nessuno viene disconnesso).')) {
+    return;
+  }
+  const btn = $('#refresh-devices-btn');
+  if (btn) btn.disabled = true;
+  try {
+    const response = await fetch('/.netlify/functions/bump-cache-version', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: state.token })
+    });
+    let body = {};
+    try { body = await response.json(); } catch (_) { /* no-op */ }
+    if (!response.ok || !body.success) {
+      toast(mapApiError(response.status, body), 'error');
+      return;
+    }
+    toast('Aggiornamento inviato: i dispositivi si aggiorneranno alla prossima apertura.', 'success', 6000);
+  } catch (error) {
+    toast('Rete non disponibile: riprova quando sei online.', 'error');
+  } finally {
+    if (btn) btn.disabled = false;
+  }
 }
 
 // ========================================
