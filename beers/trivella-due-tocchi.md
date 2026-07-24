@@ -6,7 +6,7 @@ descrizione: "È una DDH Imperial IPA da 7,7°, bella piena, ma senza diventare 
 immagine_copertina: "https://res.cloudinary.com/ducwseofw/image/upload/v1783883936/arconti31/kuapwkwhqp0lgmmmsy34.jpg"
 formato: "0,4"
 gradazione: "7,7"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
