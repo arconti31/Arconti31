@@ -979,7 +979,7 @@
       "tags": [
         "Novità"
       ],
-      "disponibile": false,
+      "disponibile": true,
       "order": 42,
       "category_slug": "dolci",
       "_filename": "salame-al-cioccolato-bianco.md"
@@ -2202,7 +2202,7 @@
         "tags": [
           "Novità"
         ],
-        "disponibile": false,
+        "disponibile": true,
         "order": 42,
         "category_slug": "dolci",
         "_filename": "salame-al-cioccolato-bianco.md"
