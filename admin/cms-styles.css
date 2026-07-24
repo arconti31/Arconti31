@@ -1712,6 +1712,8 @@ body.ios-pwa .main-content {
   transform: translateY(-50%);
   width: 0;
   opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
   transition: all 0.3s ease;
   background: var(--bg-card);
   border-radius: var(--radius-sm);
@@ -1725,6 +1727,7 @@ body.ios-pwa .main-content {
   opacity: 1;
   border: 1px solid var(--border);
   overflow: visible;
+  pointer-events: auto;
 }
 
 .global-search-box input {
