@@ -1,7 +1,7 @@
 ---
 nome: "POCULATOR - Kloster Scheyerm"
 sezione: "Birre artigianali alla spina a rotazione"
-prezzo: "7.00"
+prezzo: "6.50"
 formato: "0,4 l"
 gradazione: "7,6 %"
 disponibile: true
