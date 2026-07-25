@@ -3,8 +3,16 @@
   "version": "1.0.0",
   "description": "Menù digitale ristorante/bar con CMS custom su Netlify",
   "scripts": {
-    "build": "node scripts/generate-json.js",
+    "build:data": "node scripts/generate-json.js",
     "validate": "node scripts/validate-content.js",
+    "build:static": "node scripts/build-cloudflare.mjs",
+    "build": "npm run validate && npm run build:data && npm run build:static",
+    "dev:cloudflare": "npm run build && wrangler dev",
+    "deploy:dry": "npm run build && wrangler deploy --dry-run",
+    "deploy:cloudflare": "npm run build && wrangler deploy",
+    "types:worker": "wrangler types",
+    "typecheck:worker": "tsc --noEmit -p tsconfig.worker.json",
+    "test:worker": "vitest run",
     "backfill:stable-refs": "node scripts/backfill-stable-refs.js",
     "dev": "python -m http.server 8000",
     "test:e2e-cms": "node scripts/e2e-cms-controlled.js"

@@ -1,0 +1,5 @@
+# Redirect per Workers Static Assets — tradotti da netlify.toml.
+# Il fallback SPA /admin/* → /admin/index.html è gestito dal Worker
+# (run_worker_first su /admin/*), quindi qui non servono regole con status 200.
+# Nessun catch-all SPA: il sito pubblico usa routing hash-based (#slug)
+# e gli asset mancanti devono restituire 404.
