@@ -9,7 +9,11 @@
     "dev": "python -m http.server 8000",
     "test:e2e-cms": "node scripts/e2e-cms-controlled.js"
   },
-  "keywords": ["netlify-cms", "restaurant", "beer-menu"],
+  "keywords": [
+    "netlify-cms",
+    "restaurant",
+    "beer-menu"
+  ],
   "author": "",
   "license": "MIT",
   "engines": {
@@ -17,5 +21,11 @@
   },
   "dependencies": {
     "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260724.1",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10",
+    "wrangler": "^4.114.0"
   }
 }
