@@ -66,6 +66,19 @@
       "_filename": "bibock-birrificio-italiano.md"
     },
     {
+      "nome": "Birrettipa - Birrone ",
+      "sezione": "Birre artigianali alla spina a rotazione",
+      "prezzo": "6.50",
+      "descrizione": "IPA \nDal colore biondo e un profilo gustativo fruttato, amaro e secco. È ispirata allo spirito informale dei pub \"Birrette\".",
+      "formato": "0,4 l",
+      "gradazione": "6,5 % ",
+      "disponibile": true,
+      "order": 0,
+      "sezione_slug": "birre-artigianali",
+      "immagine_copertina": "https://res.cloudinary.com/ducwseofw/image/upload/v1784926601/arconti31/f5rzbz0kjhw2pjxlvxhp.jpg",
+      "_filename": "birrettipa-birrone.md"
+    },
+    {
       "nome": "Brusca - Birrone (PILS)",
       "sezione": "Birre artigianali alla spina a rotazione",
       "prezzo": "6.00",
@@ -180,6 +193,19 @@
       "order": 0,
       "sezione_slug": "birre-artigianali",
       "_filename": "danko-5050.md"
+    },
+    {
+      "nome": "Dave - Altotevere",
+      "sezione": "Birre artigianali alla spina a rotazione",
+      "prezzo": "6.50",
+      "descrizione": "IPA\nDal corpo dorato e cristallino. Estremamente scorrevole, bilancia aromi fruttati e resinosi con un finale secco e un amaro moderato.",
+      "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1784054721/arconti31/hddi2qkxjcpxrikdx3vn.jpg",
+      "formato": "0,4 l ",
+      "gradazione": "6% ",
+      "disponibile": false,
+      "order": 0,
+      "sezione_slug": "birre-artigianali",
+      "_filename": "dave-altotevere.md"
     },
     {
       "nome": "Docker - Officine Birrai ",
@@ -349,6 +375,19 @@
       "disponibile": false,
       "order": 0,
       "_filename": "hibernatus-lupulus.md"
+    },
+    {
+      "nome": "POCULATOR - Kloster Scheyerm",
+      "sezione": "Birre artigianali alla spina a rotazione",
+      "prezzo": "6.00",
+      "formato": "0,4 l",
+      "gradazione": "7,6 %",
+      "disponibile": true,
+      "order": 0,
+      "sezione_slug": "birre-artigianali",
+      "descrizione": "Doppelbock\nColore bruno con schiuma color nocciola, fine e persistente.\nL’aroma é intenso e complesso, con note di malto, caramello, frutta secca, cioccolato, caffè e cenni di liquirizia.\nIl gusto é pieno e maltato, ben bilanciato con un finale che richiama la frutta sotto spirito e un leggero tocco amaro o spezia.",
+      "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1785002769/arconti31/pvydzufz9jknwzip9hpd.jpg",
+      "_filename": "ipa-7-langelus.md"
     },
     {
       "nome": "ISABELLA GLUTEN FREE - Flea",
@@ -933,6 +972,19 @@
       "_filename": "tipopils-birrificio-italiano.md"
     },
     {
+      "nome": "Trivella - Due Tocchi",
+      "sezione": "Birre artigianali alla spina a rotazione",
+      "prezzo": "7.00",
+      "descrizione": "È una DDH Imperial IPA da 7,7°, bella piena, ma senza diventare una mazzata inutile.\n\nLa facciamo con malto d’orzo, avena e un tocco di zucchero per tenerla asciutta e scorrevole, poi carichiamo pesante di luppolo in doppio dry hopping: profumi intensi di tropicale, agrumi maturi e una nota resinosa pulita. In bocca parte morbida, poi si apre decisa, con un amaro elegante e un finale secco che invita naturalmente al sorso dopo.",
+      "immagine_copertina": "https://res.cloudinary.com/ducwseofw/image/upload/v1783883936/arconti31/kuapwkwhqp0lgmmmsy34.jpg",
+      "formato": "0,4",
+      "gradazione": "7,7",
+      "disponibile": false,
+      "order": 0,
+      "sezione_slug": "birre-artigianali",
+      "_filename": "trivella-due-tocchi.md"
+    },
+    {
       "nome": "True - Orso verde",
       "sezione": "Birre artigianali alla spina a rotazione",
       "prezzo": "7.00",
@@ -1101,58 +1153,6 @@
       "order": 0,
       "sezione_slug": "birre-artigianali",
       "_filename": "zlatan-railroad.md"
-    },
-    {
-      "nome": "Trivella - Due Tocchi",
-      "sezione": "Birre artigianali alla spina a rotazione",
-      "prezzo": "7.00",
-      "descrizione": "È una DDH Imperial IPA da 7,7°, bella piena, ma senza diventare una mazzata inutile.\n\nLa facciamo con malto d’orzo, avena e un tocco di zucchero per tenerla asciutta e scorrevole, poi carichiamo pesante di luppolo in doppio dry hopping: profumi intensi di tropicale, agrumi maturi e una nota resinosa pulita. In bocca parte morbida, poi si apre decisa, con un amaro elegante e un finale secco che invita naturalmente al sorso dopo.",
-      "immagine_copertina": "https://res.cloudinary.com/ducwseofw/image/upload/v1783883936/arconti31/kuapwkwhqp0lgmmmsy34.jpg",
-      "formato": "0,4",
-      "gradazione": "7,7",
-      "disponibile": false,
-      "order": 0,
-      "sezione_slug": "birre-artigianali",
-      "_filename": "trivella-due-tocchi.md"
-    },
-    {
-      "nome": "Dave - Altotevere",
-      "sezione": "Birre artigianali alla spina a rotazione",
-      "prezzo": "6.50",
-      "descrizione": "IPA\nDal corpo dorato e cristallino. Estremamente scorrevole, bilancia aromi fruttati e resinosi con un finale secco e un amaro moderato.",
-      "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1784054721/arconti31/hddi2qkxjcpxrikdx3vn.jpg",
-      "formato": "0,4 l ",
-      "gradazione": "6% ",
-      "disponibile": false,
-      "order": 0,
-      "sezione_slug": "birre-artigianali",
-      "_filename": "dave-altotevere.md"
-    },
-    {
-      "nome": "Birrettipa - Birrone ",
-      "sezione": "Birre artigianali alla spina a rotazione",
-      "prezzo": "6.50",
-      "descrizione": "IPA \nDal colore biondo e un profilo gustativo fruttato, amaro e secco. È ispirata allo spirito informale dei pub \"Birrette\".",
-      "formato": "0,4 l",
-      "gradazione": "6,5 % ",
-      "disponibile": true,
-      "order": 0,
-      "sezione_slug": "birre-artigianali",
-      "immagine_copertina": "https://res.cloudinary.com/ducwseofw/image/upload/v1784926601/arconti31/f5rzbz0kjhw2pjxlvxhp.jpg",
-      "_filename": "birrettipa-birrone.md"
-    },
-    {
-      "nome": "POCULATOR - Kloster Scheyerm",
-      "sezione": "Birre artigianali alla spina a rotazione",
-      "prezzo": "6.00",
-      "formato": "0,4 l",
-      "gradazione": "7,6 %",
-      "disponibile": true,
-      "order": 0,
-      "sezione_slug": "birre-artigianali",
-      "descrizione": "Doppelbock\nColore bruno con schiuma color nocciola, fine e persistente.\nL’aroma é intenso e complesso, con note di malto, caramello, frutta secca, cioccolato, caffè e cenni di liquirizia.\nIl gusto é pieno e maltato, ben bilanciato con un finale che richiama la frutta sotto spirito e un leggero tocco amaro o spezia.",
-      "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1785002769/arconti31/pvydzufz9jknwzip9hpd.jpg",
-      "_filename": "ipa-7-langelus.md"
     },
     {
       "nome": "Lager - Ayinger",
@@ -1512,6 +1512,19 @@
         "_filename": "bibock-birrificio-italiano.md"
       },
       {
+        "nome": "Birrettipa - Birrone ",
+        "sezione": "Birre artigianali alla spina a rotazione",
+        "prezzo": "6.50",
+        "descrizione": "IPA \nDal colore biondo e un profilo gustativo fruttato, amaro e secco. È ispirata allo spirito informale dei pub \"Birrette\".",
+        "formato": "0,4 l",
+        "gradazione": "6,5 % ",
+        "disponibile": true,
+        "order": 0,
+        "sezione_slug": "birre-artigianali",
+        "immagine_copertina": "https://res.cloudinary.com/ducwseofw/image/upload/v1784926601/arconti31/f5rzbz0kjhw2pjxlvxhp.jpg",
+        "_filename": "birrettipa-birrone.md"
+      },
+      {
         "nome": "Brusca - Birrone (PILS)",
         "sezione": "Birre artigianali alla spina a rotazione",
         "prezzo": "6.00",
@@ -1575,6 +1588,19 @@
         "order": 0,
         "sezione_slug": "birre-artigianali",
         "_filename": "danko-5050.md"
+      },
+      {
+        "nome": "Dave - Altotevere",
+        "sezione": "Birre artigianali alla spina a rotazione",
+        "prezzo": "6.50",
+        "descrizione": "IPA\nDal corpo dorato e cristallino. Estremamente scorrevole, bilancia aromi fruttati e resinosi con un finale secco e un amaro moderato.",
+        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1784054721/arconti31/hddi2qkxjcpxrikdx3vn.jpg",
+        "formato": "0,4 l ",
+        "gradazione": "6% ",
+        "disponibile": false,
+        "order": 0,
+        "sezione_slug": "birre-artigianali",
+        "_filename": "dave-altotevere.md"
       },
       {
         "nome": "Docker - Officine Birrai ",
@@ -1731,6 +1757,19 @@
         "disponibile": false,
         "order": 0,
         "_filename": "hibernatus-lupulus.md"
+      },
+      {
+        "nome": "POCULATOR - Kloster Scheyerm",
+        "sezione": "Birre artigianali alla spina a rotazione",
+        "prezzo": "6.00",
+        "formato": "0,4 l",
+        "gradazione": "7,6 %",
+        "disponibile": true,
+        "order": 0,
+        "sezione_slug": "birre-artigianali",
+        "descrizione": "Doppelbock\nColore bruno con schiuma color nocciola, fine e persistente.\nL’aroma é intenso e complesso, con note di malto, caramello, frutta secca, cioccolato, caffè e cenni di liquirizia.\nIl gusto é pieno e maltato, ben bilanciato con un finale che richiama la frutta sotto spirito e un leggero tocco amaro o spezia.",
+        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1785002769/arconti31/pvydzufz9jknwzip9hpd.jpg",
+        "_filename": "ipa-7-langelus.md"
       },
       {
         "nome": "Jack IPA - Legnone",
@@ -2264,6 +2303,19 @@
         "_filename": "tipopils-birrificio-italiano.md"
       },
       {
+        "nome": "Trivella - Due Tocchi",
+        "sezione": "Birre artigianali alla spina a rotazione",
+        "prezzo": "7.00",
+        "descrizione": "È una DDH Imperial IPA da 7,7°, bella piena, ma senza diventare una mazzata inutile.\n\nLa facciamo con malto d’orzo, avena e un tocco di zucchero per tenerla asciutta e scorrevole, poi carichiamo pesante di luppolo in doppio dry hopping: profumi intensi di tropicale, agrumi maturi e una nota resinosa pulita. In bocca parte morbida, poi si apre decisa, con un amaro elegante e un finale secco che invita naturalmente al sorso dopo.",
+        "immagine_copertina": "https://res.cloudinary.com/ducwseofw/image/upload/v1783883936/arconti31/kuapwkwhqp0lgmmmsy34.jpg",
+        "formato": "0,4",
+        "gradazione": "7,7",
+        "disponibile": false,
+        "order": 0,
+        "sezione_slug": "birre-artigianali",
+        "_filename": "trivella-due-tocchi.md"
+      },
+      {
         "nome": "True - Orso verde",
         "sezione": "Birre artigianali alla spina a rotazione",
         "prezzo": "7.00",
@@ -2432,58 +2484,6 @@
         "order": 0,
         "sezione_slug": "birre-artigianali",
         "_filename": "zlatan-railroad.md"
-      },
-      {
-        "nome": "Trivella - Due Tocchi",
-        "sezione": "Birre artigianali alla spina a rotazione",
-        "prezzo": "7.00",
-        "descrizione": "È una DDH Imperial IPA da 7,7°, bella piena, ma senza diventare una mazzata inutile.\n\nLa facciamo con malto d’orzo, avena e un tocco di zucchero per tenerla asciutta e scorrevole, poi carichiamo pesante di luppolo in doppio dry hopping: profumi intensi di tropicale, agrumi maturi e una nota resinosa pulita. In bocca parte morbida, poi si apre decisa, con un amaro elegante e un finale secco che invita naturalmente al sorso dopo.",
-        "immagine_copertina": "https://res.cloudinary.com/ducwseofw/image/upload/v1783883936/arconti31/kuapwkwhqp0lgmmmsy34.jpg",
-        "formato": "0,4",
-        "gradazione": "7,7",
-        "disponibile": false,
-        "order": 0,
-        "sezione_slug": "birre-artigianali",
-        "_filename": "trivella-due-tocchi.md"
-      },
-      {
-        "nome": "Dave - Altotevere",
-        "sezione": "Birre artigianali alla spina a rotazione",
-        "prezzo": "6.50",
-        "descrizione": "IPA\nDal corpo dorato e cristallino. Estremamente scorrevole, bilancia aromi fruttati e resinosi con un finale secco e un amaro moderato.",
-        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1784054721/arconti31/hddi2qkxjcpxrikdx3vn.jpg",
-        "formato": "0,4 l ",
-        "gradazione": "6% ",
-        "disponibile": false,
-        "order": 0,
-        "sezione_slug": "birre-artigianali",
-        "_filename": "dave-altotevere.md"
-      },
-      {
-        "nome": "Birrettipa - Birrone ",
-        "sezione": "Birre artigianali alla spina a rotazione",
-        "prezzo": "6.50",
-        "descrizione": "IPA \nDal colore biondo e un profilo gustativo fruttato, amaro e secco. È ispirata allo spirito informale dei pub \"Birrette\".",
-        "formato": "0,4 l",
-        "gradazione": "6,5 % ",
-        "disponibile": true,
-        "order": 0,
-        "sezione_slug": "birre-artigianali",
-        "immagine_copertina": "https://res.cloudinary.com/ducwseofw/image/upload/v1784926601/arconti31/f5rzbz0kjhw2pjxlvxhp.jpg",
-        "_filename": "birrettipa-birrone.md"
-      },
-      {
-        "nome": "POCULATOR - Kloster Scheyerm",
-        "sezione": "Birre artigianali alla spina a rotazione",
-        "prezzo": "6.00",
-        "formato": "0,4 l",
-        "gradazione": "7,6 %",
-        "disponibile": true,
-        "order": 0,
-        "sezione_slug": "birre-artigianali",
-        "descrizione": "Doppelbock\nColore bruno con schiuma color nocciola, fine e persistente.\nL’aroma é intenso e complesso, con note di malto, caramello, frutta secca, cioccolato, caffè e cenni di liquirizia.\nIl gusto é pieno e maltato, ben bilanciato con un finale che richiama la frutta sotto spirito e un leggero tocco amaro o spezia.",
-        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1785002769/arconti31/pvydzufz9jknwzip9hpd.jpg",
-        "_filename": "ipa-7-langelus.md"
       },
       {
         "nome": "Rochefort",
