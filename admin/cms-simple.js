@@ -4,8 +4,16 @@
    Upload immagini via Cloudinary
    ======================================== */
 
-// CMS parla solo con le Netlify Functions (/.netlify/functions/*).
-// Il repo GitHub target è definito dalle env Netlify (REPO_OWNER, REPO_NAME, GITHUB_TOKEN).
+// CMS parla solo con le API del Worker Cloudflare (/api/*).
+// Il repo GitHub target è definito dalle env del Worker (REPO_OWNER, REPO_NAME, GITHUB_TOKEN).
+const API = {
+  saveData: '/api/save-data',
+  readData: '/api/read-data',
+  bumpCacheVersion: '/api/bump-cache-version',
+  cloudinarySignature: '/api/cloudinary-signature',
+  uploadImage: '/api/upload-image' // legacy relay Base64, usato solo come fallback
+};
+
 const CONFIG = {
   // Cloudinary config - GRATUITO fino a 25GB (valorizzato a runtime da get-cloudinary-config)
   cloudinary: {
@@ -424,7 +432,7 @@ async function init() {
  */
 async function verifyStoredSession(savedSession) {
   try {
-    const res = await fetch('/.netlify/functions/save-data', {
+    const res = await fetch(API.saveData, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'verify-token', token: savedSession.token })
@@ -521,7 +529,7 @@ async function checkCloudinaryConfig() {
     return;
   }
   try {
-    const res = await fetch('/.netlify/functions/save-data', {
+    const res = await fetch(API.saveData, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'get-cloudinary-config', token: state.token })
@@ -606,7 +614,7 @@ async function handleLogin(e) {
   showLoading();
 
   try {
-    const res = await fetch('/.netlify/functions/save-data', {
+    const res = await fetch(API.saveData, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -668,7 +676,7 @@ async function refreshAllDevices() {
   const btn = $('#refresh-devices-btn');
   if (btn) btn.disabled = true;
   try {
-    const response = await fetch('/.netlify/functions/bump-cache-version', {
+    const response = await fetch(API.bumpCacheVersion, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token: state.token })
@@ -810,7 +818,7 @@ async function fetchRepoTarget() {
   if (!state.token) return;
   for (const action of ['whoami', 'health']) {
     try {
-      const res = await fetch('/.netlify/functions/save-data', {
+      const res = await fetch(API.saveData, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action, token: state.token })
@@ -928,7 +936,7 @@ function guardOnline(actionLabel = 'operazione') {
 
 async function loadCategories() {
   try {
-    const res = await fetch('/.netlify/functions/read-data', {
+    const res = await fetch(API.readData, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ folder: 'categorie' })
@@ -978,7 +986,7 @@ async function loadItems(collectionName, silent = false, forceApi = false) {
       requestBody.token = state.token;
     }
 
-    const res = await fetch('/.netlify/functions/read-data', {
+    const res = await fetch(API.readData, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestBody)
@@ -1208,7 +1216,7 @@ async function loadAllData(silent = false) {
     await loadCategories();
 
     // Load all food items for tree counts (usa JSON, no API)
-    const res = await fetch('/.netlify/functions/read-data', {
+    const res = await fetch(API.readData, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ folder: 'food' })
@@ -1258,7 +1266,7 @@ async function preloadGlobalSearchData() {
     .filter(collName => !state.allItems[collName])
     .map(async (collName) => {
       try {
-        const res = await fetch('/.netlify/functions/read-data', {
+        const res = await fetch(API.readData, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ folder: COLLECTIONS[collName].folder })
@@ -2100,7 +2108,7 @@ async function saveNewOrder(changedItems) {
   try {
     const collection = COLLECTIONS[state.currentCollection];
 
-    const res = await fetch('/.netlify/functions/save-data', {
+    const res = await fetch(API.saveData, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -2412,7 +2420,7 @@ async function bulkSetVisibility(visible) {
 
   try {
     // Un solo commit atomico server-side (patch solo visibile + JSON) — zero N PUT + no desync
-    const res = await fetch('/.netlify/functions/save-data', {
+    const res = await fetch(API.saveData, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -2734,21 +2742,11 @@ async function handleImageUpload(e, fieldName) {
       : '<div class="image-placeholder">📷 Preview non disponibile</div>';
     if (removeBtn) removeBtn.style.display = 'inline-flex';
 
-    // Try upload via Netlify Function (signed upload)
+    // Upload diretto a Cloudinary (firma dal Worker) con fallback al relay legacy
     try {
-      const res = await fetch('/.netlify/functions/upload-image', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          token: state.token,
-          file: base64Data
-        })
-      });
+      const imageUrl = await uploadImageToCloudinary(file, base64Data);
 
-      const responseData = await res.json();
-
-      if (res.ok && responseData.url) {
-        const imageUrl = responseData.url;
+      if (imageUrl) {
         console.log('✅ URL Cloudinary ricevuto:', imageUrl);
 
         // Aggiorna ENTRAMBI gli input
@@ -2769,17 +2767,68 @@ async function handleImageUpload(e, fieldName) {
         state.formDirty = true;
         toast('✅ Immagine caricata!', 'success');
         return;
-      } else {
-        // Show error but keep preview
-        console.error('Upload error:', responseData.error);
-        toast(`⚠️ ${responseData.error || 'Errore upload'}. Usa URL manuale.`, 'error');
       }
+      toast('⚠️ Errore upload. Usa URL manuale.', 'error');
     } catch (err) {
       console.error('Upload failed:', err);
-      toast('⚠️ Upload fallito. Incolla URL manuale.', 'error');
+      toast(`⚠️ ${err.message || 'Upload fallito'}. Incolla URL manuale.`, 'error');
     }
   };
   reader.readAsDataURL(file);
+}
+
+/**
+ * Upload immagine: prova l'upload diretto browser → Cloudinary usando la firma
+ * generata dal Worker (/api/cloudinary-signature). Il file NON transita più dal
+ * server. In caso di errore, fallback al relay legacy Base64 (/api/upload-image).
+ * Ritorna l'URL https dell'immagine, oppure null.
+ */
+async function uploadImageToCloudinary(file, base64Data) {
+  // 1. Upload diretto (preferito: nessun limite payload del Worker)
+  try {
+    const sigRes = await fetch(API.cloudinarySignature, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: state.token })
+    });
+    const sig = await sigRes.json();
+
+    if (sigRes.ok && sig.signature && sig.uploadUrl) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('api_key', sig.apiKey);
+      formData.append('timestamp', String(sig.timestamp));
+      formData.append('signature', sig.signature);
+      formData.append('folder', sig.folder);
+
+      const uploadRes = await fetch(sig.uploadUrl, { method: 'POST', body: formData });
+      const uploadData = await uploadRes.json();
+      if (uploadRes.ok && uploadData.secure_url) {
+        return uploadData.secure_url;
+      }
+      console.warn('Upload diretto Cloudinary fallito:', uploadData.error?.message || uploadRes.status);
+    } else {
+      console.warn('Firma Cloudinary non disponibile:', sig.error || sigRes.status);
+    }
+  } catch (err) {
+    console.warn('Upload diretto non riuscito, provo il relay legacy:', err);
+  }
+
+  // 2. Fallback: relay legacy Base64 via Worker
+  const res = await fetch(API.uploadImage, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      token: state.token,
+      file: base64Data
+    })
+  });
+  const responseData = await res.json();
+  if (res.ok && responseData.url) {
+    return responseData.url;
+  }
+  console.error('Upload error:', responseData.error);
+  throw new Error(responseData.error || 'Errore upload');
 }
 
 function escapeHtml(text) {
@@ -2859,7 +2908,7 @@ async function saveItem() {
       console.log('Recupero SHA per:', filename, 'in folder:', collection.folder);
 
       // IMPORTANTE: usa mode=api per forzare GitHub API e ottenere SHA
-      const freshRes = await fetch('/.netlify/functions/read-data', {
+      const freshRes = await fetch(API.readData, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -2906,7 +2955,7 @@ async function saveItem() {
 
     // Helper per la richiesta di salvataggio
     const performSave = async (fname) => {
-      return fetch('/.netlify/functions/save-data', {
+      return fetch(API.saveData, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -3059,7 +3108,7 @@ async function deleteItem() {
     let sha = state.currentItem.sha;
 
     // Recupera SHA fresco PRIMA di modificare la UI
-    const fetchRes = await fetch('/.netlify/functions/read-data', {
+    const fetchRes = await fetch(API.readData, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -3114,7 +3163,7 @@ async function deleteItem() {
     state.allItems[state.currentCollection] = [...state.items];
     renderItems();
 
-    const res = await fetch('/.netlify/functions/save-data', {
+    const res = await fetch(API.saveData, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -3337,7 +3386,7 @@ async function performGlobalSearch(query) {
     try {
       const fetchPromises = collectionsToFetch.map(async (collName) => {
         try {
-          const res = await fetch('/.netlify/functions/read-data', {
+          const res = await fetch(API.readData, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ folder: COLLECTIONS[collName].folder })
