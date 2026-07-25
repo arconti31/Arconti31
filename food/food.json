@@ -475,7 +475,7 @@
         "Più venduto",
         "Specialità"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 8,
       "category_slug": "dolci",
       "_filename": "tiramis-al-bicchiere.md"
@@ -2130,7 +2130,7 @@
           "Più venduto",
           "Specialità"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 8,
         "category_slug": "dolci",
         "_filename": "tiramis-al-bicchiere.md"
