@@ -2,7 +2,9 @@
 
 ## 📋 Panoramica
 
-Sistema di gestione contenuti (CMS) headless completo per menù digitale, con backend serverless Netlify Functions, rigenerazione automatica JSON, e interfaccia frontend ottimizzata.
+Sistema di gestione contenuti (CMS) headless completo per menù digitale, con backend serverless su Cloudflare Workers, rigenerazione automatica JSON, e interfaccia frontend ottimizzata.
+
+> Migrato da Netlify a Cloudflare Workers: dettagli in [`MIGRATION_REPORT.md`](./MIGRATION_REPORT.md), guida operativa in [`CLOUDFLARE_DEPLOY.md`](./CLOUDFLARE_DEPLOY.md).
 
 ## 🔧 Stack Tecnologico
 
@@ -11,11 +13,14 @@ Sistema di gestione contenuti (CMS) headless completo per menù digitale, con ba
 - **CSS3**: Styling responsive con CSS Grid e Flexbox
 - **JavaScript Vanilla**: Nessuna dipendenza esterna
 
-### Backend (Netlify Functions)
-- **save-data.js**: Salvataggio dati + rigenerazione JSON automatica
-- **read-data.js**: Lettura dati con fallback JSON statici
-- **upload-image.js**: Upload immagini via Cloudinary
-- **auth-callback.js**: Callback autenticazione
+### Backend (Cloudflare Worker — `src/worker/`)
+- **routes/save-data.ts**: Salvataggio dati + rigenerazione JSON automatica (port 1:1 della Netlify Function)
+- **routes/read-data.ts**: Lettura dati con fallback JSON statici
+- **routes/auth.ts**: Login e verifica token (HMAC SHA-256)
+- **routes/cloudinary-signature.ts**: Firma per upload diretto browser→Cloudinary
+- **routes/upload-image.ts**: Relay upload Base64 (fallback legacy)
+- **routes/health.ts**: Liveness pubblica + diagnostica autenticata
+- **router.ts**: Routing `/api/*`, alias legacy `/.netlify/functions/*`, fallback SPA `/admin/*`
 
 ### CMS
 - **cms-simple.js**: CMS custom con autenticazione, CRUD completo, ricerca globale
@@ -27,7 +32,8 @@ Sistema di gestione contenuti (CMS) headless completo per menù digitale, con ba
 - **Cloudinary**: Storage immagini (opzionale)
 
 ### Hosting
-- **Netlify**: Hosting statico con Functions e CI/CD automatico
+- **Cloudflare Workers + Static Assets**: Worker per le API, asset statici da `dist/` (build allowlist), CI/CD con Workers Builds
+- **Legacy**: `netlify/functions/` e `netlify.toml` conservati solo come riferimento/rollback
 
 ## 📁 Struttura del Progetto
 
@@ -43,11 +49,18 @@ arconti31/
 │   ├── sw.js               # Service Worker
 │   └── SETUP.md            # Guida setup CMS
 │
-├── netlify/
+├── src/worker/             # Backend Cloudflare Worker (TypeScript)
+│   ├── index.ts            # Entry point
+│   ├── router.ts           # Routing /api/* + alias legacy
+│   ├── routes/             # health, auth, read-data, save-data, cloudinary…
+│   ├── lib/                # auth, cors, github, collections, http…
+│   └── __tests__/          # 29 test Vitest
+│
+├── netlify/                # LEGACY (riferimento/rollback, non deployato)
 │   └── functions/
-│       ├── save-data.js    # Salvataggio + rigenerazione JSON
-│       ├── read-data.js    # Lettura dati con fallback
-│       ├── upload-image.js # Upload Cloudinary
+│       ├── save-data.js
+│       ├── read-data.js
+│       ├── upload-image.js
 │       └── auth-callback.js
 │
 ├── food/
@@ -86,7 +99,10 @@ arconti31/
 ├── index.html              # Homepage menù
 ├── menu.html               # Pagina menù
 ├── ristoranti.html         # Pagina ristorante
-├── netlify.toml            # Configurazione Netlify
+├── wrangler.jsonc          # Configurazione Cloudflare Workers
+├── cloudflare/             # _headers e _redirects copiati in dist/
+├── scripts/build-cloudflare.mjs  # Build dist/ (allowlist)
+├── netlify.toml            # LEGACY configurazione Netlify
 ├── package.json            # Dipendenze Node.js
 └── README.md               # Documentazione
 ```
@@ -102,7 +118,7 @@ Ristoratore → /admin → Login (email/password)
                 ↓
         Clicca "Salva"
                 ↓
-        Netlify Function save-data.js
+        Worker /api/save-data
                 ↓
         Salva .md su GitHub + Rigenera JSON
                 ↓
@@ -112,7 +128,7 @@ Ristoratore → /admin → Login (email/password)
 ### 2. Rigenerazione Automatica JSON
 
 ```
-save-data.js riceve richiesta
+save-data riceve richiesta
         ↓
 Salva file .md su GitHub
         ↓
@@ -130,7 +146,7 @@ Sito aggiornato (30-60 sec)
 ```
 Richiesta dati
         ↓
-read-data.js cerca JSON statico
+read-data cerca JSON statico
         ↓
 Se JSON esiste → ritorna dati (veloce!)
         ↓
@@ -213,10 +229,10 @@ order: 1
 
 ### Sistema Login
 
-1. **Credenziali**: Email + Password configurati in variabili ambiente
-2. **Token**: Generato come Base64 di `email:timestamp`
-3. **Validazione**: Verificata lato server in Netlify Function
-4. **Scadenza**: Token valido per 7 giorni
+1. **Credenziali**: Email + Password configurati in variabili ambiente/secret
+2. **Token**: `base64(payload).firma` con firma **HMAC SHA-256** (`CMS_TOKEN_SECRET`, obbligatorio — fail-loud se assente)
+3. **Validazione**: Verificata lato server nel Worker (confronto timing-safe)
+4. **Scadenza**: Token valido per 30 giorni
 5. **Multi-utente**: Supporto email multiple (separate da virgola)
 
 ### Sicurezza
@@ -265,47 +281,54 @@ order: 1
 - **Installabile**: Aggiungibile a schermata home
 - **Offline**: Contenuti cachati disponibili offline
 
-## 🔌 Netlify Functions
+## 🔌 API del Worker (`/api/*`)
 
-### save-data.js
+### save-data
 
 ```javascript
 // Azioni supportate:
 - login          // Autenticazione utente
 - verify-token   // Verifica sessione
-- save           // Salva prodotto + rigenera JSON
+- save           // Salva prodotto + rigenera JSON (OCC via SHA → 409 su conflitto)
 - delete         // Elimina prodotto + rigenera JSON
 - get-cloudinary-config  // Configurazione upload
 ```
 
-### read-data.js
+### read-data
 
 ```javascript
 // Strategie lettura:
 1. Prova JSON statico (veloce, no rate limit)
-2. Fallback API GitHub (per ottenere SHA)
-3. Fallback JSON su rate limit
+2. mode=api (autenticato): API GitHub per ottenere gli SHA
+3. Se JSON mancante → 503 json-miss (mai lista vuota silente)
 ```
 
-### upload-image.js
+### cloudinary-signature + upload-image
 
 ```javascript
-// Upload immagini Cloudinary
-- Richiede: CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET
-- Supporta upload unsigned
+// Upload primario: firma dal Worker, upload diretto browser→Cloudinary (signed)
+// Fallback: relay Base64 via /api/upload-image
+- Richiede: CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET
 ```
+
+Ogni endpoint risponde anche sull'alias legacy `/.netlify/functions/<nome>` (temporaneo).
 
 ## 📊 Variabili Ambiente
 
 | Variabile | Obbligatoria | Descrizione |
 |-----------|--------------|-------------|
-| `GITHUB_TOKEN` | ✅ | Token Classic con permesso repo |
+| `GITHUB_TOKEN` | ✅ (secret) | Token Classic con permesso repo |
 | `ADMIN_EMAIL` | ✅ | Email ammesse (virgola-separate) |
-| `ADMIN_PASSWORD` | ✅ | Password accesso CMS |
-| `REPO_OWNER` | ❌ | Default: Massimilianociconte |
-| `REPO_NAME` | ❌ | Default: Arconti31 |
+| `ADMIN_PASSWORD` | ✅ (secret) | Password accesso CMS |
+| `CMS_TOKEN_SECRET` | ✅ (secret) | Firma token sessione (fail-loud se assente) |
+| `REPO_OWNER` | ✅ | Owner repo GitHub |
+| `REPO_NAME` | ✅ | Nome repo GitHub |
+| `GITHUB_BRANCH` | ❌ | Default `main` |
 | `CLOUDINARY_CLOUD_NAME` | ❌ | Per upload immagini |
-| `CLOUDINARY_UPLOAD_PRESET` | ❌ | Preset unsigned Cloudinary |
+| `CLOUDINARY_API_KEY` | ❌ (secret) | Upload firmato |
+| `CLOUDINARY_API_SECRET` | ❌ (secret) | Upload firmato |
+| `CLOUDINARY_FOLDER` | ❌ | Cartella upload (default `arconti31`) |
+| `ALLOWED_ORIGINS` | ❌ | Origini CORS extra |
 
 ## 🧪 Testing
 
@@ -332,10 +355,11 @@ order: 1
 
 - Ogni modifica = commit Git
 - Storia completa su GitHub
-- Rollback facile da Netlify dashboard
+- Rollback Worker: `npx wrangler rollback` (vedi `CLOUDFLARE_DEPLOY.md` §11)
 
 ## 📚 Risorse Utili
 
-- [Netlify Functions Docs](https://docs.netlify.com/functions/overview/)
+- [Cloudflare Workers Docs](https://developers.cloudflare.com/workers/)
+- [Wrangler Docs](https://developers.cloudflare.com/workers/wrangler/)
 - [Cloudinary Docs](https://cloudinary.com/documentation)
 - [GitHub API Docs](https://docs.github.com/en/rest)
