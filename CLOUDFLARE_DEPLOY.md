@@ -100,8 +100,11 @@ npm run validate          # validazione contenuti .md
 
 ## 7. Deploy temporaneo su workers.dev
 
-**⚠️ Blocco attuale**: il deploy reale fallisce con errore `10034 — You need to verify
-your email address to use Workers`. Azione manuale richiesta:
+**✅ Fatto**: deploy eseguito e verificato su `https://arconti31.arconti31.workers.dev`
+(secret impostati via `wrangler secret bulk`, checklist completa passata). Il dominio
+ufficiale `arconti31.com` + `www` è connesso come **Custom Domain** del Worker.
+
+Se in futuro il deploy fallisse con errore `10034 — verify your email address`:
 
 1. Vai su [dash.cloudflare.com](https://dash.cloudflare.com) → icona profilo → **My Profile** → **Communication**
 2. Clicca **Resend verification email** e conferma dal link ricevuto

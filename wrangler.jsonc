@@ -25,6 +25,12 @@
 		// Worker, che decide se fare fallback SPA (vedi isSpaNavigation in router.ts).
 		"run_worker_first": ["/api/*", "/.netlify/functions/*"]
 	},
+	// Dominio ufficiale (zona arconti31.com attiva su Cloudflare, nameserver su Aruba
+	// già puntati). custom_domain: true crea DNS e certificati automaticamente.
+	"routes": [
+		{ "pattern": "arconti31.com", "custom_domain": true },
+		{ "pattern": "www.arconti31.com", "custom_domain": true }
+	],
 	"observability": {
 		"enabled": true
 	}

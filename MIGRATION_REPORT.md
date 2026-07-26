@@ -92,7 +92,7 @@ Nomi identici a Netlify → copia valori 1:1. In locale: `.dev.vars` (gitignored
 
 | Verifica | Risultato |
 |----------|-----------|
-| `npm run test:worker` (Vitest) | ✅ **29/29 passati** — routing, health, 405, CORS (same-origin/allowlist/negata), login ok/ko, fail-loud secret mancante, token valido/scaduto/alterato, path traversal, JSON invalido, collection/filename invalidi, save con SHA ok (PUT verificata sul mock), conflitto SHA → 409 senza scritture, read pubblica JSON (formato legacy wrappato), 503 json-miss, mode=api con/senza token, firma Cloudinary senza leak del secret, fallback `/admin/*`, alias legacy |
+| `npm run test:worker` (Vitest) | ✅ **49/49 passati** — routing, health, 405, CORS (same-origin/allowlist/negata), login ok/ko, fail-loud secret mancante, token valido/scaduto/alterato, path traversal, JSON invalido, collection/filename invalidi, save con SHA ok (PUT verificata sul mock), conflitto SHA → 409 senza scritture, read pubblica JSON (formato legacy wrappato), 503 json-miss, mode=api con/senza token, firma Cloudinary senza leak del secret, fallback `/admin/*`, alias legacy + hardening scritture (ref pinning, fail-closed, budget subrequest, batch da 30, retry transazione su 422) |
 | `npm run typecheck:worker` | ✅ 0 errori |
 | `npm run validate` | ✅ contenuti validi |
 | `npm run build` | ✅ `dist/`: 46 file, 37,66 MiB (max per-file 5,9 MiB < 25 MiB) |
@@ -106,22 +106,24 @@ Nei test automatici GitHub e Cloudinary sono **sempre mockati**: nessuna scrittu
 
 ## 8. Problemi incontrati
 
-1. **Deploy reale bloccato — errore CF `10034`**: "You need to verify your email address
-   to use Workers". Blocco esterno all'ambiente di sviluppo (serve accesso alla casella
-   email dell'account Cloudflare). Tutto il resto è pronto: login wrangler OK,
-   sottodominio workers.dev `arconti31` registrato via API, dry-run OK.
+1. **Errore CF `10034` al primo deploy** ("verify your email address to use Workers"):
+   risolto verificando l'email dell'account Cloudflare; deploy poi riuscito su
+   `https://arconti31.arconti31.workers.dev` e verificato end-to-end in produzione
+   (health, login CMS, read-data `mode=api`, firma Cloudinary, SPA fallback, alias legacy).
 2. **Wrangler 4 senza comando `subdomain`**: sottodominio registrato via API REST
    (`PUT /accounts/{id}/workers/subdomain`) con il token OAuth di wrangler.
 3. **Formato risposta read-data**: il formato legacy Netlify wrappa gli item
    (`{filename, content, parsedItem, fromJSON, sha}`); un'asserzione di test inizialmente
    errata è stata corretta per rispettare il formato legacy (il Worker era già conforme).
+4. **Custom domain bloccato da record DNS residui** (errore `100117`): la zona
+   `arconti31.com` importata da Aruba conteneva 4 record A verso i vecchi IP Netlify;
+   eliminati dal pannello DNS, il redeploy ha creato automaticamente record e certificati
+   per `arconti31.com` e `www.arconti31.com`.
 
 ## 9. Rischi residui
 
-- **Deploy non ancora eseguito in produzione**: la verifica end-to-end su workers.dev
-  (e in particolare un salvataggio CMS reale in produzione) va ripetuta dopo lo sblocco email.
-- **Cutover DNS**: dominio su Aruba ancora puntato a Netlify (sospeso). Finché non si
-  esegue la procedura in `CLOUDFLARE_DEPLOY.md` §9 il dominio ufficiale resta offline.
+- **Workers Builds non ancora configurato**: fino ad allora i deploy avvengono solo
+  manualmente con `npm run deploy:cloudflare` (la CI GitHub è solo di verifica).
 - **Limiti free plan Workers**: 100k richieste/giorno sulle API (gli asset statici non
   contano). Ampio margine per l'uso attuale, ma senza burst protection custom.
 - **Alias legacy**: da rimuovere in un secondo momento; finché attivi, mantengono
@@ -129,13 +131,14 @@ Nei test automatici GitHub e Cloudinary sono **sempre mockati**: nessuna scrittu
 
 ## 10. Azioni manuali rimanenti (in ordine)
 
-1. **Verificare l'email dell'account Cloudflare** (dash → My Profile → Communication)
-2. `npm run deploy:cloudflare` → verifica su `https://arconti31.arconti31.workers.dev`
-   (curl + login CMS + salvataggio di prova, checklist in `CLOUDFLARE_DEPLOY.md` §7)
-3. Impostare **secret e vars** in produzione (`CLOUDFLARE_DEPLOY.md` §4)
-4. Configurare **Workers Builds** su repo `arconti31/Arconti31`, branch `main`
-   (`CLOUDFLARE_DEPLOY.md` §8) — nessuna GitHub Action: un solo sistema CI/CD
-5. Merge di `migration/cloudflare-workers` in `main` (dopo verifica su workers.dev)
-6. **Cutover dominio Aruba → Cloudflare** (`CLOUDFLARE_DEPLOY.md` §9): esporta DNS,
-   aggiungi zona, cambia nameserver, custom domain sul Worker, redirect canonico
-7. Dopo stabilità: rimuovere il dominio da Netlify (tenere il sito come rollback)
+✅ Già completate: verifica email account, deploy su workers.dev, secret in produzione
+(`wrangler secret bulk`, 12/12), zona `arconti31.com` attiva (nameserver Aruba →
+Cloudflare), custom domain `arconti31.com` + `www` connesso e verificato in HTTPS.
+
+1. Configurare **Workers Builds** su repo `arconti31/Arconti31`, branch `main`
+   (`CLOUDFLARE_DEPLOY.md` §8) — dal dashboard: Workers → arconti31 → Builds
+2. (Opzionale) Redirect canonico `www` → apex con una Redirect Rule
+   (`CLOUDFLARE_DEPLOY.md` §9.5)
+3. Merge di `migration/cloudflare-workers` in `main` (attiverà i deploy automatici
+   una volta configurato Workers Builds)
+4. Dopo stabilità: rimuovere il dominio da Netlify (tenere il sito come rollback)
