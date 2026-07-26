@@ -18,6 +18,24 @@
       "_filename": "arconti-31.md"
     },
     {
+      "nome": "Romagnola ",
+      "category": "Vegetariano/ Vegano ",
+      "prezzo": "8.00",
+      "descrizione": "Piadina romagnola da tradizione esclusivamente vegetariana con ricotta di bufala e verdure grigliate di stagione.....possibile richiesta versione vegana senza formaggio. *strutto",
+      "allergeni": [
+        "Glutine",
+        "Latte"
+      ],
+      "tags": [
+        "Vegetariano",
+        "Vegano"
+      ],
+      "disponibile": true,
+      "order": 0,
+      "category_slug": "vegetariano-vegano",
+      "_filename": "arnate-calcio.md"
+    },
+    {
       "nome": "Carne salada",
       "category": "Piatti Speciali e griglieria",
       "prezzo": "12.00",
@@ -316,24 +334,6 @@
       "disponibile": true,
       "order": 0,
       "_filename": "verdure-pastellate.md"
-    },
-    {
-      "nome": "Romagnola ",
-      "category": "Vegetariano/ Vegano ",
-      "prezzo": "8.00",
-      "descrizione": "Piadina romagnola da tradizione esclusivamente vegetariana con ricotta di bufala e verdure grigliate di stagione.....possibile richiesta versione vegana senza formaggio. *strutto",
-      "allergeni": [
-        "Glutine",
-        "Latte"
-      ],
-      "tags": [
-        "Vegetariano",
-        "Vegano"
-      ],
-      "disponibile": true,
-      "order": 0,
-      "category_slug": "vegetariano-vegano",
-      "_filename": "arnate-calcio.md"
     },
     {
       "nome": "Bacon burger",
@@ -1119,6 +1119,24 @@
   "foodByCategory": {
     "Vegetariano/ Vegano ": [
       {
+        "nome": "Romagnola ",
+        "category": "Vegetariano/ Vegano ",
+        "prezzo": "8.00",
+        "descrizione": "Piadina romagnola da tradizione esclusivamente vegetariana con ricotta di bufala e verdure grigliate di stagione.....possibile richiesta versione vegana senza formaggio. *strutto",
+        "allergeni": [
+          "Glutine",
+          "Latte"
+        ],
+        "tags": [
+          "Vegetariano",
+          "Vegano"
+        ],
+        "disponibile": true,
+        "order": 0,
+        "category_slug": "vegetariano-vegano",
+        "_filename": "arnate-calcio.md"
+      },
+      {
         "nome": "Insalatona",
         "category": "Vegetariano/ Vegano ",
         "prezzo": "12.00",
@@ -1157,24 +1175,6 @@
         "_filename": "veggy-burger.md"
       },
       {
-        "nome": "Romagnola ",
-        "category": "Vegetariano/ Vegano ",
-        "prezzo": "8.00",
-        "descrizione": "Piadina romagnola da tradizione esclusivamente vegetariana con ricotta di bufala e verdure grigliate di stagione.....possibile richiesta versione vegana senza formaggio. *strutto",
-        "allergeni": [
-          "Glutine",
-          "Latte"
-        ],
-        "tags": [
-          "Vegetariano",
-          "Vegano"
-        ],
-        "disponibile": true,
-        "order": 0,
-        "category_slug": "vegetariano-vegano",
-        "_filename": "arnate-calcio.md"
-      },
-      {
         "nome": "Cajello vegano",
         "category": "Vegetariano/ Vegano ",
         "category_slug": "vegetariano-vegano",
@@ -1192,6 +1192,7 @@
         "_filename": "cajello-vegano.md"
       }
     ],
+    "Menù Partita": [],
     "Hamburger di bufala": [
       {
         "nome": "Hamburger F1 Bufala",
@@ -2253,6 +2254,7 @@
   },
   "categoryOrder": {
     "Vegetariano/ Vegano ": 11,
+    "Menù Partita": 12,
     "Hamburger di bufala": 13,
     "Hamburger Fassona e Street food": 14,
     "Panini Ciabatta": 15,

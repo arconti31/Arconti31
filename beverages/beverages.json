@@ -842,6 +842,17 @@
       "tipo": "Artigianali"
     },
     {
+      "nome": "Bomba Carta ",
+      "prezzo": "6.00",
+      "descrizione": "Oristano, Sardegna | 33% alc. \nBase intensa di erbe spontanee (timo, artemisia, elicriso, iperico) e miele di corbezzolo. \nOffre un gusto pieno, avvolgente e aromatico, che richiama la macchia mediterranea.",
+      "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1776196284/arconti31/sthija9tdy0ysjlzwgcy.jpg",
+      "disponibile": true,
+      "order": 0,
+      "tipo_slug": "artigianali",
+      "_filename": "bomba-carta.md",
+      "tipo": "Artigianali"
+    },
+    {
       "nome": "Bonaventura “erbe e fiori”",
       "prezzo": "5.00",
       "descrizione": "Il distillato nasce da una base di acquavite d'uva affinata in legno, unita a un ricco bouquet di botaniche (tra cui cannella, vaniglia, genziana e china) che richiama la storica vocazione mercantile e speziata della Repubblica di Venezia",
@@ -901,17 +912,6 @@
       "order": 0,
       "tipo_slug": "artigianali",
       "_filename": "washington.md",
-      "tipo": "Artigianali"
-    },
-    {
-      "nome": "Bomba Carta ",
-      "prezzo": "6.00",
-      "descrizione": "Oristano, Sardegna | 33% alc. \nBase intensa di erbe spontanee (timo, artemisia, elicriso, iperico) e miele di corbezzolo. \nOffre un gusto pieno, avvolgente e aromatico, che richiama la macchia mediterranea.",
-      "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1776196284/arconti31/sthija9tdy0ysjlzwgcy.jpg",
-      "disponibile": true,
-      "order": 0,
-      "tipo_slug": "artigianali",
-      "_filename": "bomba-carta.md",
       "tipo": "Artigianali"
     },
     {
@@ -2044,6 +2044,17 @@
         "tipo": "Artigianali"
       },
       {
+        "nome": "Bomba Carta ",
+        "prezzo": "6.00",
+        "descrizione": "Oristano, Sardegna | 33% alc. \nBase intensa di erbe spontanee (timo, artemisia, elicriso, iperico) e miele di corbezzolo. \nOffre un gusto pieno, avvolgente e aromatico, che richiama la macchia mediterranea.",
+        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1776196284/arconti31/sthija9tdy0ysjlzwgcy.jpg",
+        "disponibile": true,
+        "order": 0,
+        "tipo_slug": "artigianali",
+        "_filename": "bomba-carta.md",
+        "tipo": "Artigianali"
+      },
+      {
         "nome": "Bonaventura “erbe e fiori”",
         "prezzo": "5.00",
         "descrizione": "Il distillato nasce da una base di acquavite d'uva affinata in legno, unita a un ricco bouquet di botaniche (tra cui cannella, vaniglia, genziana e china) che richiama la storica vocazione mercantile e speziata della Repubblica di Venezia",
@@ -2103,17 +2114,6 @@
         "order": 0,
         "tipo_slug": "artigianali",
         "_filename": "washington.md",
-        "tipo": "Artigianali"
-      },
-      {
-        "nome": "Bomba Carta ",
-        "prezzo": "6.00",
-        "descrizione": "Oristano, Sardegna | 33% alc. \nBase intensa di erbe spontanee (timo, artemisia, elicriso, iperico) e miele di corbezzolo. \nOffre un gusto pieno, avvolgente e aromatico, che richiama la macchia mediterranea.",
-        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1776196284/arconti31/sthija9tdy0ysjlzwgcy.jpg",
-        "disponibile": true,
-        "order": 0,
-        "tipo_slug": "artigianali",
-        "_filename": "bomba-carta.md",
         "tipo": "Artigianali"
       }
     ],

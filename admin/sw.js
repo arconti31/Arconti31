@@ -4,52 +4,63 @@
    ======================================== */
 
 // Version updated on each deploy to bust stale SW cache
-const CACHE_VERSION = '2026-07-24-cacheswitch';
-const CACHE_NAME = `arconti31-cms-${CACHE_VERSION}`;
-const STATIC_CACHE = `arconti31-static-${CACHE_VERSION}`;
-const DYNAMIC_CACHE = `arconti31-dynamic-${CACHE_VERSION}`;
+const CACHE_VERSION = '2026-07-26-cloudflare-2';
+// Prefisso di TUTTE le cache di questo Service Worker. La Cache API è condivisa
+// per origine: senza filtrare per prefisso la pulizia cancellerebbe anche le
+// cache del sito pubblico, che vive sulla stessa origine.
+const CACHE_PREFIX = 'arconti31-';
+const STATIC_CACHE = `${CACHE_PREFIX}static-${CACHE_VERSION}`;
+const DYNAMIC_CACHE = `${CACHE_PREFIX}dynamic-${CACHE_VERSION}`;
 
-// Risorse da cacheare immediatamente
+// Shell del pannello: senza questi l'admin non parte offline
 const STATIC_ASSETS = [
   '/admin/',
   '/admin/index.html',
   '/admin/cms-simple.js',
   '/admin/cms-styles.css',
   '/admin/manifest.json',
-  '/images/loghi/logo_arconti31.png',
+  '/images/loghi/logo_arconti31.png'
+];
+
+// Risorse esterne opzionali: un fallimento qui non deve far fallire l'install
+const OPTIONAL_ASSETS = [
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
 ];
 
 // Install: Cache static assets
 self.addEventListener('install', event => {
   console.log('[SW] Installing Service Worker...');
-  event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then(cache => {
-        console.log('[SW] Caching static assets');
-        return cache.addAll(STATIC_ASSETS);
-      })
-      .then(() => self.skipWaiting())
-      .catch(err => console.log('[SW] Cache error:', err))
-  );
+  event.waitUntil((async () => {
+    const cache = await caches.open(STATIC_CACHE);
+    // addAll è atomico: un solo asset irraggiungibile (tipico dei font esterni)
+    // faceva fallire l'intero precache. Qui ogni risorsa è indipendente.
+    const results = await Promise.allSettled(
+      [...STATIC_ASSETS, ...OPTIONAL_ASSETS].map(asset => cache.add(asset))
+    );
+    results.forEach((result, index) => {
+      if (result.status === 'rejected') {
+        console.warn('[SW] Precache fallito:', [...STATIC_ASSETS, ...OPTIONAL_ASSETS][index], result.reason);
+      }
+    });
+    await self.skipWaiting();
+  })());
 });
 
 // Activate: Clean old caches
 self.addEventListener('activate', event => {
   console.log('[SW] Activating Service Worker...');
-  event.waitUntil(
-    caches.keys()
-      .then(keys => {
-        return Promise.all(
-          keys.filter(key => key !== STATIC_CACHE && key !== DYNAMIC_CACHE)
-            .map(key => {
-              console.log('[SW] Removing old cache:', key);
-              return caches.delete(key);
-            })
-        );
-      })
-      .then(() => self.clients.claim())
-  );
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(
+      keys
+        .filter(key => key.startsWith(CACHE_PREFIX) && key !== STATIC_CACHE && key !== DYNAMIC_CACHE)
+        .map(key => {
+          console.log('[SW] Removing old cache:', key);
+          return caches.delete(key);
+        })
+    );
+    await self.clients.claim();
+  })());
 });
 
 // Fetch: Network first for API/admin shell, Cache first for other assets
@@ -77,18 +88,18 @@ self.addEventListener('fetch', event => {
 
   // Admin shell (JS/CSS/HTML): network-first so deploys non restano in cache-first
   if (isAdminShellAsset(url)) {
-    event.respondWith(networkFirst(request));
+    event.respondWith(networkFirst(request, event));
     return;
   }
 
   // Other static assets - Cache first
   if (isStaticAsset(url)) {
-    event.respondWith(cacheFirst(request));
+    event.respondWith(cacheFirst(request, event));
     return;
   }
 
   // Everything else - Network first with cache fallback
-  event.respondWith(networkFirst(request));
+  event.respondWith(networkFirst(request, event));
 });
 
 // Admin app code/styles/HTML must prefer network (evita CMS stale post-deploy)
@@ -110,23 +121,24 @@ function isStaticAsset(url) {
 }
 
 // Cache first strategy
-async function cacheFirst(request) {
+async function cacheFirst(request, event) {
   const cached = await caches.match(request);
   if (cached) {
-    // Update cache in background
-    fetchAndCache(request);
+    // Revalidazione in background: va tenuta viva con waitUntil, altrimenti il
+    // browser può terminare il Service Worker prima che la scrittura finisca.
+    keepAlive(event, fetchAndCache(request).catch(() => { /* offline: resta il cached */ }));
     return cached;
   }
   return fetchAndCache(request);
 }
 
 // Network first strategy
-async function networkFirst(request) {
+async function networkFirst(request, event) {
   try {
     const response = await fetch(request);
     if (response.ok) {
-      const cache = await caches.open(DYNAMIC_CACHE);
-      cache.put(request, response.clone());
+      const copy = response.clone();
+      keepAlive(event, caches.open(DYNAMIC_CACHE).then(cache => cache.put(request, copy)));
     }
     return response;
   } catch (error) {
@@ -136,10 +148,19 @@ async function networkFirst(request) {
     }
     // Return offline page for navigation requests
     if (request.mode === 'navigate') {
-      return caches.match('/admin/index.html');
+      const shell = await caches.match('/admin/index.html');
+      if (shell) return shell;
     }
     throw error;
   }
+}
+
+/** Estende la vita del SW fino al completamento di un lavoro in background. */
+function keepAlive(event, promise) {
+  if (event && typeof event.waitUntil === 'function') {
+    event.waitUntil(promise);
+  }
+  return promise;
 }
 
 // Network only strategy
@@ -155,7 +176,7 @@ async function fetchAndCache(request) {
     const url = new URL(request.url);
     if (response.ok && url.protocol.startsWith('http')) {
       const cache = await caches.open(STATIC_CACHE);
-      cache.put(request, response.clone());
+      await cache.put(request, response.clone());
     }
     return response;
   } catch (error) {
@@ -218,8 +239,14 @@ self.addEventListener('message', event => {
     self.skipWaiting();
   }
   if (event.data && event.data.type === 'CLEAR_CACHE') {
-    caches.keys().then(keys => {
-      keys.forEach(key => caches.delete(key));
-    });
+    // Solo le cache di questo SW: il kill-switch dichiara di svuotare la shell
+    // admin, non di azzerare tutte le cache dell'origine (sito pubblico incluso).
+    event.waitUntil((async () => {
+      const keys = await caches.keys();
+      await Promise.all(
+        keys.filter(key => key.startsWith(CACHE_PREFIX)).map(key => caches.delete(key))
+      );
+      console.log('[SW] Cache admin svuotate');
+    })());
   }
 });

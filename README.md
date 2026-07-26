@@ -4,14 +4,14 @@ Sistema di gestione contenuti (CMS) completo per menù digitale di ristorante/ba
 
 ## ✨ Caratteristiche
 
-- ✅ **100% Gratuito** - Hosting su Netlify, nessun costo mensile
+- ✅ **100% Gratuito** - Hosting su Cloudflare Workers (free plan), nessun costo mensile
 - 📱 **Mobile-First** - Perfetto su smartphone e tablet
 - ⚡ **Velocissimo** - Sito statico ottimizzato con JSON pre-generati
 - 🎨 **CMS Personalizzato** - Interfaccia grafica in italiano per gestire il menù
 - 🖼️ **Upload Immagini** - Cloudinary o URL esterni
 - 🔄 **Aggiornamento Automatico** - JSON rigenerati automaticamente ad ogni modifica
 - 📴 **PWA Ready** - Funziona anche offline
-- 🔐 **Autenticazione Sicura** - Login con email/password via Netlify Functions
+- 🔐 **Autenticazione Sicura** - Login con email/password via Cloudflare Worker (token HMAC)
 - 🚀 **Zero Manutenzione** - Nessun database, nessun server da gestire
 
 ## 📚 Categorie Gestibili
@@ -38,6 +38,15 @@ Sistema di gestione contenuti (CMS) completo per menù digitale di ristorante/ba
 - **Bianchi fermi**
 - **Vini rossi**
 
+## ☁️ Hosting: Cloudflare Workers
+
+Il progetto è migrato da Netlify a **Cloudflare Workers + Static Assets** (branch
+`migration/cloudflare-workers`). Backend in `src/worker/`, build statico in `dist/`.
+
+- Guida deploy, DNS e rollback: **[`CLOUDFLARE_DEPLOY.md`](./CLOUDFLARE_DEPLOY.md)**
+- Report completo della migrazione: **[`MIGRATION_REPORT.md`](./MIGRATION_REPORT.md)**
+- `netlify/` e `netlify.toml` sono conservati solo come riferimento legacy/rollback.
+
 ## 🚚 Passaggio ad account del cliente (handoff)
 
 Se devi spostare il progetto dal **tuo** GitHub/Netlify free a quelli del **cliente**, segui la guida completa e non tecnica:
@@ -46,7 +55,7 @@ Se devi spostare il progetto dal **tuo** GitHub/Netlify free a quelli del **clie
 
 ## 🧱 Solidità CMS (env obbligatorie)
 
-Dopo l’aggiornamento di solidità, **`REPO_OWNER` e `REPO_NAME` sono sempre obbligatori** su Netlify. Senza di esse il CMS **non salva**.  
+Dopo l’aggiornamento di solidità, **`REPO_OWNER` e `REPO_NAME` sono sempre obbligatori**. Senza di esse il CMS **non salva**. Con Cloudflare è inoltre obbligatorio `CMS_TOKEN_SECRET`.  
 Checklist operativa, freeze writer, health e rollback DNS: **[`SOLIDITY_NOTES.md`](./SOLIDITY_NOTES.md)**.
 
 ## 🚀 Setup Iniziale
@@ -64,41 +73,43 @@ Checklist operativa, freeze writer, health e rollback DNS: **[`SOLIDITY_NOTES.md
 1. Scarica tutti i file di questo progetto
 2. Caricali nel repository GitHub
 
-### 3. Collega Netlify
+### 3. Deploy su Cloudflare Workers
 
-1. Vai su [Netlify](https://www.netlify.com) e registrati
-2. Clicca "Add new site" → "Import an existing project"
-3. Scegli "GitHub" e autorizza
-4. Seleziona il repository
-5. Impostazioni build:
-   - Build command: `npm run build`
-   - Publish directory: `.`
-6. Clicca "Deploy site"
+```bash
+npm ci
+npx wrangler login
+npm run deploy:cloudflare
+```
 
-### 4. Configura Variabili Ambiente
+Procedura completa (CI/CD con Workers Builds, dominio custom, rollback):
+[`CLOUDFLARE_DEPLOY.md`](./CLOUDFLARE_DEPLOY.md).
 
-In Netlify Dashboard → Site Configuration → Environment Variables, aggiungi:
+### 4. Configura Secret e Variabili
 
-| Variabile | Descrizione |
-|-----------|-------------|
-| `GITHUB_TOKEN` | Token GitHub Classic con permesso `repo` |
-| `REPO_OWNER` | **Obbligatorio** — username GitHub del proprietario del repo |
-| `REPO_NAME` | **Obbligatorio** — nome esatto del repository |
-| `ADMIN_EMAIL` | Email admin (può essere multipla, separate da virgola) |
-| `ADMIN_PASSWORD` | Password per accesso CMS |
-| `GITHUB_BRANCH` | (Opzionale) branch commit CMS, default `main` |
-| `CMS_TOKEN_SECRET` | (Opzionale, consigliato) segreto firma token; se assente usa la password |
-| `CLOUDINARY_CLOUD_NAME` | (Opzionale) Cloud Name Cloudinary |
-| `CLOUDINARY_UPLOAD_PRESET` | (Opzionale) Preset upload unsigned |
-| `CLOUDINARY_FOLDER` | (Opzionale) Cartella destinazione upload |
+Secret via `npx wrangler secret put <NOME>`, variabili via dashboard Cloudflare:
 
-Dettaglio completo: [`admin/SETUP.md`](./admin/SETUP.md), deploy: [`DEPLOY_GUIDE.md`](./DEPLOY_GUIDE.md).
+| Variabile | Tipo | Descrizione |
+|-----------|------|-------------|
+| `GITHUB_TOKEN` | Secret | Token GitHub Classic con permesso `repo` |
+| `ADMIN_PASSWORD` | Secret | Password per accesso CMS |
+| `CMS_TOKEN_SECRET` | Secret | **Obbligatorio** — segreto firma token sessione |
+| `CLOUDINARY_API_KEY` | Secret | Per upload immagini firmato |
+| `CLOUDINARY_API_SECRET` | Secret | Per upload immagini firmato |
+| `REPO_OWNER` | Var | **Obbligatorio** — username GitHub del proprietario del repo |
+| `REPO_NAME` | Var | **Obbligatorio** — nome esatto del repository |
+| `ADMIN_EMAIL` | Var | Email admin (può essere multipla, separate da virgola) |
+| `GITHUB_BRANCH` | Var | (Opzionale) branch commit CMS, default `main` |
+| `CLOUDINARY_CLOUD_NAME` | Var | (Opzionale) Cloud Name Cloudinary |
+| `CLOUDINARY_FOLDER` | Var | (Opzionale) Cartella destinazione upload |
+| `ALLOWED_ORIGINS` | Var | (Opzionale) Origini CORS extra, virgola-separate |
+
+Dettaglio completo: [`admin/SETUP.md`](./admin/SETUP.md), deploy: [`CLOUDFLARE_DEPLOY.md`](./CLOUDFLARE_DEPLOY.md).
 
 ## 📝 Come Gestire il Menù
 
 ### Accedere al Pannello
 
-1. Vai su `https://tuosito.netlify.app/admin`
+1. Vai su `https://arconti31.arconti31.workers.dev/admin` (o dominio custom)
 2. Inserisci email e password configurati
 3. Vedrai la sidebar con tutte le collezioni
 
@@ -154,7 +165,7 @@ Usa il pannello admin "Gestione Categorie" per creare nuove categorie senza tocc
 ## 💰 Costi
 
 **ZERO €** - Tutto completamente gratuito:
-- Netlify: 100 GB bandwidth/mese gratis
+- Cloudflare Workers: 100.000 richieste/giorno gratis (asset statici illimitati)
 - GitHub: Repository pubblici illimitati
 - Cloudinary: 25 GB storage gratuito
 - Nessun canone mensile
@@ -163,10 +174,12 @@ Usa il pannello admin "Gestione Categorie" per creare nuove categorie senza tocc
 
 - **Frontend**: HTML5, CSS3, JavaScript Vanilla
 - **CMS**: Custom (cms-simple.js)
-- **Backend**: Netlify Functions
+- **Backend**: Cloudflare Worker TypeScript (`src/worker/`), API su `/api/*`
 - **Storage**: GitHub + JSON statici
-- **Immagini**: Cloudinary o URL esterni
+- **Immagini**: Cloudinary (upload diretto firmato) o URL esterni
 - **PWA**: Service Worker + Manifest
+
+Dettagli: [`ARCHITETTURA.md`](./ARCHITETTURA.md)
 
 ## 📈 Performance
 

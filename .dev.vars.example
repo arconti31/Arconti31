@@ -1,0 +1,32 @@
+# ============================================================
+# Arconti31 — variabili locali per `wrangler dev`
+# ============================================================
+# Copia questo file in `.dev.vars` (gitignored) e compila i valori.
+# In produzione i SECRET vanno impostati con:
+#   npx wrangler secret put <NOME>
+# e le variabili non segrete via dashboard Cloudflare o wrangler.jsonc `vars`.
+# ============================================================
+
+# --- GitHub (repo contenuti) ---
+REPO_OWNER=arconti31
+REPO_NAME=Arconti31
+GITHUB_BRANCH=main
+GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# --- Login CMS (/admin) ---
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=change-me-strong-password
+
+# Segreto per firmare le sessioni CMS (dedicato, min 32 caratteri random).
+# In produzione è OBBLIGATORIO: senza, il login fallisce con errore esplicito.
+CMS_TOKEN_SECRET=change-me-long-random-secret-at-least-32-chars
+
+# --- Cloudinary (upload immagini) ---
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_UPLOAD_PRESET=your_unsigned_preset
+CLOUDINARY_FOLDER=arconti31
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+# --- Opzionale: origini extra ammesse per CORS ---
+# ALLOWED_ORIGINS=https://arconti31.com,https://www.arconti31.com

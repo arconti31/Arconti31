@@ -1,0 +1,44 @@
+# Header per Workers Static Assets — tradotti da netlify.toml.
+# NOTA: si applicano SOLO agli asset statici; le risposte generate dal Worker
+# (/api/*, fallback /admin/*) impostano gli header nel codice.
+# Default piattaforma già "public, max-age=0, must-revalidate" per HTML/CSS/JS.
+
+# Security headers (best practices) su tutto il sito
+/*
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# HTML: sempre revalidate (referenze CSS/JS e contenuti aggiornati subito)
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# JSON (menu + admin/version.json): mai in cache — gli aggiornamenti CMS
+# devono apparire subito e il kill-switch cache deve leggere sempre l'ultima versione.
+# Lo splat è greedy: copre anche /food/*.json, /beers/*.json, /categorie/*.json,
+# /beverages/*.json e /admin/*.json.
+/*.json
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+  Access-Control-Allow-Origin: *
+
+# Immagini: cache breve + stale-while-revalidate
+/images/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+# CSS/JS non fingerprintati: sempre revalidate (zero rischio FE stale)
+/css/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/js/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Font (se aggiunti in futuro): cache più lunga
+/fonts/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# Admin CMS JS: sempre revalidate (bugfix subito attivi)
+/admin/*.js
+  Cache-Control: public, max-age=0, must-revalidate
