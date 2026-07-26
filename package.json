@@ -1,7 +1,7 @@
 {
   "name": "arconti31",
   "version": "1.0.0",
-  "description": "Menù digitale ristorante/bar con CMS custom su Netlify",
+  "description": "Menù digitale ristorante/bar con CMS custom su Cloudflare Workers",
   "scripts": {
     "build:data": "node scripts/generate-json.js",
     "validate": "node scripts/validate-content.js",
@@ -18,7 +18,8 @@
     "test:e2e-cms": "node scripts/e2e-cms-controlled.js"
   },
   "keywords": [
-    "netlify-cms",
+    "cloudflare-workers",
+    "headless-cms",
     "restaurant",
     "beer-menu"
   ],

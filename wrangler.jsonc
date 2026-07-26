@@ -17,8 +17,13 @@
 		// Il Worker gira PRIMA degli asset solo su questi path:
 		// - /api/*                → endpoint backend
 		// - /.netlify/functions/* → alias legacy temporanei (inoltro interno)
-		// - /admin/*              → SPA fallback su /admin/index.html
-		"run_worker_first": ["/api/*", "/.netlify/functions/*", "/admin/*"]
+		//
+		// /admin/* NON è qui di proposito: gli asset del pannello (JS, CSS, icone)
+		// devono essere serviti direttamente dagli Static Assets, che sono gratuiti
+		// e non consumano richieste Worker. Con not_found_handling di default
+		// ("none") un path /admin senza asset corrispondente arriva comunque al
+		// Worker, che decide se fare fallback SPA (vedi isSpaNavigation in router.ts).
+		"run_worker_first": ["/api/*", "/.netlify/functions/*"]
 	},
 	"observability": {
 		"enabled": true

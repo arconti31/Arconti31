@@ -131,11 +131,21 @@ curl $BASE/.netlify/functions/health       # alias legacy → {"ok":true}
 
 Poi test manuale CMS: login su `$BASE/admin/`, modifica un prodotto, verifica commit su GitHub.
 
-## 8. CI/CD — Workers Builds (sistema scelto)
+## 8. CI/CD — Workers Builds (deploy) + GitHub Actions (verifica)
 
-Sistema scelto: **Cloudflare Workers Builds** (integrato, zero secret da gestire su GitHub).
-NON aggiungere anche una GitHub Action di deploy: un solo sistema di CI/CD per evitare
-deploy duplicati/in conflitto.
+I due sistemi hanno ruoli distinti e non si sovrappongono:
+
+| Sistema | Ruolo | Trigger |
+|---------|-------|---------|
+| **GitHub Actions** (`.github/workflows/ci.yml`) | Solo verifica: validate, typecheck, test, build, `wrangler deploy --dry-run`, controllo che i JSON committati corrispondano ai `.md` | pull request e push su `main`/`migration/**` |
+| **Cloudflare Workers Builds** | Deploy vero e proprio | push su `main` |
+
+La CI **non ha credenziali Cloudflare** e non pubblica nulla: resta un solo sistema di
+deploy, quindi nessun rischio di deploy duplicati o in conflitto.
+Il merge in `main` va protetto richiedendo il check `verify`
+(GitHub → Settings → Branches → Branch protection rule su `main`).
+
+Configurazione Workers Builds (dashboard, una tantum, dopo la verifica email):
 
 Configurazione (dashboard, una tantum, dopo la verifica email):
 
@@ -253,6 +263,9 @@ d'emergenza.
 | Login CMS → 500 `AUTH_CONFIG_MISSING` | `CMS_TOKEN_SECRET` non impostato | `npx wrangler secret put CMS_TOKEN_SECRET` |
 | Salvataggio CMS → "GITHUB_TOKEN non configurato" | Secret mancante | `npx wrangler secret put GITHUB_TOKEN` |
 | Salvataggio → 409 "Conflitto" | Il file è cambiato su GitHub (SHA diverso) | Ricarica l'elemento nel CMS e risalva (comportamento voluto, OCC) |
+| Salvataggio → 503 "budget di N chiamate GitHub" | Manca uno snapshot JSON aggregato, il Worker sta leggendo i `.md` uno per uno | Esegui `npm run build:data` in locale e committa i JSON rigenerati |
+| Salvataggio → 503 "GitHub non raggiungibile" | Guasto o rate limit upstream | Nessun commit è partito (fail-closed): riprova più tardi |
+| Riordino di molti elementi → più commit | Batch spezzato in blocchi da 30 | Comportamento voluto: ogni blocco è un commit atomico e coerente |
 | Upload immagini fallisce | Secret Cloudinary mancanti | Imposta `CLOUDINARY_API_KEY`/`API_SECRET` + var `CLOUDINARY_CLOUD_NAME` |
 | CORS bloccato da un'origine nuova | Origine non in allowlist | Aggiungi a `ALLOWED_ORIGINS` (virgola-separate) |
 | Modifiche menù non visibili | Cache/CI in corso | Attendi il deploy CI; i JSON hanno `Cache-Control: no-cache` |

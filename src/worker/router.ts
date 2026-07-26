@@ -32,6 +32,27 @@ const ROUTES: Record<string, RouteHandler> = {
 	'/.netlify/functions/bump-cache-version': handleBumpCacheVersion
 };
 
+/**
+ * Vera navigazione HTML verso una route della SPA admin?
+ * Devono valere tutte:
+ * - metodo GET/HEAD;
+ * - ultimo segmento senza estensione (js/css/json/png/woff2… restano 404);
+ * - se il browser manda Sec-Fetch-Mode, deve essere `navigate`;
+ * - altrimenti l'Accept deve ammettere HTML.
+ */
+function isSpaNavigation(request: Request, pathname: string): boolean {
+	if (request.method !== 'GET' && request.method !== 'HEAD') return false;
+
+	const lastSegment = pathname.slice(pathname.lastIndexOf('/') + 1);
+	if (lastSegment.includes('.')) return false;
+
+	const fetchMode = request.headers.get('Sec-Fetch-Mode');
+	if (fetchMode) return fetchMode === 'navigate';
+
+	const accept = (request.headers.get('Accept') || '').trim();
+	return accept === '' || accept.includes('text/html') || accept.includes('*/*');
+}
+
 export async function route(request: Request, env: Env): Promise<Response> {
 	const url = new URL(request.url);
 	const pathname = url.pathname.replace(/\/+$/, '') || '/';
@@ -47,9 +68,12 @@ export async function route(request: Request, env: Env): Promise<Response> {
 	}
 
 	// /admin/*: prova asset statico, su 404 fallback SPA a /admin/index.html
+	// SOLO per vere navigazioni. Prima qualsiasi 404 sotto /admin diventava
+	// 200 text/html: un /admin/manca.js rispondeva con l'HTML del pannello,
+	// nascondendo asset mancanti e rompendo Service Worker e debugging.
 	if (pathname === '/admin' || pathname.startsWith('/admin/')) {
 		const assetResponse = await env.ASSETS.fetch(request);
-		if (assetResponse.status !== 404) {
+		if (assetResponse.status !== 404 || !isSpaNavigation(request, pathname)) {
 			return assetResponse;
 		}
 		const indexUrl = new URL('/admin/index.html', url.origin);

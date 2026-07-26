@@ -1,0 +1,59 @@
+name: CI
+
+# Solo verifica: il deploy resta a Cloudflare Workers Builds, che parte dal push
+# su main. Qui non ci sono credenziali Cloudflare e non si pubblica nulla.
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'migration/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Valida i contenuti markdown
+        run: npm run validate
+
+      - name: Typecheck Worker
+        run: npm run typecheck:worker
+
+      - name: Test Worker
+        run: npm run test:worker
+
+      - name: Build (JSON aggregati + dist statica)
+        run: npm run build
+
+      - name: Wrangler dry-run
+        run: npx wrangler deploy --dry-run
+
+      # I JSON aggregati sono committati nel repo e rigenerati dal build:
+      # se il build produce un output diverso da quanto committato, il menù
+      # pubblicato non corrisponde ai .md sorgente.
+      - name: I JSON committati corrispondono ai markdown
+        run: |
+          if ! git diff --exit-code --stat; then
+            echo "::error::I JSON aggregati non sono allineati ai .md. Esegui 'npm run build:data' e committa il risultato."
+            git diff
+            exit 1
+          fi

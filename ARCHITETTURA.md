@@ -14,7 +14,7 @@ Sistema di gestione contenuti (CMS) headless completo per menù digitale, con ba
 - **JavaScript Vanilla**: Nessuna dipendenza esterna
 
 ### Backend (Cloudflare Worker — `src/worker/`)
-- **routes/save-data.ts**: Salvataggio dati + rigenerazione JSON automatica (port 1:1 della Netlify Function)
+- **routes/save-data.ts**: Salvataggio dati + rigenerazione JSON nello stesso commit
 - **routes/read-data.ts**: Lettura dati con fallback JSON statici
 - **routes/auth.ts**: Login e verifica token (HMAC SHA-256)
 - **routes/cloudinary-signature.ts**: Firma per upload diretto browser→Cloudinary
@@ -35,6 +35,35 @@ Sistema di gestione contenuti (CMS) headless completo per menù digitale, con ba
 - **Cloudflare Workers + Static Assets**: Worker per le API, asset statici da `dist/` (build allowlist), CI/CD con Workers Builds
 - **Legacy**: `netlify/functions/` e `netlify.toml` conservati solo come riferimento/rollback
 
+## 🔒 Modello di scrittura (integrità dei dati)
+
+GitHub è la fonte autoritativa: i `.md` sono i record, i JSON aggregati sono viste
+derivate che il **sito pubblico legge**. Se le due cose divergono, il menù mostra dati
+sbagliati pur avendo i markdown corretti — il fallimento più insidioso del sistema.
+Le regole che lo impediscono:
+
+1. **Un solo commit immutabile per richiesta.** All'inizio di ogni scrittura il Worker
+   legge HEAD del branch e ci **pinna** tutte le letture (`?ref=<commit sha>`). Nessuna
+   parte della transazione vede un branch che si muove sotto.
+2. **Transazione ricostruita a ogni tentativo.** `.md` e JSON aggregato finiscono nello
+   stesso commit, con `parents: [HEAD]` e PATCH della ref **senza `force`**: se un altro
+   admin ha committato nel frattempo GitHub risponde 422 non-fast-forward e l'intera
+   transazione — snapshot, verifica OCC, rigenerazione JSON — riparte da dati freschi.
+   Nessun risultato calcolato prima del conflitto viene riusato.
+3. **Letture fail-closed.** Solo un 404 significa "non esiste". Ogni altro errore (429,
+   502, timeout) aborta la scrittura con 429/503: un guasto upstream non può più essere
+   scambiato per "collezione vuota" e svuotare un JSON aggregato.
+4. **OCC su SHA del blob.** Il client manda lo SHA che ha letto; se il blob è cambiato la
+   risposta è 409. La verifica è obbligatoria: se non si può eseguire, non si committa.
+5. **Budget di subrequest.** Un Worker free ha 50 fetch esterne per invocazione. Il client
+   GitHub le conta e si ferma prima con un errore azionabile, invece di morire a metà
+   commit. I batch sono limitati a 30 elementi per richiesta (il CMS li spezza da solo).
+
+Recovery: se un JSON aggregato risultasse disallineato, si rigenera in locale con
+`npm run build:data` e si committa. Non esiste (più) un endpoint di rigenerazione
+completa nel Worker: costava una chiamata per ogni `.md` e sfondava il limite di
+subrequest su collezioni grandi.
+
 ## 📁 Struttura del Progetto
 
 ```
@@ -53,8 +82,8 @@ arconti31/
 │   ├── index.ts            # Entry point
 │   ├── router.ts           # Routing /api/* + alias legacy
 │   ├── routes/             # health, auth, read-data, save-data, cloudinary…
-│   ├── lib/                # auth, cors, github, collections, http…
-│   └── __tests__/          # 29 test Vitest
+│   ├── lib/                # auth, cors, github, collections, http, validate…
+│   └── __tests__/          # test Vitest (routing, auth, OCC, concorrenza, fail-closed)
 │
 ├── netlify/                # LEGACY (riferimento/rollback, non deployato)
 │   └── functions/

@@ -11,6 +11,7 @@ import { resolveRepoConfig } from '../lib/repo-config';
 import { GithubClient } from '../lib/github';
 import { corsHeaders } from '../lib/cors';
 import { getBearerToken, json, parseJsonBody, text } from '../lib/http';
+import { getErrorStatusCode, getSafeErrorMessage, readRepoFileOptional } from '../lib/collections';
 
 const VERSION_PATH = 'admin/version.json';
 
@@ -55,21 +56,13 @@ export async function handleBumpCacheVersion(request: Request, env: Env): Promis
 	}
 	const { owner, repo, branch } = cfg;
 
-	const gh = new GithubClient(GITHUB_TOKEN);
+	const gh = new GithubClient(GITHUB_TOKEN, cfg);
 
 	try {
 		// SHA corrente del file (per un update fast-forward). Se assente -> creazione.
-		let currentSha: string | null = null;
-		try {
-			const existing = await gh.request(
-				'GET',
-				`/repos/${owner}/${repo}/contents/${VERSION_PATH}?ref=${encodeURIComponent(branch)}`
-			);
-			currentSha = existing && existing.sha ? existing.sha : null;
-		} catch (err) {
-			// 404 = file non ancora esistente: lo creiamo
-			if (!String((err as Error).message || '').includes('404')) throw err;
-		}
+		// Fail-closed: solo il 404 significa "non esiste", il resto risale.
+		const existing = await readRepoFileOptional(gh, VERSION_PATH);
+		const currentSha: string | null = existing?.sha || null;
 
 		const cacheVersion = buildCacheVersion();
 		const content = JSON.stringify({ cacheVersion }, null, 2) + '\n';
@@ -86,7 +79,7 @@ export async function handleBumpCacheVersion(request: Request, env: Env): Promis
 
 		return json(200, { success: true, cacheVersion }, headers);
 	} catch (error) {
-		console.error('[bump-cache-version] errore:', (error as Error).message);
-		return json(500, { error: 'Impossibile aggiornare la versione cache. Riprova.' }, headers);
+		console.error('[bump-cache-version] errore:', error);
+		return json(getErrorStatusCode(error), { error: getSafeErrorMessage(error) }, headers);
 	}
 }

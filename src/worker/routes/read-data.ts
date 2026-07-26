@@ -3,7 +3,6 @@
 // 503 su json-miss (mai 200+[] che farebbe wipe della cache client).
 // mode === 'api': richiede token valido, usa API GitHub con PAT server.
 
-import { Buffer } from 'node:buffer';
 import {
 	findBeverageCategoryByFolder,
 	getCategoryFolder,
@@ -15,7 +14,14 @@ import type { Env, ItemRecord } from '../types';
 import { verifyToken } from '../lib/auth';
 import { resolveRepoConfig } from '../lib/repo-config';
 import { RepoConfigError } from '../types';
-import { GithubClient } from '../lib/github';
+import { GitHubApiError, GithubClient, SubrequestBudgetError } from '../lib/github';
+
+/**
+ * Tetto di chiamate GitHub per il percorso di fallback file-per-file.
+ * Il limite reale di Cloudflare è 50 subrequest per invocazione: superarlo
+ * uccide il Worker a metà lettura. Il percorso normale ne usa 2 (vedi sotto).
+ */
+const READ_SUBREQUEST_BUDGET = 40;
 import { corsHeaders } from '../lib/cors';
 import { json, parseJsonBody, text } from '../lib/http';
 
@@ -113,17 +119,16 @@ export async function handleReadData(request: Request, env: Env): Promise<Respon
 		return json(500, { error: 'GITHUB_TOKEN non configurato', items: [] }, headers);
 	}
 
-	const gh = new GithubClient(GITHUB_TOKEN);
+	// Il client conosce owner/repo/branch: ogni lettura `contents/` porta ?ref=<branch>.
+	// Senza questo, con GITHUB_BRANCH != main il CMS leggeva un branch e scriveva
+	// sull'altro. Budget subrequest alzato: qui il listing di beers/ è legittimo.
+	const gh = new GithubClient(GITHUB_TOKEN, { owner: REPO_OWNER, repo: REPO_NAME, branch: REPO_BRANCH }, {
+		maxRequests: READ_SUBREQUEST_BUDGET
+	});
 
 	try {
 		if (Array.isArray(filenames) && filenames.length > 0) {
-			const items = await readItemsMetadataFromAPI({
-				folder,
-				filenames,
-				gh,
-				owner: REPO_OWNER,
-				repo: REPO_NAME
-			});
+			const items = await readItemsMetadataFromAPI({ folder, filenames, gh });
 			return json(200, { items, source: 'api-listing' }, headers);
 		}
 
@@ -140,42 +145,76 @@ export async function handleReadData(request: Request, env: Env): Promise<Respon
 			return json(200, { items: item ? [item] : [], source: 'api-single' }, headers);
 		}
 
-		const files = await gh.request('GET', `/repos/${REPO_OWNER}/${REPO_NAME}/contents/${folder}`);
-
-		if (!Array.isArray(files)) {
-			return json(200, { items: [], source: 'api' }, headers);
-		}
-
+		const files = await gh.listDir(folder);
 		const mdFiles = files.filter((f: any) => f.name.endsWith('.md') && f.name !== '.gitkeep');
+
+		// PERCORSO ECONOMICO (2 chiamate invece di N+1).
+		// Il listing porta già lo SHA reale di ogni blob — l'unica cosa che il JSON
+		// pubblico non ha — mentre i contenuti arrivano dal JSON aggregato, che ogni
+		// scrittura committa nello STESSO commit dei .md: è fresco per costruzione.
+		// Senza questo, un refresh forzato su beers/ (112 file) chiedeva 113
+		// subrequest e sfondava il limite di 50 del piano free.
+		const shaByFilename = new Map<string, string>(
+			mdFiles.map((f: any) => [f.name, f.sha])
+		);
+		const jsonItems = await tryReadFromJSON(folder, REPO_OWNER, REPO_NAME, REPO_BRANCH);
+		if (jsonItems) {
+			const merged = jsonItems
+				.filter(item => shaByFilename.has(item.filename))
+				.map(item => ({ ...item, sha: shaByFilename.get(item.filename) }));
+
+			// Solo se il JSON copre tutti i .md presenti: altrimenti mancherebbero item
+			if (merged.length === mdFiles.length) {
+				console.log(`[read-data] ✅ ${folder}: ${merged.length} item da JSON + SHA dal listing (2 chiamate)`);
+				return json(200, { items: merged, source: 'api' }, headers);
+			}
+			console.log(
+				`[read-data] JSON disallineato per ${folder} (${merged.length}/${mdFiles.length}): lettura file per file`
+			);
+		}
 
 		// Bounded concurrency (max 8) to avoid GitHub secondary rate limits (M4)
 		const CONCURRENCY = 8;
 		const items: (ItemRecord | null)[] = [];
+		let skipped = 0;
 		for (let i = 0; i < mdFiles.length; i += CONCURRENCY) {
 			const batch = mdFiles.slice(i, i + CONCURRENCY);
 			const batchResults = await Promise.all(batch.map(async (file: any) => {
 				try {
-					const fileData = await gh.request(
-						'GET',
-						`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${folder}/${file.name}`
-					);
-					const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
-					const parsedItem = parseFrontmatter(content);
-					return { content, filename: file.name, sha: fileData.sha, parsedItem };
+					const item = await gh.readFile(`${folder}/${file.name}`);
+					return {
+						content: item.content,
+						filename: file.name,
+						sha: item.sha,
+						parsedItem: parseFrontmatter(item.content)
+					};
 				} catch (e) {
+					// Percorso di sola lettura: un file illeggibile non deve far
+					// sparire l'intera lista dal CMS. Viene però segnalato come
+					// `partial`, così l'interfaccia sa che non è una lista completa.
 					console.error(`Error loading ${file.name}:`, e);
+					skipped++;
 					return null;
 				}
 			}));
 			items.push(...batchResults);
 		}
 
-		return json(200, { items: items.filter(i => i !== null), source: 'api' }, headers);
+		return json(200, {
+			items: items.filter(i => i !== null),
+			source: 'api',
+			...(skipped > 0 ? { partial: true, skipped } : {})
+		}, headers);
 	} catch (error) {
 		const message = (error as Error).message || '';
-		console.error('[read-data] Error:', message);
+		console.error('[read-data] Error:', error);
 
-		if (message.includes('403') || message.includes('rate limit')) {
+		if (error instanceof SubrequestBudgetError) {
+			return json(503, { error: error.message, items: [] }, headers);
+		}
+
+		const rateLimited = error instanceof GitHubApiError && error.code === 'rate-limited';
+		if (rateLimited || message.includes('403') || message.includes('rate limit')) {
 			// Fallback JSON (pubblico, no PAT) anche in mode=api se rate limit
 			const jsonFallback = await tryReadFromJSON(folder, REPO_OWNER, REPO_NAME, REPO_BRANCH);
 			if (jsonFallback) {
@@ -186,45 +225,45 @@ export async function handleReadData(request: Request, env: Env): Promise<Respon
 		}
 
 		// 404 = folder doesn't exist yet
-		if (message.includes('404')) {
+		const notFound = error instanceof GitHubApiError && error.isNotFound;
+		if (notFound || message.includes('404')) {
 			console.log(`[read-data] Folder "${folder}" not found — returning empty items (new category?)`);
 			return json(200, { items: [], source: 'empty-folder' }, headers);
 		}
 
-		return json(500, { error: message, items: [] }, headers);
+		const status = error instanceof GitHubApiError ? 502 : 500;
+		const safeMessage = error instanceof GitHubApiError ? error.safeMessage : 'Errore interno';
+		return json(status, { error: safeMessage, items: [] }, headers);
 	}
 }
 
-async function readItemsMetadataFromAPI({ folder, filenames, gh, owner, repo }: {
+async function readItemsMetadataFromAPI({ folder, filenames, gh }: {
 	folder: string;
 	filenames: string[];
 	gh: GithubClient;
-	owner: string;
-	repo: string;
 }): Promise<ItemRecord[]> {
 	const wanted = new Set((filenames || []).filter(Boolean));
 	if (wanted.size === 0) return [];
 
-	const files = await gh.request('GET', `/repos/${owner}/${repo}/contents/${folder}`);
-
-	if (!Array.isArray(files)) return [];
+	const files = await gh.listDir(folder);
 
 	return files
 		.filter((file: any) => file.name.endsWith('.md') && file.name !== '.gitkeep' && wanted.has(file.name))
 		.map((file: any) => ({ filename: file.name, sha: file.sha }));
 }
 
-async function readMarkdownItemFromAPI({ folder, filename, gh, owner, repo }: {
+async function readMarkdownItemFromAPI({ folder, filename, gh }: {
 	folder: string;
 	filename: string;
 	gh: GithubClient;
-	owner: string;
-	repo: string;
 }): Promise<ItemRecord> {
-	const fileData = await gh.request('GET', `/repos/${owner}/${repo}/contents/${folder}/${filename}`);
-	const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
-	const parsedItem = parseFrontmatter(content);
-	return { content, filename, sha: fileData.sha, parsedItem };
+	const file = await gh.readFile(`${folder}/${filename}`);
+	return {
+		content: file.content,
+		filename,
+		sha: file.sha,
+		parsedItem: parseFrontmatter(file.content)
+	};
 }
 
 function normalizeName(value: unknown): string {
@@ -241,9 +280,9 @@ async function readSingleItemFromAPI({ folder, filename, lookupName, gh, owner, 
 	branch?: string;
 }): Promise<ItemRecord | null> {
 	try {
-		return await readMarkdownItemFromAPI({ folder, filename, gh, owner, repo });
+		return await readMarkdownItemFromAPI({ folder, filename, gh });
 	} catch (error) {
-		if (!(error as Error).message.includes('404')) {
+		if (!(error instanceof GitHubApiError) || !error.isNotFound) {
 			throw error;
 		}
 	}
@@ -265,9 +304,9 @@ async function readSingleItemFromAPI({ folder, filename, lookupName, gh, owner, 
 	}
 
 	try {
-		return await readMarkdownItemFromAPI({ folder, filename: candidate.filename, gh, owner, repo });
+		return await readMarkdownItemFromAPI({ folder, filename: candidate.filename, gh });
 	} catch (error) {
-		if ((error as Error).message.includes('404')) return null;
+		if (error instanceof GitHubApiError && error.isNotFound) return null;
 		throw error;
 	}
 }

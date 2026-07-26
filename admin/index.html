@@ -15,11 +15,15 @@
         // Registra la nuova versione PRIMA del reload (anti-loop). Storage bloccato -> esci senza fare nulla.
         try { localStorage.setItem(VKEY, newVersion); } catch (e) { return; }
         var tasks = [];
-        // Svuota SOLO la Cache API del Service Worker (shell admin: HTML/JS/CSS).
+        // Svuota SOLO le cache di questo Service Worker (prefisso arconti31-):
+        // la Cache API e' condivisa per origine, quindi senza filtro venivano
+        // cancellate anche le cache del sito pubblico.
         // La SmartCache dei prodotti vive in IndexedDB: NON viene toccata.
         if (window.caches && caches.keys) {
           tasks.push(caches.keys().then(function (keys) {
-            return Promise.all(keys.map(function (k) { return caches.delete(k); }));
+            return Promise.all(keys
+              .filter(function (k) { return k.indexOf('arconti31-') === 0; })
+              .map(function (k) { return caches.delete(k); }));
           }).catch(function () {}));
         }
         // Aggiorna il Service Worker all'ultima versione pubblicata.

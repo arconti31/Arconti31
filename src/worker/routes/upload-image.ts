@@ -7,10 +7,12 @@ import type { Env } from '../types';
 import { verifyToken } from '../lib/auth';
 import { getCloudinaryConfig, signCloudinaryUpload } from '../lib/cloudinary';
 import { corsHeaders } from '../lib/cors';
-import { json, parseJsonBody, text } from '../lib/http';
+import { BodyTooLargeError, json, parseJsonBody, text } from '../lib/http';
 
 // ~4.5MB stima per length stringa (data URL / base64)
 const MAX_FILE_LENGTH = Math.floor(4.5 * 1024 * 1024);
+// Margine per il resto del JSON (token, virgolette, chiavi)
+const MAX_UPLOAD_BODY_BYTES = MAX_FILE_LENGTH + 64 * 1024;
 
 function isValidImagePayload(file: unknown): file is string {
 	if (typeof file !== 'string' || !file.length) return false;
@@ -38,7 +40,17 @@ export async function handleUploadImage(request: Request, env: Env): Promise<Res
 		return text(405, 'Method Not Allowed', headers);
 	}
 
-	const parsed = await parseJsonBody(request);
+	// Il body qui è un data URL Base64, quindi il cap è più alto che sulle altre
+	// route; resta comunque un limite esplicito applicato PRIMA del parse JSON.
+	let parsed: Record<string, any> | null;
+	try {
+		parsed = await parseJsonBody(request, MAX_UPLOAD_BODY_BYTES);
+	} catch (error) {
+		if (error instanceof BodyTooLargeError) {
+			return json(413, { error: 'File troppo grande (max ~4.5MB)' }, headers);
+		}
+		throw error;
+	}
 	if (!parsed) {
 		return json(400, { error: 'JSON non valido' }, headers);
 	}

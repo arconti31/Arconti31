@@ -16,10 +16,41 @@ export function text(status: number, body: string, extraHeaders: Record<string, 
 	return new Response(body, { status, headers: extraHeaders });
 }
 
-/** Parse body JSON; ritorna null se non valido */
-export async function parseJsonBody(request: Request): Promise<Record<string, any> | null> {
+/** Body oltre il quale non vale nemmeno la pena parsare (payload CMS sono piccoli). */
+export const DEFAULT_MAX_BODY_BYTES = 512 * 1024;
+
+export class BodyTooLargeError extends Error {
+	code = 'BODY_TOO_LARGE' as const;
+}
+
+/**
+ * Parse body JSON; ritorna null se non valido.
+ * Rifiuta i body oltre `maxBytes` PRIMA di deserializzare: prima si controlla
+ * Content-Length (rifiuto immediato), poi la dimensione reale del testo letto
+ * (Content-Length può mancare su transfer chunked).
+ */
+export async function parseJsonBody(
+	request: Request,
+	maxBytes: number = DEFAULT_MAX_BODY_BYTES
+): Promise<Record<string, any> | null> {
+	const declared = Number(request.headers.get('content-length') || '');
+	if (Number.isFinite(declared) && declared > maxBytes) {
+		throw new BodyTooLargeError(`Body troppo grande (max ${maxBytes} byte)`);
+	}
+
+	let raw: string;
 	try {
-		const parsed = await request.json();
+		raw = await request.text();
+	} catch {
+		return null;
+	}
+
+	if (raw.length > maxBytes) {
+		throw new BodyTooLargeError(`Body troppo grande (max ${maxBytes} byte)`);
+	}
+
+	try {
+		const parsed = JSON.parse(raw);
 		if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
 			return parsed as Record<string, any>;
 		}

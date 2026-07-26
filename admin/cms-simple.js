@@ -15,12 +15,60 @@ const API = {
 };
 
 const CONFIG = {
-  // Cloudinary config - GRATUITO fino a 25GB (valorizzato a runtime da get-cloudinary-config)
+  // Cloudinary config - valorizzata a runtime da get-cloudinary-config
   cloudinary: {
     cloudName: '',
     uploadPreset: ''
   }
 };
+
+// Vincoli immagine applicati prima di toccare la rete: stessi formati che il
+// preset firmato Cloudinary dovrebbe accettare lato server.
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
+
+// Deve restare <= MAX_BATCH_PER_REQUEST del Worker (src/worker/routes/save-data.ts).
+// Il Worker legge i .md di un batch in blocco via GraphQL, quindi un riordino
+// dell'intera carta birre resta UNA richiesta e UN commit: lo spezzettamento
+// qui è solo una rete di sicurezza per selezioni fuori scala.
+const MAX_BATCH_ITEMS = 500;
+
+/**
+ * Invia un'operazione batch, spezzandola in blocchi solo se supera il tetto.
+ * Ogni blocco è un commit atomico e coerente lato Worker: un'interruzione a
+ * metà lascia i blocchi già applicati validi, mai uno stato ibrido.
+ * Lancia al primo blocco fallito, con `status`/`body` della risposta.
+ */
+async function postBatchChunked(basePayload, items, onProgress) {
+  let updated = 0;
+  let target = null;
+  const chunks = Math.max(1, Math.ceil(items.length / MAX_BATCH_ITEMS));
+
+  for (let i = 0; i < items.length; i += MAX_BATCH_ITEMS) {
+    const slice = items.slice(i, i + MAX_BATCH_ITEMS);
+    if (onProgress) onProgress(Math.floor(i / MAX_BATCH_ITEMS) + 1, chunks);
+
+    const res = await fetch(API.saveData, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...basePayload, items: slice })
+    });
+    const body = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      const error = new Error(body.error || 'Errore operazione batch');
+      error.status = res.status;
+      error.body = body;
+      error.partialUpdated = updated;
+      throw error;
+    }
+
+    updated += body.updated || 0;
+    target = body.target || target;
+  }
+
+  return { updated, target, chunks };
+}
 
 
 const LEGACY_BEVERAGE_FOLDER_ALIASES = {
@@ -541,9 +589,12 @@ async function checkCloudinaryConfig() {
     }
     if (res.ok) {
       const data = await res.json();
-      if (data.cloudName && data.uploadPreset) {
+      // L'upload firmato usa cloudName + API key/secret lato Worker: il vecchio
+      // CLOUDINARY_UPLOAD_PRESET serve solo al relay legacy, quindi non deve più
+      // decidere se l'upload è disponibile.
+      if (data.cloudName) {
         CONFIG.cloudinary.cloudName = data.cloudName;
-        CONFIG.cloudinary.uploadPreset = data.uploadPreset;
+        CONFIG.cloudinary.uploadPreset = data.uploadPreset || '';
         state.cloudinaryConfigured = true;
         console.log('✅ Cloudinary configurato:', data.cloudName);
       } else {
@@ -2108,33 +2159,34 @@ async function saveNewOrder(changedItems) {
   try {
     const collection = COLLECTIONS[state.currentCollection];
 
-    const res = await fetch(API.saveData, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        token: state.token,
-        action: 'batch-save-order',
-        collection: collection.folder,
-        items: changedItems.map(item => ({
+    let result;
+    try {
+      result = await postBatchChunked(
+        { token: state.token, action: 'batch-save-order', collection: collection.folder },
+        changedItems.map(item => ({
           filename: item.filename,
           nome: item.nome,
           order: item.order
-        }))
-      })
-    });
-
-    const result = await res.json().catch(() => ({}));
-
-    if (!res.ok) {
-      if (isConflictResponse(res.status, result)) {
-        toast(mapApiError(res.status, result), 'error');
+        })),
+        (chunk, total) => {
+          if (total > 1) {
+            saveIndicator.innerHTML =
+              `<span class="order-save-spinner"></span> Salvando ordine (blocco ${chunk}/${total})…`;
+          }
+        }
+      );
+    } catch (batchError) {
+      if (isConflictResponse(batchError.status, batchError.body || {})) {
+        toast(mapApiError(batchError.status, batchError.body || {}), 'error');
         if (confirm('Conflitto sull’ordine. Ricaricare la lista?')) {
           await loadItems(state.currentCollection, false, true);
         }
         saveIndicator.remove();
         return;
       }
-      throw new Error(mapApiError(res.status, result) || result.error || 'Errore salvataggio ordine');
+      throw new Error(
+        mapApiError(batchError.status, batchError.body || {}) || batchError.message || 'Errore salvataggio ordine'
+      );
     }
 
     notifyTargetRepo(result.target);
@@ -2419,23 +2471,12 @@ async function bulkSetVisibility(visible) {
   state._isUpdating = true;
 
   try {
-    // Un solo commit atomico server-side (patch solo visibile + JSON) — zero N PUT + no desync
-    const res = await fetch(API.saveData, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        token: state.token,
-        action: 'batch-set-visibility',
-        collection: 'categorie',
-        visibile: visible,
-        items: state.selectedItems.map(filename => ({ filename }))
-      })
-    });
-
-    const result = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      throw new Error(result.error || 'Errore bulk visibility');
-    }
+    // Commit atomico server-side (patch solo `visibile` + JSON) — zero N PUT, no desync.
+    // Oltre MAX_BATCH_ITEMS la selezione viene spezzata in più commit atomici.
+    const result = await postBatchChunked(
+      { token: state.token, action: 'batch-set-visibility', collection: 'categorie', visibile: visible },
+      state.selectedItems.map(filename => ({ filename }))
+    );
 
     const updated = result.updated || 0;
 
@@ -2727,63 +2768,74 @@ async function handleImageUpload(e, fieldName) {
   console.log('Hidden input trovato:', !!hiddenInput);
   console.log('URL input trovato:', !!urlInput);
 
+  // Validazione lato client: un file non-immagine o enorme verrebbe comunque
+  // rifiutato, ma solo dopo aver consumato banda e crediti Cloudinary.
+  if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+    toast('Formato non supportato. Usa JPEG, PNG, WebP o AVIF.', 'error');
+    e.target.value = '';
+    return;
+  }
+  if (file.size > MAX_IMAGE_BYTES) {
+    toast(`Immagine troppo grande (max ${Math.round(MAX_IMAGE_BYTES / 1024 / 1024)} MB).`, 'error');
+    e.target.value = '';
+    return;
+  }
+
   // Show loading
   preview.innerHTML = '<div class="image-loading">⏳ Caricamento...</div>';
 
-  // Convert file to base64
-  const reader = new FileReader();
-  reader.onload = async (evt) => {
-    const base64Data = evt.target.result;
+  // Preview immediata via object URL: nessuna copia Base64 del file in memoria.
+  // Prima il file veniva sempre convertito in Base64 anche quando l'upload
+  // diretto riusciva e quella copia non serviva a nessuno.
+  const objectUrl = URL.createObjectURL(file);
+  preview.innerHTML = `<img src="${escapeHtml(objectUrl)}" alt="Preview" class="image-preview-img">`;
+  if (removeBtn) removeBtn.style.display = 'inline-flex';
 
-    // Show preview immediately (escape + protocol check)
-    const safePreview = safeUrl(base64Data);
-    preview.innerHTML = safePreview
-      ? `<img src="${escapeHtml(safePreview)}" alt="Preview" class="image-preview-img">`
-      : '<div class="image-placeholder">📷 Preview non disponibile</div>';
-    if (removeBtn) removeBtn.style.display = 'inline-flex';
+  // Upload diretto a Cloudinary (firma dal Worker) con fallback al relay legacy
+  try {
+    const imageUrl = await uploadImageToCloudinary(file);
 
-    // Upload diretto a Cloudinary (firma dal Worker) con fallback al relay legacy
-    try {
-      const imageUrl = await uploadImageToCloudinary(file, base64Data);
+    if (imageUrl) {
+      console.log('✅ URL Cloudinary ricevuto:', imageUrl);
 
-      if (imageUrl) {
-        console.log('✅ URL Cloudinary ricevuto:', imageUrl);
+      // Aggiorna ENTRAMBI gli input
+      if (hiddenInput) hiddenInput.value = imageUrl;
+      if (urlInput) urlInput.value = imageUrl;
 
-        // Aggiorna ENTRAMBI gli input
-        if (hiddenInput) {
-          hiddenInput.value = imageUrl;
-          console.log('Hidden input aggiornato:', hiddenInput.value);
-        }
-        if (urlInput) {
-          urlInput.value = imageUrl;
-          console.log('URL input aggiornato:', urlInput.value);
-        }
-
-        // Aggiorna preview con URL Cloudinary
-        const safeCloudUrl = safeUrl(imageUrl);
-        preview.innerHTML = safeCloudUrl
-          ? `<img src="${escapeHtml(safeCloudUrl)}" alt="Preview" class="image-preview-img">`
-          : '<div class="image-placeholder">📷 Preview non disponibile</div>';
-        state.formDirty = true;
-        toast('✅ Immagine caricata!', 'success');
-        return;
-      }
-      toast('⚠️ Errore upload. Usa URL manuale.', 'error');
-    } catch (err) {
-      console.error('Upload failed:', err);
-      toast(`⚠️ ${err.message || 'Upload fallito'}. Incolla URL manuale.`, 'error');
+      // Aggiorna preview con URL Cloudinary e libera l'object URL
+      const safeCloudUrl = safeUrl(imageUrl);
+      preview.innerHTML = safeCloudUrl
+        ? `<img src="${escapeHtml(safeCloudUrl)}" alt="Preview" class="image-preview-img">`
+        : '<div class="image-placeholder">📷 Preview non disponibile</div>';
+      URL.revokeObjectURL(objectUrl);
+      state.formDirty = true;
+      toast('✅ Immagine caricata!', 'success');
+      return;
     }
-  };
-  reader.readAsDataURL(file);
+    toast('⚠️ Errore upload. Usa URL manuale.', 'error');
+  } catch (err) {
+    console.error('Upload failed:', err);
+    toast(`⚠️ ${err.message || 'Upload fallito'}. Incolla URL manuale.`, 'error');
+  }
+}
+
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Lettura del file non riuscita'));
+    reader.readAsDataURL(file);
+  });
 }
 
 /**
  * Upload immagine: prova l'upload diretto browser → Cloudinary usando la firma
- * generata dal Worker (/api/cloudinary-signature). Il file NON transita più dal
- * server. In caso di errore, fallback al relay legacy Base64 (/api/upload-image).
- * Ritorna l'URL https dell'immagine, oppure null.
+ * generata dal Worker (/api/cloudinary-signature). Il file NON transita dal
+ * server. Solo se quel percorso fallisce si costruisce il Base64 e si usa il
+ * relay legacy (/api/upload-image), che resta per i client con Service Worker
+ * ancora in cache. Ritorna l'URL https dell'immagine, oppure null.
  */
-async function uploadImageToCloudinary(file, base64Data) {
+async function uploadImageToCloudinary(file) {
   // 1. Upload diretto (preferito: nessun limite payload del Worker)
   try {
     const sigRes = await fetch(API.cloudinarySignature, {
@@ -2814,7 +2866,8 @@ async function uploadImageToCloudinary(file, base64Data) {
     console.warn('Upload diretto non riuscito, provo il relay legacy:', err);
   }
 
-  // 2. Fallback: relay legacy Base64 via Worker
+  // 2. Fallback: relay legacy Base64 via Worker (Base64 costruito solo ora)
+  const base64Data = await fileToDataUrl(file);
   const res = await fetch(API.uploadImage, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
