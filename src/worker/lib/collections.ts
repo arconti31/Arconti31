@@ -799,7 +799,10 @@ export async function generateFoodJSON(
 		? (await readCollectionSnapshot(gh, 'categorie', overrides))
 			|| await readCollectionFiles(gh, 'categorie', overrides)
 		: await readCollectionFiles(gh, 'categorie', overrides);
-	const foodCategories = categories.filter(c => c.tipo_menu === 'food' && c.visibile !== false);
+	// INCLUDE anche le categorie nascoste (visibile: false), come scripts/generate-json.js:
+	// il filtro visibilità è del frontend (app.js). Escluderle qui disallineava
+	// food.json rigenerato dal CMS rispetto al build, facendo fallire il check CI.
+	const foodCategories = categories.filter(c => c.tipo_menu === 'food');
 
 	const foodItems = useSnapshots
 		? (await readCollectionSnapshot(gh, 'food', overrides))

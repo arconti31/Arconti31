@@ -1192,6 +1192,7 @@
         "_filename": "cajello-vegano.md"
       }
     ],
+    "Menù Partita": [],
     "Hamburger di bufala": [
       {
         "nome": "Hamburger F1 Bufala",
@@ -2253,6 +2254,7 @@
   },
   "categoryOrder": {
     "Vegetariano/ Vegano ": 11,
+    "Menù Partita": 12,
     "Hamburger di bufala": 13,
     "Hamburger Fassona e Street food": 14,
     "Panini Ciabatta": 15,
