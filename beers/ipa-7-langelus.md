@@ -8,5 +8,5 @@ disponibile: true
 order: 0
 sezione_slug: "birre-artigianali"
 descrizione: "Doppelbock\nColore bruno con schiuma color nocciola, fine e persistente.\nL’aroma é intenso e complesso, con note di malto, caramello, frutta secca, cioccolato, caffè e cenni di liquirizia.\nIl gusto é pieno e maltato, ben bilanciato con un finale che richiama la frutta sotto spirito e un leggero tocco amaro o spezia."
-immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1785002769/arconti31/pvydzufz9jknwzip9hpd.jpg"
+immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1785263788/arconti31/egapphbk4synaxurmane.png"
 ---
