@@ -1155,6 +1155,17 @@
       "_filename": "ipa-7-langelus.md"
     },
     {
+      "nome": "IPA 7",
+      "sezione": "Birre artigianali alla spina a rotazione",
+      "prezzo": "6.50",
+      "formato": "0,4 l",
+      "gradazione": "7%",
+      "disponibile": false,
+      "order": 0,
+      "sezione_slug": "birre-artigianali",
+      "_filename": "ipa-7.md"
+    },
+    {
       "nome": "Lager - Ayinger",
       "sezione": "Birre alla spina",
       "prezzo": "6.00",
@@ -2484,6 +2495,17 @@
         "descrizione": "Doppelbock\nColore bruno con schiuma color nocciola, fine e persistente.\nL’aroma é intenso e complesso, con note di malto, caramello, frutta secca, cioccolato, caffè e cenni di liquirizia.\nIl gusto é pieno e maltato, ben bilanciato con un finale che richiama la frutta sotto spirito e un leggero tocco amaro o spezia.",
         "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1785263788/arconti31/egapphbk4synaxurmane.png",
         "_filename": "ipa-7-langelus.md"
+      },
+      {
+        "nome": "IPA 7",
+        "sezione": "Birre artigianali alla spina a rotazione",
+        "prezzo": "6.50",
+        "formato": "0,4 l",
+        "gradazione": "7%",
+        "disponibile": false,
+        "order": 0,
+        "sezione_slug": "birre-artigianali",
+        "_filename": "ipa-7.md"
       },
       {
         "nome": "Rochefort",
