@@ -750,19 +750,6 @@
       "_filename": "pizzica-salento.md"
     },
     {
-      "nome": "Poculator - Kloster Scheyern",
-      "sezione": "Birre artigianali alla spina a rotazione",
-      "prezzo": "6.50",
-      "descrizione": "Doppelbock | IBU 18\nBirra scura ad alta gradazione, con una notevole persistenza di note tostate e sentori di liquirizia.",
-      "immagine_copertina": "https://res.cloudinary.com/ducwseofw/image/upload/v1775238990/arconti31/gazkapsjtfn18cqdecn3.jpg",
-      "formato": "0,4",
-      "gradazione": "7,4",
-      "disponibile": false,
-      "order": 0,
-      "sezione_slug": "birre-artigianali",
-      "_filename": "poculator.md"
-    },
-    {
       "nome": "Profanator - Shire ",
       "sezione": "Birre artigianali alla spina a rotazione",
       "sezione_slug": "birre-artigianali",
@@ -2104,19 +2091,6 @@
         "disponibile": false,
         "order": 0,
         "_filename": "pizzica-salento.md"
-      },
-      {
-        "nome": "Poculator - Kloster Scheyern",
-        "sezione": "Birre artigianali alla spina a rotazione",
-        "prezzo": "6.50",
-        "descrizione": "Doppelbock | IBU 18\nBirra scura ad alta gradazione, con una notevole persistenza di note tostate e sentori di liquirizia.",
-        "immagine_copertina": "https://res.cloudinary.com/ducwseofw/image/upload/v1775238990/arconti31/gazkapsjtfn18cqdecn3.jpg",
-        "formato": "0,4",
-        "gradazione": "7,4",
-        "disponibile": false,
-        "order": 0,
-        "sezione_slug": "birre-artigianali",
-        "_filename": "poculator.md"
       },
       {
         "nome": "Profanator - Shire ",
