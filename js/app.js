@@ -4,6 +4,11 @@
 // Il menù pubblico non usa GitHub: carica solo i JSON del sito deployato.
 // ========================================
 
+if (!window.MenuOrder || typeof window.MenuOrder.compareMenuItems !== 'function') {
+  throw new Error('Ordinamento menu non disponibile: manca js/menu-order.js');
+}
+const { compareMenuItems } = window.MenuOrder;
+
 // Icon mapping per Tags e Allergeni
 const ICONS = {
   tags: {
@@ -446,16 +451,16 @@ function processItems(items) {
   // Filter by collection/type
   categoriesData = items.filter(i => i._collection === 'categorie' || (!i._collection && i.tipo_menu))
     .filter(c => c.visibile !== false)
-    .sort((a, b) => (a.order || 0) - (b.order || 0));
+    .sort(compareMenuItems);
 
   foodData = items.filter(i => i._collection === 'food' || (!i._collection && i.category))
-    .sort((a, b) => (a.order || 0) - (b.order || 0));
+    .sort(compareMenuItems);
 
   beersData = items.filter(i => i._collection === 'beers' || (!i._collection && i.sezione))
-    .sort((a, b) => (a.order || 0) - (b.order || 0));
+    .sort(compareMenuItems);
 
   beveragesData = items.filter(i => i._collection === 'beverages' || (!i._collection && i.tipo))
-    .sort((a, b) => (a.order || 0) - (b.order || 0));
+    .sort(compareMenuItems);
 }
 
 function showLoading() {
@@ -629,7 +634,7 @@ function showCategory(categoryName, type, options = {}) {
     } else if (type === 'food') {
       directItems = foodData.filter(f => matchesItemToCategory(f, thisCat, 'category', 'category_slug') && f.disponibile !== false);
     }
-    directItems.sort((a, b) => (a.order || 0) - (b.order || 0));
+    directItems.sort(compareMenuItems);
 
     let html = `<h2 class="section-title">${escapeHtml(categoryName)}</h2>`;
 
@@ -685,7 +690,7 @@ function showCategory(categoryName, type, options = {}) {
     }
 
     // Ordina per order
-    items.sort((a, b) => (a.order || 0) - (b.order || 0));
+    items.sort(compareMenuItems);
 
     detailContent.innerHTML = `
       <h2 class="section-title">${escapeHtml(categoryName)}</h2>

@@ -468,6 +468,45 @@ describe('save-data: salvataggio', () => {
 		expect(beersJson.beers.find((b: any) => b._filename === 'beer-b.md').prezzo).toBe('9.00');
 	});
 
+	it('save con order uguali mantiene il JSON nell’ordine canonico per filename', async () => {
+		const initialFiles = {
+			'categorie/categorie.json': JSON.stringify(CATEGORIE_JSON),
+			'beers/beers.json': JSON.stringify({
+				beers: [
+					beerRecord('Beer C', 'beer-c.md', '7.00', 0),
+					beerRecord('Beer A', 'beer-a.md', '5.00', 0),
+					beerRecord('Beer B', 'beer-b.md', '6.00', 0)
+				],
+				beersBySection: {}
+			}),
+			'beers/beer-a.md': beerMarkdown('Beer A', '5.00', 0),
+			'beers/beer-b.md': beerMarkdown('Beer B', '6.00', 0),
+			'beers/beer-c.md': beerMarkdown('Beer C', '7.00', 0)
+		};
+		const repo = mockGithubRepo(initialFiles);
+
+		const res = await worker.fetch(
+			savePost({
+				filename: 'beer-b.md',
+				sha: fakeBlobSha(initialFiles['beers/beer-b.md']),
+				data: {
+					nome: 'Beer B',
+					sezione: 'birre-alla-spina',
+					prezzo: '9.00',
+					order: 0
+				}
+			}),
+			makeEnv()
+		);
+
+		expect(res.status).toBe(200);
+		const beersJson = JSON.parse(repo.files.get('beers/beers.json')!);
+		const expectedOrder = ['beer-a.md', 'beer-b.md', 'beer-c.md'];
+		expect(beersJson.beers.map((item: any) => item._filename)).toEqual(expectedOrder);
+		expect(beersJson.beersBySection['Birre alla spina'].map((item: any) => item._filename))
+			.toEqual(expectedOrder);
+	});
+
 	it('conflitto SHA (blob cambiato su GitHub) → 409, nessuna scrittura', async () => {
 		const repo = mockGithubRepo(baseRepo());
 		const res = await worker.fetch(savePost({ sha: 'blob-vecchio-del-client' }), makeEnv());

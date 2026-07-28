@@ -26,6 +26,7 @@ import {
 	parseFrontmatter,
 	stringifyFrontmatter
 } from '../../../lib/menu-utils.js';
+import { compareMenuItems } from '../../../js/menu-order.js';
 import {
 	type BranchHead,
 	GitHubApiError,
@@ -524,14 +525,14 @@ export async function assertSafeCategoryDelete(
 function applySaveToCollectionItems(items: ItemRecord[], filename: string, data: ItemRecord): ItemRecord[] {
 	const nextItems = items.filter(item => item._filename !== filename);
 	nextItems.push({ ...data, _filename: filename });
-	nextItems.sort((a, b) => (a.order || 0) - (b.order || 0));
+	nextItems.sort(compareMenuItems);
 	return nextItems;
 }
 
 function applyDeleteToCollectionItems(items: ItemRecord[], filename: string): ItemRecord[] {
 	return items
 		.filter(item => item._filename !== filename)
-		.sort((a, b) => (a.order || 0) - (b.order || 0));
+		.sort(compareMenuItems);
 }
 
 // ========================================
@@ -754,7 +755,7 @@ async function generateIncrementalBeveragesJSON(
 	const currentByType: Record<string, ItemRecord[]> = { ...(currentJson.beveragesByType || {}) };
 	const updatedItems = (overrides[config.folder] || [])
 		.map((item): ItemRecord => ({ ...item, tipo: displayName }))
-		.sort((a, b) => (a.order || 0) - (b.order || 0));
+		.sort(compareMenuItems);
 
 	if (updatedItems.length > 0) {
 		currentByType[displayName] = updatedItems;
@@ -819,8 +820,8 @@ export async function generateFoodJSON(
 		}
 	});
 
-	// Ordina per order
-	foodItems.sort((a, b) => (a.order || 0) - (b.order || 0));
+	// Ordine canonico condiviso con il build locale.
+	foodItems.sort(compareMenuItems);
 
 	// Raggruppa per categoria
 	const foodByCategory: Record<string, ItemRecord[]> = {};
@@ -876,8 +877,8 @@ export async function generateBeersJSON(
 		}
 	});
 
-	// Ordina per order
-	beers.sort((a, b) => (a.order || 0) - (b.order || 0));
+	// Ordine canonico condiviso con il build locale.
+	beers.sort(compareMenuItems);
 
 	// Raggruppa per sezione
 	const beersBySection: Record<string, ItemRecord[]> = {};
@@ -905,7 +906,7 @@ export async function generateCategoriesJSON(
 
 	// Ordina (NON FILTRARE VISIBILI: il CMS deve vederle tutte!)
 	const allCategories = categories
-		.sort((a, b) => (a.order || 0) - (b.order || 0));
+		.sort(compareMenuItems);
 
 	return {
 		categories: allCategories,
@@ -954,7 +955,7 @@ export async function generateBeveragesJSON(
 		});
 
 		// Ordina
-		items.sort((a, b) => (a.order || 0) - (b.order || 0));
+		items.sort(compareMenuItems);
 
 		if (items.length > 0) {
 			beveragesByType[category.name] = items;

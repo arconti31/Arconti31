@@ -4,7 +4,7 @@
    ======================================== */
 
 // Version updated on each deploy to bust stale SW cache
-const CACHE_VERSION = '2026-07-26-cloudflare-2';
+const CACHE_VERSION = '2026-07-28-menu-order-1';
 // Prefisso di TUTTE le cache di questo Service Worker. La Cache API è condivisa
 // per origine: senza filtrare per prefisso la pulizia cancellerebbe anche le
 // cache del sito pubblico, che vive sulla stessa origine.
@@ -19,6 +19,7 @@ const STATIC_ASSETS = [
   '/admin/cms-simple.js',
   '/admin/cms-styles.css',
   '/admin/manifest.json',
+  '/js/menu-order.js?v=20260728a',
   '/images/loghi/logo_arconti31.png'
 ];
 

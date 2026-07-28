@@ -377,6 +377,31 @@
       "_filename": "hibernatus-lupulus.md"
     },
     {
+      "nome": "POCULATOR - Kloster Scheyerm",
+      "sezione": "Birre artigianali alla spina a rotazione",
+      "prezzo": "6.00",
+      "formato": "0,4 l",
+      "gradazione": "7,6 %",
+      "disponibile": true,
+      "order": 0,
+      "sezione_slug": "birre-artigianali",
+      "descrizione": "Doppelbock\nColore bruno con schiuma color nocciola, fine e persistente.\nL’aroma é intenso e complesso, con note di malto, caramello, frutta secca, cioccolato, caffè e cenni di liquirizia.\nIl gusto é pieno e maltato, ben bilanciato con un finale che richiama la frutta sotto spirito e un leggero tocco amaro o spezia.",
+      "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1785263788/arconti31/egapphbk4synaxurmane.png",
+      "_filename": "ipa-7-langelus.md"
+    },
+    {
+      "nome": "IPA 7 - L’Angelus",
+      "sezione": "Birre artigianali alla spina a rotazione",
+      "prezzo": "6.50",
+      "formato": "0,4 l",
+      "gradazione": "7%",
+      "disponibile": false,
+      "order": 0,
+      "sezione_slug": "birre-artigianali",
+      "descrizione": "IPA | IBU 35 \nBirra artigianale francese di ispirazione belga Si distingue per note agrumate, resinose ed erbacee, unendo la tradizione brassicola d'oltralpe a un profilo luppolato e contemporaneo",
+      "_filename": "ipa-7.md"
+    },
+    {
       "nome": "ISABELLA GLUTEN FREE - Flea",
       "sezione": "Birre speciali in bottiglia",
       "prezzo": "6.00",
@@ -790,6 +815,19 @@
       "_filename": "rodenbach-vintage-2018.md"
     },
     {
+      "nome": "SBRONX - Due Tocchi",
+      "sezione": "Birre artigianali alla spina a rotazione",
+      "prezzo": "6.00",
+      "descrizione": "Session IPA | IBU 33",
+      "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1784054746/arconti31/iwlgvkrzwo5x3xqscpzk.jpg",
+      "formato": "0,4 l ",
+      "gradazione": "4% ",
+      "disponibile": false,
+      "order": 0,
+      "sezione_slug": "birre-artigianali",
+      "_filename": "sbronx-due-tocchi.md"
+    },
+    {
       "nome": "Sidro Murùn ",
       "sezione": "Birre artigianali alla spina a rotazione",
       "prezzo": "7.00",
@@ -1127,44 +1165,6 @@
       "order": 0,
       "sezione_slug": "birre-artigianali",
       "_filename": "zlatan-railroad.md"
-    },
-    {
-      "nome": "SBRONX - Due Tocchi",
-      "sezione": "Birre artigianali alla spina a rotazione",
-      "prezzo": "6.00",
-      "descrizione": "Session IPA | IBU 33",
-      "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1784054746/arconti31/iwlgvkrzwo5x3xqscpzk.jpg",
-      "formato": "0,4 l ",
-      "gradazione": "4% ",
-      "disponibile": false,
-      "order": 0,
-      "sezione_slug": "birre-artigianali",
-      "_filename": "sbronx-due-tocchi.md"
-    },
-    {
-      "nome": "POCULATOR - Kloster Scheyerm",
-      "sezione": "Birre artigianali alla spina a rotazione",
-      "prezzo": "6.00",
-      "formato": "0,4 l",
-      "gradazione": "7,6 %",
-      "disponibile": true,
-      "order": 0,
-      "sezione_slug": "birre-artigianali",
-      "descrizione": "Doppelbock\nColore bruno con schiuma color nocciola, fine e persistente.\nL’aroma é intenso e complesso, con note di malto, caramello, frutta secca, cioccolato, caffè e cenni di liquirizia.\nIl gusto é pieno e maltato, ben bilanciato con un finale che richiama la frutta sotto spirito e un leggero tocco amaro o spezia.",
-      "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1785263788/arconti31/egapphbk4synaxurmane.png",
-      "_filename": "ipa-7-langelus.md"
-    },
-    {
-      "nome": "IPA 7 - L’Angelus",
-      "sezione": "Birre artigianali alla spina a rotazione",
-      "prezzo": "6.50",
-      "formato": "0,4 l",
-      "gradazione": "7%",
-      "disponibile": false,
-      "order": 0,
-      "sezione_slug": "birre-artigianali",
-      "descrizione": "IPA | IBU 35 \nBirra artigianale francese di ispirazione belga Si distingue per note agrumate, resinose ed erbacee, unendo la tradizione brassicola d'oltralpe a un profilo luppolato e contemporaneo",
-      "_filename": "ipa-7.md"
     },
     {
       "nome": "Lager - Ayinger",
@@ -1771,6 +1771,31 @@
         "_filename": "hibernatus-lupulus.md"
       },
       {
+        "nome": "POCULATOR - Kloster Scheyerm",
+        "sezione": "Birre artigianali alla spina a rotazione",
+        "prezzo": "6.00",
+        "formato": "0,4 l",
+        "gradazione": "7,6 %",
+        "disponibile": true,
+        "order": 0,
+        "sezione_slug": "birre-artigianali",
+        "descrizione": "Doppelbock\nColore bruno con schiuma color nocciola, fine e persistente.\nL’aroma é intenso e complesso, con note di malto, caramello, frutta secca, cioccolato, caffè e cenni di liquirizia.\nIl gusto é pieno e maltato, ben bilanciato con un finale che richiama la frutta sotto spirito e un leggero tocco amaro o spezia.",
+        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1785263788/arconti31/egapphbk4synaxurmane.png",
+        "_filename": "ipa-7-langelus.md"
+      },
+      {
+        "nome": "IPA 7 - L’Angelus",
+        "sezione": "Birre artigianali alla spina a rotazione",
+        "prezzo": "6.50",
+        "formato": "0,4 l",
+        "gradazione": "7%",
+        "disponibile": false,
+        "order": 0,
+        "sezione_slug": "birre-artigianali",
+        "descrizione": "IPA | IBU 35 \nBirra artigianale francese di ispirazione belga Si distingue per note agrumate, resinose ed erbacee, unendo la tradizione brassicola d'oltralpe a un profilo luppolato e contemporaneo",
+        "_filename": "ipa-7.md"
+      },
+      {
         "nome": "Jack IPA - Legnone",
         "sezione": "Birre artigianali alla spina a rotazione",
         "prezzo": "6.50",
@@ -2133,6 +2158,19 @@
         "_filename": "riu-altotevere.md"
       },
       {
+        "nome": "SBRONX - Due Tocchi",
+        "sezione": "Birre artigianali alla spina a rotazione",
+        "prezzo": "6.00",
+        "descrizione": "Session IPA | IBU 33",
+        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1784054746/arconti31/iwlgvkrzwo5x3xqscpzk.jpg",
+        "formato": "0,4 l ",
+        "gradazione": "4% ",
+        "disponibile": false,
+        "order": 0,
+        "sezione_slug": "birre-artigianali",
+        "_filename": "sbronx-due-tocchi.md"
+      },
+      {
         "nome": "Sidro Murùn ",
         "sezione": "Birre artigianali alla spina a rotazione",
         "prezzo": "7.00",
@@ -2470,44 +2508,6 @@
         "order": 0,
         "sezione_slug": "birre-artigianali",
         "_filename": "zlatan-railroad.md"
-      },
-      {
-        "nome": "SBRONX - Due Tocchi",
-        "sezione": "Birre artigianali alla spina a rotazione",
-        "prezzo": "6.00",
-        "descrizione": "Session IPA | IBU 33",
-        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1784054746/arconti31/iwlgvkrzwo5x3xqscpzk.jpg",
-        "formato": "0,4 l ",
-        "gradazione": "4% ",
-        "disponibile": false,
-        "order": 0,
-        "sezione_slug": "birre-artigianali",
-        "_filename": "sbronx-due-tocchi.md"
-      },
-      {
-        "nome": "POCULATOR - Kloster Scheyerm",
-        "sezione": "Birre artigianali alla spina a rotazione",
-        "prezzo": "6.00",
-        "formato": "0,4 l",
-        "gradazione": "7,6 %",
-        "disponibile": true,
-        "order": 0,
-        "sezione_slug": "birre-artigianali",
-        "descrizione": "Doppelbock\nColore bruno con schiuma color nocciola, fine e persistente.\nL’aroma é intenso e complesso, con note di malto, caramello, frutta secca, cioccolato, caffè e cenni di liquirizia.\nIl gusto é pieno e maltato, ben bilanciato con un finale che richiama la frutta sotto spirito e un leggero tocco amaro o spezia.",
-        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1785263788/arconti31/egapphbk4synaxurmane.png",
-        "_filename": "ipa-7-langelus.md"
-      },
-      {
-        "nome": "IPA 7 - L’Angelus",
-        "sezione": "Birre artigianali alla spina a rotazione",
-        "prezzo": "6.50",
-        "formato": "0,4 l",
-        "gradazione": "7%",
-        "disponibile": false,
-        "order": 0,
-        "sezione_slug": "birre-artigianali",
-        "descrizione": "IPA | IBU 35 \nBirra artigianale francese di ispirazione belga Si distingue per note agrumate, resinose ed erbacee, unendo la tradizione brassicola d'oltralpe a un profilo luppolato e contemporaneo",
-        "_filename": "ipa-7.md"
       },
       {
         "nome": "Rochefort",

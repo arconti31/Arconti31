@@ -17,6 +17,7 @@
 //   evita di rileggere lo stesso path due volte.
 
 import { parseFrontmatter } from '../../../lib/menu-utils.js';
+import { compareMenuItems } from '../../../js/menu-order.js';
 import type { Env, ItemRecord } from '../types';
 import { RepoConfigError } from '../types';
 import { verifyToken } from '../lib/auth';
@@ -265,7 +266,7 @@ async function runBatchVisibility(
 
 			if (treeEntries.length === 0) return [];
 
-			const sorted = [...byFile.values()].sort((a, b) => (a.order || 0) - (b.order || 0));
+			const sorted = [...byFile.values()].sort(compareMenuItems);
 			const jsonEntry = await buildJsonTreeEntry(gh, collection, { [collection]: sorted });
 			if (jsonEntry) treeEntries.push(jsonEntry);
 
@@ -331,7 +332,7 @@ async function runBatchOrder(
 
 			if (treeEntries.length === 0) return [];
 
-			const sorted = [...allItems].sort((a, b) => (a.order || 0) - (b.order || 0));
+			const sorted = [...allItems].sort(compareMenuItems);
 			const jsonEntry = await buildJsonTreeEntry(gh, collection, { [collection]: sorted });
 			if (jsonEntry) treeEntries.push(jsonEntry);
 

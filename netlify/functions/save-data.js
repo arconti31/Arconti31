@@ -15,6 +15,7 @@ const {
   parseFrontmatter,
   stringifyFrontmatter
 } = require('../../lib/menu-utils');
+const { compareMenuItems } = require('../../js/menu-order');
 
 // CORS: domini noti + URL del sito Netlify corrente + ALLOWED_ORIGINS (env, virgola-separati)
 // Così un nuovo *.netlify.app del cliente funziona senza patch al codice.
@@ -494,7 +495,7 @@ async function handleSaveDataRequest(event) {
       }
 
       // JSON aggregato nello stesso commit (da snapshot aggiornato in memoria)
-      const sorted = [...byFile.values()].sort((a, b) => (a.order || 0) - (b.order || 0));
+      const sorted = [...byFile.values()].sort(compareMenuItems);
       if (collection === 'categorie') {
         treeEntries.push({
           path: 'categorie/categorie.json',
@@ -621,7 +622,7 @@ async function handleSaveDataRequest(event) {
         };
       }
 
-      const sorted = [...allItems].sort((a, b) => (a.order || 0) - (b.order || 0));
+      const sorted = [...allItems].sort(compareMenuItems);
       let batchConfig = COLLECTION_CONFIG[collection];
 
       if (!batchConfig) {
@@ -1114,14 +1115,14 @@ async function assertSafeCategoryDelete(collection, filename, token, owner, repo
 function applySaveToCollectionItems(items, filename, data) {
   const nextItems = items.filter(item => item._filename !== filename);
   nextItems.push({ ...data, _filename: filename });
-  nextItems.sort((a, b) => (a.order || 0) - (b.order || 0));
+  nextItems.sort(compareMenuItems);
   return nextItems;
 }
 
 function applyDeleteToCollectionItems(items, filename) {
   return items
     .filter(item => item._filename !== filename)
-    .sort((a, b) => (a.order || 0) - (b.order || 0));
+    .sort(compareMenuItems);
 }
 
 async function getBranchContext(token, owner, repo, branch = 'main') {
@@ -1305,7 +1306,7 @@ async function generateIncrementalBeveragesJSON(config, token, owner, repo, over
     const currentByType = { ...(currentJson.beveragesByType || {}) };
     const updatedItems = (overrides[config.folder] || [])
       .map(item => ({ ...item, tipo: displayName }))
-      .sort((a, b) => (a.order || 0) - (b.order || 0));
+      .sort(compareMenuItems);
 
     if (updatedItems.length > 0) {
       currentByType[displayName] = updatedItems;
@@ -1702,7 +1703,8 @@ async function generateFoodJSON(token, owner, repo, overrides = {}) {
     ? (await readCollectionSnapshot('categorie', token, owner, repo, overrides))
       || await readCollectionFiles('categorie', token, owner, repo, overrides)
     : await readCollectionFiles('categorie', token, owner, repo, overrides);
-  const foodCategories = categories.filter(c => c.tipo_menu === 'food' && c.visibile !== false);
+  // Come build e Worker: le categorie nascoste restano nel JSON aggregato.
+  const foodCategories = categories.filter(c => c.tipo_menu === 'food');
 
   const foodItems = useSnapshots
     ? (await readCollectionSnapshot('food', token, owner, repo, overrides))
@@ -1719,8 +1721,8 @@ async function generateFoodJSON(token, owner, repo, overrides = {}) {
     }
   });
 
-  // Ordina per order
-  foodItems.sort((a, b) => (a.order || 0) - (b.order || 0));
+  // Ordine canonico condiviso con build e Worker.
+  foodItems.sort(compareMenuItems);
 
   // Raggruppa per categoria
   const foodByCategory = {};
@@ -1773,8 +1775,8 @@ async function generateBeersJSON(token, owner, repo, overrides = {}) {
     }
   });
 
-  // Ordina per order
-  beers.sort((a, b) => (a.order || 0) - (b.order || 0));
+  // Ordine canonico condiviso con build e Worker.
+  beers.sort(compareMenuItems);
 
   // Raggruppa per sezione
   const beersBySection = {};
@@ -1799,7 +1801,7 @@ async function generateCategoriesJSON(token, owner, repo, overrides = {}) {
 
   // Ordina (NON FILTRARE VISIBILI: il CMS deve vederle tutte!)
   const allCategories = categories
-    .sort((a, b) => (a.order || 0) - (b.order || 0));
+    .sort(compareMenuItems);
 
   return {
     categories: allCategories,
@@ -1856,7 +1858,7 @@ async function generateBeveragesJSON(token, owner, repo, overrides = {}) {
     });
 
     // Ordina
-    items.sort((a, b) => (a.order || 0) - (b.order || 0));
+    items.sort(compareMenuItems);
 
     if (items.length > 0) {
       beveragesByType[category.name] = items;

@@ -8,6 +8,7 @@ const {
   normalizeSlug,
   parseFrontmatter
 } = require('../lib/menu-utils');
+const { compareMenuItems } = require('../js/menu-order');
 const { cleanupOrphanRumDir } = require('./_merge-rum-cleanup');
 
 const ROOT = path.join(__dirname, '..');
@@ -47,8 +48,8 @@ function loadCategories() {
     });
   }
   
-  // Ordina per order
-  categories.sort((a, b) => (a.order || 0) - (b.order || 0));
+  // Ordine canonico: order, poi filename per i pareggi.
+  categories.sort(compareMenuItems);
   return categories;
 }
 
@@ -124,8 +125,8 @@ function processCollection(dirPath, itemType) {
     });
   }
   
-  // Ordina per campo order
-  items.sort((a, b) => (a.order || 0) - (b.order || 0));
+  // Ordine canonico: indipendente dall'ordine di fs.readdirSync.
+  items.sort(compareMenuItems);
   
   return items;
 }

@@ -22,6 +22,11 @@ const CONFIG = {
   }
 };
 
+if (!window.MenuOrder || typeof window.MenuOrder.compareMenuItems !== 'function') {
+  throw new Error('Ordinamento menu non disponibile: manca js/menu-order.js');
+}
+const { compareMenuItems } = window.MenuOrder;
+
 // Vincoli immagine applicati prima di toccare la rete: stessi formati che il
 // preset firmato Cloudinary dovrebbe accettare lato server.
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
@@ -422,7 +427,7 @@ async function init() {
         const cachedItems = await window.SmartCache.getAll('items');
         let collectionItems = cachedItems
           .filter(i => i._collection === state.currentCollection && !i._deleted)
-          .sort((a, b) => (a.order || 0) - (b.order || 0));
+          .sort(compareMenuItems);
         
         // Dedup solo per filename (mai per nome)
         const seenFiles = new Set();
@@ -1003,7 +1008,7 @@ async function loadCategories() {
         : parseMarkdown(item.content, item.filename, item.sha)
     );
     // Nel CMS mostra TUTTE le categorie (anche nascoste), ordinate
-    state.categories = categories.sort((a, b) => (a.order || 0) - (b.order || 0));
+    state.categories = categories.sort(compareMenuItems);
   } catch (e) {
     console.error('Error loading categories:', e);
     state.categories = [];
@@ -1021,7 +1026,7 @@ async function loadItems(collectionName, silent = false, forceApi = false) {
 
       if (collectionItems.length > 0) {
         console.log(`⚡ Loaded ${collectionItems.length} items from SmartCache`);
-        state.items = collectionItems.sort((a, b) => (a.order || 0) - (b.order || 0));
+        state.items = collectionItems.sort(compareMenuItems);
         state.allItems[collectionName] = [...state.items];
         renderItems();
         if (!silent) hideLoading();
@@ -1051,7 +1056,7 @@ async function loadItems(collectionName, silent = false, forceApi = false) {
           const cachedItems = await window.SmartCache.getAll('items');
           const fromCache = cachedItems
             .filter(i => i._collection === collectionName && !i._deleted)
-            .sort((a, b) => (a.order || 0) - (b.order || 0));
+            .sort(compareMenuItems);
           if (fromCache.length > 0) {
             state.items = fromCache;
             state.allItems[collectionName] = [...state.items];
@@ -1087,7 +1092,7 @@ async function loadItems(collectionName, silent = false, forceApi = false) {
         const cachedItems = await window.SmartCache.getAll('items');
         const fromCache = cachedItems
           .filter(i => i._collection === collectionName && !i._deleted)
-          .sort((a, b) => (a.order || 0) - (b.order || 0));
+          .sort(compareMenuItems);
         if (fromCache.length > 0) {
           console.warn(`[loadItems] ${collectionName}: remoto vuoto/json-miss — tengo ${fromCache.length} item in cache`);
           state.items = fromCache;
@@ -1112,7 +1117,7 @@ async function loadItems(collectionName, silent = false, forceApi = false) {
         ? { ...item.parsedItem, filename: item.filename, sha: item.sha }
         : parseMarkdown(item.content, item.filename, item.sha)
     );
-    state.items = items.sort((a, b) => (a.order || 0) - (b.order || 0));
+    state.items = items.sort(compareMenuItems);
 
     // Update SmartCache (silent: un solo render a fine load)
     if (window.SmartCache) {
@@ -1126,7 +1131,7 @@ async function loadItems(collectionName, silent = false, forceApi = false) {
       const cachedItems = await window.SmartCache.getAll('items');
       state.items = cachedItems
         .filter(i => i._collection === collectionName && !i._deleted)
-        .sort((a, b) => (a.order || 0) - (b.order || 0));
+        .sort(compareMenuItems);
 
       // Dedup SOLO per filename (mai per nome: omonimi legittimi / Romagnola vs arnate-calcio)
       const seenFiles = new Set();
@@ -1362,7 +1367,7 @@ function renderSidebar() {
       childrenOf[c.parent_category].push(c);
     }
   });
-  Object.values(childrenOf).forEach(arr => arr.sort((a, b) => (a.order || 0) - (b.order || 0)));
+  Object.values(childrenOf).forEach(arr => arr.sort(compareMenuItems));
 
   // Top-level categories only (no parent_category)
   const foodCategories = state.categories.filter(c => c.tipo_menu === 'food' && !c.parent_category);
@@ -2611,7 +2616,7 @@ function renderEditForm(data) {
         const currentSlug = state.currentItem?.slug || '';
         const parentOpts = state.categories
           .filter(c => !c.parent_category && c.slug !== currentSlug)
-          .sort((a, b) => (a.order || 0) - (b.order || 0));
+          .sort(compareMenuItems);
         return `<div class="form-group">
           <label class="form-label">${field.label}</label>
           <select name="${field.name}" class="form-select" id="parent-category-select">
@@ -3100,7 +3105,7 @@ async function saveItem() {
           state.categories[catIdx] = { ...state.categories[catIdx], ...newItem };
         }
       }
-      state.categories.sort((a, b) => (a.order || 0) - (b.order || 0));
+      state.categories.sort(compareMenuItems);
       ensureDynamicCollections();
       renderSidebar();
       setupSidebarEvents();
