@@ -40,6 +40,19 @@
       "_filename": "backdoor-orso-verde.md"
     },
     {
+      "nome": "Bang Bretta - BIRRIFICIO ITALIANO ",
+      "sezione": "Birre speciali in bottiglia",
+      "prezzo": "9.00",
+      "descrizione": "American IPA \nBirra brassata con abbondanti luppoli Cascade, Chinook, Centennial e Simcoe, invecchiata per otto mesi in barriques da vino rosso trentino, condizionate con un ceppo di lieviti selvatici brettanomyces selezionato naturalmente.\n\nLa base di albicocca secca e cookie regge la trama di note di vinaccia e aroma di cantina. L’esperienza di bevuta culmina in un amaro balsamico, intenso e pervasivo.",
+      "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1785360403/arconti31/rw8qxhcabdo1mm988sic.png",
+      "formato": "37,5 cl",
+      "gradazione": "7,9% ",
+      "disponibile": true,
+      "order": 0,
+      "sezione_slug": "birre-speciali-bottiglia",
+      "_filename": "bang-bretta-birrificio-italiano.md"
+    },
+    {
       "nome": "BEBOP- 50&50",
       "sezione": "Birre artigianali alla spina a rotazione",
       "prezzo": "6.50",
@@ -2612,6 +2625,111 @@
         "_filename": "tipopils-harvest-birrificio-italiano.md"
       }
     ],
+    "Birre speciali in bottiglia": [
+      {
+        "nome": "Bang Bretta - BIRRIFICIO ITALIANO ",
+        "sezione": "Birre speciali in bottiglia",
+        "prezzo": "9.00",
+        "descrizione": "American IPA \nBirra brassata con abbondanti luppoli Cascade, Chinook, Centennial e Simcoe, invecchiata per otto mesi in barriques da vino rosso trentino, condizionate con un ceppo di lieviti selvatici brettanomyces selezionato naturalmente.\n\nLa base di albicocca secca e cookie regge la trama di note di vinaccia e aroma di cantina. L’esperienza di bevuta culmina in un amaro balsamico, intenso e pervasivo.",
+        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1785360403/arconti31/rw8qxhcabdo1mm988sic.png",
+        "formato": "37,5 cl",
+        "gradazione": "7,9% ",
+        "disponibile": true,
+        "order": 0,
+        "sezione_slug": "birre-speciali-bottiglia",
+        "_filename": "bang-bretta-birrificio-italiano.md"
+      },
+      {
+        "nome": "Bombyx - Menaresta e Stradaregina",
+        "sezione": "Birre speciali in bottiglia",
+        "prezzo": "20.00",
+        "descrizione": "LAMBIC (acida)\nMurùn, le more di gelso!\n\nRossa su base Birra Madre con more nere di gelso. Al naso ed al palato è pungente, con in evidenza note acidule, fruttate, minerali e di lievito.",
+        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1778799613/arconti31/od5j1e6lrlof93xps0d5.png",
+        "formato": "37,5 cl",
+        "gradazione": "5,4 % ",
+        "disponibile": true,
+        "order": 0,
+        "sezione_slug": "birre-speciali-bottiglia",
+        "_filename": "bombyx-menaresta-e-stradaregina.md"
+      },
+      {
+        "nome": "C.B.A. - Menaresta ",
+        "sezione": "Birre speciali in bottiglia",
+        "prezzo": "10.00",
+        "descrizione": "Caution Barrication Area: attenzione, è birra acida! \nUna Flemish Red, ottenuta tramite maturazione ossidativa di una Strong Ale in botti scolme, a produrre un’acidificazione spontanea. Dopo 2 anni in botte viene blendata con lotti più vecchi. \n\nIl gusto è di frutta matura, uva passa, prugna secca, ma anche ribes, e ciliegia sotto spirito, su cui aleggia la nota vinosa e di legno e quella distintiva dell’acetico e del citrico. ",
+        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1778799485/arconti31/zvh3j1euljpme5dbfn2a.png",
+        "formato": "37,5 cl",
+        "gradazione": "8,5%",
+        "disponibile": true,
+        "order": 0,
+        "sezione_slug": "birre-speciali-bottiglia",
+        "_filename": "cba-menaresta.md"
+      },
+      {
+        "nome": "ISABELLA GLUTEN FREE - Flea",
+        "sezione": "Birre speciali in bottiglia",
+        "prezzo": "6.00",
+        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1778800686/arconti31/ba0x2kyjsq1efwvguxtc.png",
+        "formato": "33 cl ",
+        "gradazione": "4,9 % ",
+        "disponibile": true,
+        "order": 0,
+        "sezione_slug": "birre-speciali-bottiglia",
+        "_filename": "isabella-gluten-free-flea.md"
+      },
+      {
+        "nome": "La P’IPA - Menaresta  GLUTEN FREE",
+        "sezione": "Birre speciali in bottiglia",
+        "prezzo": "6.00",
+        "descrizione": "Trasparente come ghiaccio, fatta con riso brillato (brillante!), per esaltarne la secchezza (riso che sembra di chicchi di ghiaccio… ghiaccio secco!), fermentata a basse temperature per una maggiore beva, con solo luppolo “cryo” (che vuol dire gelo!) e luppolatura a secco, questa versione de La p’ipa è proprio per chi ama le ipa secche e dal finale pulito. Va giù come l’acqua. Acqua ghiacciata!\n\nChiara pulitissima in stile cold I.P.A., con riso e luppolo cryo, elegante e facilissima da bere. GLUTEN FREE. Note degustative: buccia d’agrume, frutta bianca",
+        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1779485664/arconti31/boc60lnzebkkvt3u7ei9.png",
+        "formato": "0,33 l ",
+        "gradazione": "4,9% ",
+        "disponibile": true,
+        "order": 0,
+        "sezione_slug": "birre-speciali-bottiglia",
+        "_filename": "la-pipa-menaresta-gluten-free.md"
+      },
+      {
+        "nome": "MADRIBULAN - Menaresta",
+        "sezione": "Birre speciali in bottiglia",
+        "prezzo": "10.00",
+        "descrizione": "Dal colore ambrato velato, per realizzare questa birra viene utilizzato un frutto antico chiamato maribulàn, una susina selvatica che cresce sulle colline briantee.\n\nUna birra particolarissima, secca e vinosa, sapida e fruttata, con note fiorite rosse, un lieve speziato di vaniglia e un gusto elegantemente acido, unito ai profumi di legno e di cantina.\n\nDice il birrificio: \"A Birra Madre, originalissima birra fermentata con lievito madre, prima in assoluto nel suo genere, vengono aggiunti, verso fine maturazione, e direttamente in botte (botti di legno di derivazione vitivinicola), i maribulàn freschi, che macerano lentamente e rilasciano le loro delicate essenze e le mirabili sfumature di colore.”",
+        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1778798526/arconti31/pisvpoy4mtgl4fthhv1v.png",
+        "formato": "37.5 cl",
+        "gradazione": "5.2 % ",
+        "disponibile": true,
+        "order": 0,
+        "sezione_slug": "birre-speciali-bottiglia",
+        "_filename": "madribulan-menaresta.md"
+      },
+      {
+        "nome": "Rodenbach Vintage 2018",
+        "sezione": "Birre speciali in bottiglia",
+        "sezione_slug": "birre-speciali-bottiglia",
+        "prezzo": "12.00",
+        "descrizione": "Si presenta in bicchiere rosso rame con schiuma bianca importante mediamente persistente. Al naso e al palato la spuntatura acida si fa subito sentire, mela verde aspra, seguito da un bouquet dolce, caramello, miele ma anche fragolina di bosco, oltre al miele e alla quercia.  Il retrogusto comunque rimane fruttato asprigno, ma asciutto e pulito.",
+        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1769115731/arconti31/r1dc63cafbqlham1rlti.jpg",
+        "formato": "37.5 cl",
+        "gradazione": "7%",
+        "disponibile": true,
+        "order": 0,
+        "_filename": "rodenbach-vintage-2018.md"
+      },
+      {
+        "nome": "Theresianer Senza Glutine",
+        "sezione": "Birre speciali in bottiglia",
+        "prezzo": "5.00",
+        "descrizione": "Lager non filtrata, equilibrata",
+        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1778799994/arconti31/piywxm4jxlxepyewhq7d.jpg",
+        "formato": "0,33L",
+        "gradazione": "4,8%",
+        "disponibile": false,
+        "order": 9,
+        "sezione_slug": "birre-speciali-bottiglia",
+        "_filename": "theresianer-senza-glutine.md"
+      }
+    ],
     "Frigo Birre": [
       {
         "nome": "Bloemenbier - De Proefbrouwerij",
@@ -2709,98 +2827,6 @@
         "order": 29,
         "sezione_slug": "frigo-birre",
         "_filename": "estrella-galicia-senza-glutine.md"
-      }
-    ],
-    "Birre speciali in bottiglia": [
-      {
-        "nome": "Bombyx - Menaresta e Stradaregina",
-        "sezione": "Birre speciali in bottiglia",
-        "prezzo": "20.00",
-        "descrizione": "LAMBIC (acida)\nMurùn, le more di gelso!\n\nRossa su base Birra Madre con more nere di gelso. Al naso ed al palato è pungente, con in evidenza note acidule, fruttate, minerali e di lievito.",
-        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1778799613/arconti31/od5j1e6lrlof93xps0d5.png",
-        "formato": "37,5 cl",
-        "gradazione": "5,4 % ",
-        "disponibile": true,
-        "order": 0,
-        "sezione_slug": "birre-speciali-bottiglia",
-        "_filename": "bombyx-menaresta-e-stradaregina.md"
-      },
-      {
-        "nome": "C.B.A. - Menaresta ",
-        "sezione": "Birre speciali in bottiglia",
-        "prezzo": "10.00",
-        "descrizione": "Caution Barrication Area: attenzione, è birra acida! \nUna Flemish Red, ottenuta tramite maturazione ossidativa di una Strong Ale in botti scolme, a produrre un’acidificazione spontanea. Dopo 2 anni in botte viene blendata con lotti più vecchi. \n\nIl gusto è di frutta matura, uva passa, prugna secca, ma anche ribes, e ciliegia sotto spirito, su cui aleggia la nota vinosa e di legno e quella distintiva dell’acetico e del citrico. ",
-        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1778799485/arconti31/zvh3j1euljpme5dbfn2a.png",
-        "formato": "37,5 cl",
-        "gradazione": "8,5%",
-        "disponibile": true,
-        "order": 0,
-        "sezione_slug": "birre-speciali-bottiglia",
-        "_filename": "cba-menaresta.md"
-      },
-      {
-        "nome": "ISABELLA GLUTEN FREE - Flea",
-        "sezione": "Birre speciali in bottiglia",
-        "prezzo": "6.00",
-        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1778800686/arconti31/ba0x2kyjsq1efwvguxtc.png",
-        "formato": "33 cl ",
-        "gradazione": "4,9 % ",
-        "disponibile": true,
-        "order": 0,
-        "sezione_slug": "birre-speciali-bottiglia",
-        "_filename": "isabella-gluten-free-flea.md"
-      },
-      {
-        "nome": "La P’IPA - Menaresta  GLUTEN FREE",
-        "sezione": "Birre speciali in bottiglia",
-        "prezzo": "6.00",
-        "descrizione": "Trasparente come ghiaccio, fatta con riso brillato (brillante!), per esaltarne la secchezza (riso che sembra di chicchi di ghiaccio… ghiaccio secco!), fermentata a basse temperature per una maggiore beva, con solo luppolo “cryo” (che vuol dire gelo!) e luppolatura a secco, questa versione de La p’ipa è proprio per chi ama le ipa secche e dal finale pulito. Va giù come l’acqua. Acqua ghiacciata!\n\nChiara pulitissima in stile cold I.P.A., con riso e luppolo cryo, elegante e facilissima da bere. GLUTEN FREE. Note degustative: buccia d’agrume, frutta bianca",
-        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1779485664/arconti31/boc60lnzebkkvt3u7ei9.png",
-        "formato": "0,33 l ",
-        "gradazione": "4,9% ",
-        "disponibile": true,
-        "order": 0,
-        "sezione_slug": "birre-speciali-bottiglia",
-        "_filename": "la-pipa-menaresta-gluten-free.md"
-      },
-      {
-        "nome": "MADRIBULAN - Menaresta",
-        "sezione": "Birre speciali in bottiglia",
-        "prezzo": "10.00",
-        "descrizione": "Dal colore ambrato velato, per realizzare questa birra viene utilizzato un frutto antico chiamato maribulàn, una susina selvatica che cresce sulle colline briantee.\n\nUna birra particolarissima, secca e vinosa, sapida e fruttata, con note fiorite rosse, un lieve speziato di vaniglia e un gusto elegantemente acido, unito ai profumi di legno e di cantina.\n\nDice il birrificio: \"A Birra Madre, originalissima birra fermentata con lievito madre, prima in assoluto nel suo genere, vengono aggiunti, verso fine maturazione, e direttamente in botte (botti di legno di derivazione vitivinicola), i maribulàn freschi, che macerano lentamente e rilasciano le loro delicate essenze e le mirabili sfumature di colore.”",
-        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1778798526/arconti31/pisvpoy4mtgl4fthhv1v.png",
-        "formato": "37.5 cl",
-        "gradazione": "5.2 % ",
-        "disponibile": true,
-        "order": 0,
-        "sezione_slug": "birre-speciali-bottiglia",
-        "_filename": "madribulan-menaresta.md"
-      },
-      {
-        "nome": "Rodenbach Vintage 2018",
-        "sezione": "Birre speciali in bottiglia",
-        "sezione_slug": "birre-speciali-bottiglia",
-        "prezzo": "12.00",
-        "descrizione": "Si presenta in bicchiere rosso rame con schiuma bianca importante mediamente persistente. Al naso e al palato la spuntatura acida si fa subito sentire, mela verde aspra, seguito da un bouquet dolce, caramello, miele ma anche fragolina di bosco, oltre al miele e alla quercia.  Il retrogusto comunque rimane fruttato asprigno, ma asciutto e pulito.",
-        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1769115731/arconti31/r1dc63cafbqlham1rlti.jpg",
-        "formato": "37.5 cl",
-        "gradazione": "7%",
-        "disponibile": true,
-        "order": 0,
-        "_filename": "rodenbach-vintage-2018.md"
-      },
-      {
-        "nome": "Theresianer Senza Glutine",
-        "sezione": "Birre speciali in bottiglia",
-        "prezzo": "5.00",
-        "descrizione": "Lager non filtrata, equilibrata",
-        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1778799994/arconti31/piywxm4jxlxepyewhq7d.jpg",
-        "formato": "0,33L",
-        "gradazione": "4,8%",
-        "disponibile": false,
-        "order": 9,
-        "sezione_slug": "birre-speciali-bottiglia",
-        "_filename": "theresianer-senza-glutine.md"
       }
     ],
     "Birre alla spina": [
