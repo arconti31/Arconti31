@@ -6,7 +6,7 @@ descrizione: "American Lager\nNel profilo aromatico si ritrovano note di cereali
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1783537092/arconti31/lxumgwsadppuzmvqjuyd.png"
 formato: "0,4 l"
 gradazione: "4,5% "
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
