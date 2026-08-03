@@ -6,7 +6,7 @@ descrizione: "Gose\nRosa, Sapida, Sicula.\nÈ arricchita con l’aggiunta di fio
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1784054774/arconti31/rqdz60d9e3hunatdnkop.webp"
 formato: "0,4 l "
 gradazione: "4,5% "
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
