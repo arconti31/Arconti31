@@ -7,6 +7,6 @@ descrizione: "Double IPA una birra estremamente luppolata, dal colore ramato leg
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1772128824/arconti31/jxctyd0k380eztjapd2r.png"
 formato: "40 cl"
 gradazione: "7,5%"
-disponibile: false
+disponibile: true
 order: 0
 ---
