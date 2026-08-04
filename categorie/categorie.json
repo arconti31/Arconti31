@@ -11,6 +11,16 @@
       "_filename": "artigianali.md"
     },
     {
+      "nome": "Birre acide in bottiglia",
+      "slug": "birre-acide-in-bottiglia",
+      "tipo_menu": "beverage",
+      "parent_category": "birre-speciali-bottiglia",
+      "icona": "⚠️",
+      "visibile": true,
+      "order": 0,
+      "_filename": "birre-acide-in-bottiglia.md"
+    },
+    {
       "nome": "Classici",
       "slug": "classici",
       "tipo_menu": "beverage",
@@ -457,6 +467,16 @@
       "visibile": true,
       "order": 0,
       "_filename": "artigianali.md"
+    },
+    {
+      "nome": "Birre acide in bottiglia",
+      "slug": "birre-acide-in-bottiglia",
+      "tipo_menu": "beverage",
+      "parent_category": "birre-speciali-bottiglia",
+      "icona": "⚠️",
+      "visibile": true,
+      "order": 0,
+      "_filename": "birre-acide-in-bottiglia.md"
     },
     {
       "nome": "Classici",
