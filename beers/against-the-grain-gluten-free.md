@@ -8,4 +8,5 @@ formato: "50cl"
 gradazione: "4,5%"
 disponibile: true
 order: 14
+immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1785955418/arconti31/hhjipb9la5t9ngzknshi.webp"
 ---
