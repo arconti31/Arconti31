@@ -6,7 +6,7 @@ descrizione: "Baltic Porter | IBU 22\nUna birra scura unica!\nProfumi di panna c
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1783198185/arconti31/wkfc5jknzjegfbn5fl3k.jpg"
 formato: "0,4 l "
 gradazione: "6,2% "
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
