@@ -1017,7 +1017,7 @@
       "immagine_copertina": "https://res.cloudinary.com/ducwseofw/image/upload/v1779215336/arconti31/sxtslhx8xxs0onamqska.png",
       "formato": "0,4",
       "gradazione": "5,2",
-      "disponibile": false,
+      "disponibile": true,
       "order": 0,
       "sezione_slug": "birre-artigianali",
       "_filename": "tipopils-birrificio-italiano.md"
@@ -2390,7 +2390,7 @@
         "immagine_copertina": "https://res.cloudinary.com/ducwseofw/image/upload/v1779215336/arconti31/sxtslhx8xxs0onamqska.png",
         "formato": "0,4",
         "gradazione": "5,2",
-        "disponibile": false,
+        "disponibile": true,
         "order": 0,
         "sezione_slug": "birre-artigianali",
         "_filename": "tipopils-birrificio-italiano.md"
