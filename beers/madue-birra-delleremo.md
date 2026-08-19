@@ -6,7 +6,7 @@ descrizione: "Madue - Non-conventional passion fruit Sour Ale. Questo lievito ha
 immagine_copertina: "https://res.cloudinary.com/ducwseofw/image/upload/v1782075664/arconti31/vrzqojp2xuobaayqzb8q.jpg"
 formato: "0,4"
 gradazione: "5,6"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
