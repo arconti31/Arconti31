@@ -130,6 +130,18 @@
       "_filename": "bombyx-menaresta-e-stradaregina.md"
     },
     {
+      "nome": "Calibro 7 - Fabbrica della Birra Perugia ",
+      "sezione": "Birre artigianali alla spina a rotazione",
+      "prezzo": "6.50",
+      "descrizione": "American Pale Ale ",
+      "formato": "0,4 l ",
+      "gradazione": "5,5% ",
+      "disponibile": true,
+      "order": 0,
+      "sezione_slug": "birre-artigianali",
+      "_filename": "calibro-7-fabbrica-della-birra-perugia.md"
+    },
+    {
       "nome": "C.B.A. - Menaresta ",
       "sezione": "Birre speciali in bottiglia",
       "prezzo": "10.00",
@@ -1616,6 +1628,18 @@
         "order": 0,
         "sezione_slug": "birre-artigianali",
         "_filename": "blind-pils-birrone.md"
+      },
+      {
+        "nome": "Calibro 7 - Fabbrica della Birra Perugia ",
+        "sezione": "Birre artigianali alla spina a rotazione",
+        "prezzo": "6.50",
+        "descrizione": "American Pale Ale ",
+        "formato": "0,4 l ",
+        "gradazione": "5,5% ",
+        "disponibile": true,
+        "order": 0,
+        "sezione_slug": "birre-artigianali",
+        "_filename": "calibro-7-fabbrica-della-birra-perugia.md"
       },
       {
         "nome": "Il cobra - Birrificio Railroad ",
