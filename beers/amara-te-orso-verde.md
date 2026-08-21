@@ -6,7 +6,7 @@ descrizione: "Bock | IBU 18\nBirra a bassa fermentazione con dal color amaranto.
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1784323478/arconti31/h7ixwkjyog8lvhcoj7eu.png"
 formato: "0,4 l"
 gradazione: "6%"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
