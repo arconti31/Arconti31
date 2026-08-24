@@ -1,5 +1,5 @@
 ---
-nome: "No Nay Never - Legnone  "
+nome: "No, Nay, Never - Legnone  "
 sezione: "Birre artigianali alla spina a rotazione"
 prezzo: "6.00"
 descrizione: "Porter\nNera con riflessi rubino, morbida e scorrevole. Sentori di cioccolato, caffè e liquirizia.Black with ruby ​​highlights, soft and smooth. Hints of chocolate, coffee, and licorice."
