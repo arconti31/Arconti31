@@ -2,7 +2,7 @@
 nome: "Punto G - Birrone "
 sezione: "Birre artigianali alla spina a rotazione"
 prezzo: "6.50"
-descrizione: "Bock "
+descrizione: "Bock \nAmbrata e maltosa. Il malto dolce e il retrogusto di luppolo ne fanno una birra particolarmente beverina, morbida e poco gassata. \nE’ la preferita dalle donne, non a caso il mastro birraio di Birrone l’ha dedicata a loro. \n"
 formato: "0,4 l "
 gradazione: "6%"
 disponibile: true
