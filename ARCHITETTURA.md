@@ -20,7 +20,7 @@ Sistema di gestione contenuti (CMS) headless completo per menù digitale, con ba
 - **routes/cloudinary-signature.ts**: Firma per upload diretto browser→Cloudinary
 - **routes/upload-image.ts**: Relay upload Base64 (fallback legacy)
 - **routes/health.ts**: Liveness pubblica + diagnostica autenticata
-- **router.ts**: Routing `/api/*`, alias legacy `/.netlify/functions/*`, fallback SPA `/admin/*`
+- **router.ts**: Routing `/api/*` e fallback SPA `/admin/*`
 
 ### CMS
 - **cms-simple.js**: CMS custom con autenticazione, CRUD completo, ricerca globale
@@ -33,7 +33,6 @@ Sistema di gestione contenuti (CMS) headless completo per menù digitale, con ba
 
 ### Hosting
 - **Cloudflare Workers + Static Assets**: Worker per le API, asset statici da `dist/` (build allowlist), CI/CD con Workers Builds
-- **Legacy**: `netlify/functions/` e `netlify.toml` conservati solo come riferimento/rollback
 
 ## 🔒 Modello di scrittura (integrità dei dati)
 
@@ -80,17 +79,10 @@ arconti31/
 │
 ├── src/worker/             # Backend Cloudflare Worker (TypeScript)
 │   ├── index.ts            # Entry point
-│   ├── router.ts           # Routing /api/* + alias legacy
+│   ├── router.ts           # Routing /api/* + fallback SPA admin
 │   ├── routes/             # health, auth, read-data, save-data, cloudinary…
 │   ├── lib/                # auth, cors, github, collections, http, validate…
 │   └── __tests__/          # test Vitest (routing, auth, OCC, concorrenza, fail-closed)
-│
-├── netlify/                # LEGACY (riferimento/rollback, non deployato)
-│   └── functions/
-│       ├── save-data.js
-│       ├── read-data.js
-│       ├── upload-image.js
-│       └── auth-callback.js
 │
 ├── food/
 │   ├── food.json           # JSON pre-generato
@@ -131,7 +123,6 @@ arconti31/
 ├── wrangler.jsonc          # Configurazione Cloudflare Workers
 ├── cloudflare/             # _headers e _redirects copiati in dist/
 ├── scripts/build-cloudflare.mjs  # Build dist/ (allowlist)
-├── netlify.toml            # LEGACY configurazione Netlify
 ├── package.json            # Dipendenze Node.js
 └── README.md               # Documentazione
 ```
@@ -339,8 +330,6 @@ order: 1
 // Fallback: relay Base64 via /api/upload-image
 - Richiede: CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET
 ```
-
-Ogni endpoint risponde anche sull'alias legacy `/.netlify/functions/<nome>` (temporaneo).
 
 ## 📊 Variabili Ambiente
 

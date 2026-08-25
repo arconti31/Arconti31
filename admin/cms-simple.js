@@ -987,7 +987,7 @@ function guardOnline(actionLabel = 'operazione') {
 
 
 // ========================================
-// DATA LOADING (via Netlify Function to avoid rate limits)
+// DATA LOADING (via Worker /api/* to avoid rate limits)
 // ========================================
 
 async function loadCategories() {

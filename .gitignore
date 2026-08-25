@@ -26,7 +26,6 @@ Thumbs.db
 .idea/
 dist/
 build/
-.netlify/
 .wrangler/
 worker-configuration.d.ts
 .qoder/

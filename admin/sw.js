@@ -4,7 +4,7 @@
    ======================================== */
 
 // Version updated on each deploy to bust stale SW cache
-const CACHE_VERSION = '2026-07-28-menu-order-1';
+const CACHE_VERSION = '2026-08-25-cleanup-1';
 // Prefisso di TUTTE le cache di questo Service Worker. La Cache API è condivisa
 // per origine: senza filtrare per prefisso la pulizia cancellerebbe anche le
 // cache del sito pubblico, che vive sulla stessa origine.
@@ -80,8 +80,7 @@ self.addEventListener('fetch', event => {
   }
 
   // API calls - Network only (no cache for dynamic data)
-  if (url.pathname.includes('/.netlify/functions/') || 
-      url.pathname.includes('/api/') ||
+  if (url.pathname.includes('/api/') ||
       url.hostname === 'api.github.com') {
     event.respondWith(networkOnly(request));
     return;

@@ -25,11 +25,9 @@ const IGNORED_TOP_LEVEL_DIRS = new Set([
   'images',
   'lib',
   'scripts',
-  'netlify',
   'beverages',
   'categorie',
-  '.git',
-  '.netlify'
+  '.git'
 ]);
 
 function loadCategories() {

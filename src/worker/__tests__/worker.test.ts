@@ -1,7 +1,7 @@
 // Test del Worker Arconti31 — copre i casi richiesti dalla migrazione:
 // routing, health, method not allowed, CORS, login, token, path traversal,
 // payload non validi, save con SHA/conflitto, read pubblica/API,
-// firma Cloudinary, fallback /admin, alias legacy Netlify.
+// firma Cloudinary, fallback /admin.
 // GitHub e Cloudinary sono SEMPRE mockati: nessuna modifica reale.
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -90,15 +90,6 @@ describe('routing', () => {
 		const res = await worker.fetch(new Request(`${ORIGIN}/menu.html`), makeEnv());
 		expect(res.status).toBe(200);
 		expect(await res.text()).toBe('static-asset');
-	});
-
-	it('alias legacy /.netlify/functions/save-data usa lo stesso handler', async () => {
-		const res = await worker.fetch(
-			post('/.netlify/functions/save-data', { action: 'verify-token', token: validToken() }),
-			makeEnv()
-		);
-		expect(res.status).toBe(200);
-		expect(await res.json()).toEqual({ valid: true, email: ADMIN_EMAIL });
 	});
 
 	function adminAssetsEnv() {

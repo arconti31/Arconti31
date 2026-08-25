@@ -5,7 +5,7 @@
 ### 🔐 Accesso al Pannello
 
 1. Apri il browser (Chrome, Safari, Firefox)
-2. Vai su: `https://tuosito.netlify.app/admin`
+2. Vai su: `https://arconti31.com/admin`
 3. Inserisci **email** e **password**
 4. Sei dentro!
 
@@ -129,7 +129,7 @@ Se configurato Cloudinary:
 
 Il pannello admin funziona perfettamente da mobile:
 1. Apri il browser
-2. Vai su `tuosito.netlify.app/admin`
+2. Vai su `arconti31.com/admin`
 3. Login
 4. Gestisci tutto con tap e swipe!
 
@@ -174,7 +174,7 @@ Se non vedi la modifica: **ricarica la pagina** (tira giù su mobile)
 
 ### Ho dimenticato la password
 - Contatta l'amministratore del sito
-- La password è configurata su Netlify
+- La password è configurata come secret su Cloudflare (`ADMIN_PASSWORD`)
 
 ### L'immagine non si carica
 - Prova un'immagine più piccola (< 5MB)

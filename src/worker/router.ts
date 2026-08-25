@@ -1,5 +1,4 @@
-// Router del Worker: /api/* + alias legacy /.netlify/functions/* (stessi handler,
-// nessuna logica duplicata) + fallback SPA per /admin/* via ASSETS.
+// Router del Worker: /api/* + fallback SPA per /admin/* via ASSETS.
 
 import type { Env } from './types';
 import { handleHealth } from './routes/health';
@@ -22,14 +21,7 @@ const ROUTES: Record<string, RouteHandler> = {
 	'/api/save-data': handleSaveData,
 	'/api/cloudinary-signature': handleCloudinarySignature,
 	'/api/upload-image': handleUploadImage,
-	'/api/bump-cache-version': handleBumpCacheVersion,
-
-	// Alias legacy temporanei (client con Service Worker in cache) — stessi handler
-	'/.netlify/functions/health': handleHealth,
-	'/.netlify/functions/read-data': handleReadData,
-	'/.netlify/functions/save-data': handleSaveData,
-	'/.netlify/functions/upload-image': handleUploadImage,
-	'/.netlify/functions/bump-cache-version': handleBumpCacheVersion
+	'/api/bump-cache-version': handleBumpCacheVersion
 };
 
 /**
@@ -63,7 +55,7 @@ export async function route(request: Request, env: Env): Promise<Response> {
 	}
 
 	// API sconosciuta → 404 JSON (non fallback agli asset)
-	if (pathname.startsWith('/api/') || pathname.startsWith('/.netlify/')) {
+	if (pathname.startsWith('/api/')) {
 		return json(404, { error: 'Not found' });
 	}
 

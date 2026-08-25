@@ -40,18 +40,18 @@ Sistema di gestione contenuti (CMS) completo per menù digitale di ristorante/ba
 
 ## ☁️ Hosting: Cloudflare Workers
 
-Il progetto è migrato da Netlify a **Cloudflare Workers + Static Assets** (branch
-`migration/cloudflare-workers`). Backend in `src/worker/`, build statico in `dist/`.
+Il progetto gira su **Cloudflare Workers + Static Assets**. Backend in `src/worker/`,
+build statico in `dist/`. Dominio: `arconti31.com` (+ `www`), DNS su Cloudflare.
+La migrazione da Netlify è completata e il codice legacy Netlify è stato rimosso.
 
 - Guida deploy, DNS e rollback: **[`CLOUDFLARE_DEPLOY.md`](./CLOUDFLARE_DEPLOY.md)**
-- Report completo della migrazione: **[`MIGRATION_REPORT.md`](./MIGRATION_REPORT.md)**
-- `netlify/` e `netlify.toml` sono conservati solo come riferimento legacy/rollback.
+- Report storico della migrazione: **[`MIGRATION_REPORT.md`](./MIGRATION_REPORT.md)**
 
 ## 🚚 Passaggio ad account del cliente (handoff)
 
-Se devi spostare il progetto dal **tuo** GitHub/Netlify free a quelli del **cliente**, segui la guida completa e non tecnica:
-
-→ **[`HANDOFF_CLIENTE.md`](./HANDOFF_CLIENTE.md)**
+Per spostare il progetto su GitHub/Cloudflare del cliente, parti da
+**[`CLOUDFLARE_DEPLOY.md`](./CLOUDFLARE_DEPLOY.md)** (secret, dominio, deploy) e dalla
+checklist di solidità in **[`SOLIDITY_NOTES.md`](./SOLIDITY_NOTES.md)** §B.
 
 ## 🧱 Solidità CMS (env obbligatorie)
 

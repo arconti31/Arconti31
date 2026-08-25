@@ -10,7 +10,7 @@
  * rigenera i dati: fallisce se i JSON obbligatori mancano.
  *
  * Esclusi per costruzione (non sono nella allowlist): .git, .github,
- * node_modules, src/ (worker), netlify/, scripts/, lib/, contenuti .md,
+ * node_modules, src/ (worker), scripts/, lib/, contenuti .md,
  * .env*, documentazione.
  */
 

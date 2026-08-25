@@ -14,8 +14,7 @@
     "typecheck:worker": "tsc --noEmit -p tsconfig.worker.json",
     "test:worker": "vitest run",
     "backfill:stable-refs": "node scripts/backfill-stable-refs.js",
-    "dev": "python -m http.server 8000",
-    "test:e2e-cms": "node scripts/e2e-cms-controlled.js"
+    "dev": "python -m http.server 8000"
   },
   "keywords": [
     "cloudflare-workers",

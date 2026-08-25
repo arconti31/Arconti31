@@ -1,5 +1,5 @@
 // Entry point Worker Arconti31 — Cloudflare Workers + Static Assets.
-// API CMS su /api/* (+ alias legacy /.netlify/functions/*), asset statici via ASSETS.
+// API CMS su /api/*, asset statici via ASSETS.
 
 import type { Env } from './types';
 import { route } from './router';

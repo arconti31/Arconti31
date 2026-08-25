@@ -141,4 +141,20 @@ Cloudflare), custom domain `arconti31.com` + `www` connesso e verificato in HTTP
    (`CLOUDFLARE_DEPLOY.md` §9.5)
 3. Merge di `migration/cloudflare-workers` in `main` (attiverà i deploy automatici
    una volta configurato Workers Builds)
-4. Dopo stabilità: rimuovere il dominio da Netlify (tenere il sito come rollback)
+4. ✅ Dominio rimosso da Netlify e sito Netlify dismesso (agosto 2026)
+
+---
+
+## 11. Addendum (25 agosto 2026) — Rimozione del legacy Netlify
+
+Dopo ~1 mese di produzione stabile su Cloudflare è stata completata la pulizia:
+
+- **Eliminati**: `netlify/functions/`, `netlify.toml`, `DEPLOY_GUIDE.md`,
+  `HANDOFF_CLIENTE.md`, `scripts/e2e-cms-controlled.js` (testava le function Netlify;
+  copertura equivalente già garantita dai test Vitest del Worker).
+- **Alias legacy rimossi**: `/.netlify/functions/*` eliminati da `router.ts`,
+  `wrangler.jsonc` (`run_worker_first`) e `admin/sw.js`; aggiornati test e docs.
+- **Verifiche**: typecheck ok, 55/55 test Vitest passati, `npm run build` +
+  `wrangler deploy --dry-run` ok.
+- Il rollback verso Netlify non è più disponibile: riferimento operativo in
+  `CLOUDFLARE_DEPLOY.md` §11 (wrangler rollback / redeploy da git).

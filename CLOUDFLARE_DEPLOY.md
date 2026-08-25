@@ -76,7 +76,7 @@ Variables, oppure blocco `vars` in `wrangler.jsonc`):
 Note:
 - `CMS_TOKEN_SECRET` è **obbligatorio**: senza, l'auth fallisce volutamente con
   500 `AUTH_CONFIG_MISSING` (nessun fallback sulla password).
-- I nomi sono identici a quelli usati su Netlify: si possono copiare i valori 1:1.
+- I nomi sono gli stessi usati storicamente su Netlify: i valori sono stati copiati 1:1 alla migrazione.
 
 ## 5. Build
 
@@ -129,7 +129,6 @@ curl $BASE/api/health                      # {"ok":true}
 curl -I $BASE/                             # 200 HTML
 curl -I $BASE/food/food.json               # no-cache + ACAO *
 curl -I $BASE/admin/                       # 200
-curl $BASE/.netlify/functions/health       # alias legacy → {"ok":true}
 ```
 
 Poi test manuale CMS: login su `$BASE/admin/`, modifica un prodotto, verifica commit su GitHub.
@@ -165,7 +164,12 @@ Configurazione (dashboard, una tantum, dopo la verifica email):
 
 ## 9. Dominio ufficiale (registrato su Aruba) → Cloudflare
 
-Il dominio è registrato su **aruba.it** e attualmente punta a Netlify. La migrazione
+> ✅ **Completato**: la zona `arconti31.com` è attiva su Cloudflare e i custom domain
+> `arconti31.com` / `www` sono collegati al Worker. Le sottosezioni restano come
+> riferimento storico/procedurale.
+
+Il dominio è registrato su **aruba.it** e al momento della migrazione puntava a
+Netlify. La migrazione
 DNS va fatta **solo dopo** aver verificato tutto su workers.dev (sito, CMS, salvataggio,
 JSON, upload Cloudinary, PWA, HTTPS). Il dominio resta registrato su Aruba: cambiano solo
 i **nameserver**.
@@ -211,9 +215,9 @@ o una Redirect Rule 301 `www.arconti31.com/*` → `https://arconti31.com/$1`
 
 ### 9.6 Dopo la stabilizzazione
 
-Solo quando il dominio serve il sito da Cloudflare senza problemi da qualche giorno:
-rimuovi il custom domain dal sito Netlify (Site configuration → Domain management).
-Non cancellare subito il sito Netlify: resta l'ultima rete di sicurezza.
+✅ Completato (agosto 2026): il custom domain è stato rimosso da Netlify e il sito
+Netlify è stato dismesso. L'unica infrastruttura attiva è Cloudflare; per il rollback
+vedi §11.
 
 ## 10. Monitoraggio
 
@@ -239,17 +243,19 @@ npx wrangler rollback [version-id]
 
 Effetto immediato (< 1 minuto), nessuna build necessaria.
 
-### Caso B — Problema grave su Cloudflare, tornare a Netlify
+### Caso B — Problema grave su Cloudflare, redeploy dell'ultima versione nota buona
 
-Prerequisito: sito Netlify non ancora cancellato (vedi §9.6).
+Netlify non esiste più come fallback: il ripristino avviene con git + wrangler.
 
-1. Pannello Aruba → riporta i **nameserver** a quelli originali Aruba
-   (oppure, se la zona CF è attiva, ripunta i record A/CNAME del dominio a Netlify:
-   `apex → 75.2.60.5`, `www → <sito>.netlify.app` — più rapido perché non attende
-   la propagazione dei nameserver)
-2. Su Netlify verifica che il sito sia ancora pubblicato (ripubblica l'ultimo deploy se serve)
-3. Il codice legacy è intatto nel repo: `netlify/functions/` + `netlify.toml`
-   sono conservati come riferimento e restano funzionanti
+1. Identifica l'ultimo commit funzionante su `main` (`git log --oneline`)
+2. Redeploya da quello stato:
+   ```bash
+   git checkout <commit-funzionante>
+   npm ci && npm run deploy:cloudflare
+   git checkout main
+   ```
+3. In alternativa `npx wrangler rollback [version-id]` (Caso A) agisce senza rebuild
+   e resta la via più rapida se il problema riguarda solo il Worker.
 
 ### Caso C — Solo il CMS ha problemi
 
