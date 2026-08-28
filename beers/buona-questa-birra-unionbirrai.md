@@ -8,4 +8,5 @@ gradazione: "5%"
 disponibile: true
 order: 0
 sezione_slug: "birre-artigianali"
+immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1787940024/arconti31/ygu75ep1k3qfjnmhc98c.png"
 ---
