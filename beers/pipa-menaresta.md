@@ -6,7 +6,7 @@ descrizione: "Cold IPA \nProdotta con i luppoli Citra ed Amarillo, solo in cryo,
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1780951188/arconti31/pfusxrwct89wixvooe8q.png"
 formato: "0,4 l"
 gradazione: "4,9"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
