@@ -438,7 +438,7 @@
         "Latte",
         "Senape"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 7,
       "category_slug": "aperitivo",
       "_filename": "tagliere-aperitivo.md"
@@ -2181,7 +2181,7 @@
           "Latte",
           "Senape"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 7,
         "category_slug": "aperitivo",
         "_filename": "tagliere-aperitivo.md"

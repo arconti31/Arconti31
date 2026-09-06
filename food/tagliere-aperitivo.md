@@ -10,7 +10,7 @@ allergeni:
   - "Soia"
   - "Latte"
   - "Senape"
-disponibile: true
+disponibile: false
 order: 7
 category_slug: "aperitivo"
 ---
