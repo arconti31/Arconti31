@@ -8,6 +8,6 @@ immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1768463564/
 tags:
   - "Più venduto"
   - "Specialità"
-disponibile: true
+disponibile: false
 order: 25
 ---
