@@ -771,7 +771,7 @@
       "tags": [
         "Più venduto"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 29,
       "category_slug": "hamburger-fassona",
       "_filename": "hamburger-f3.md"
@@ -1313,7 +1313,7 @@
         "tags": [
           "Più venduto"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 29,
         "category_slug": "hamburger-fassona",
         "_filename": "hamburger-f3.md"
