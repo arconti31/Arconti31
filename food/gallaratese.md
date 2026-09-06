@@ -6,7 +6,7 @@ descrizione: "Romagnola con ricotta fresca, speck tirolese, zucchine grigliate"
 allergeni:
   - "Glutine"
   - "Latte"
-disponibile: true
+disponibile: false
 order: 11
 category_slug: "piadine"
 ---
