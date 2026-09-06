@@ -1013,7 +1013,7 @@
         "Novità",
         "Specialità"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 46,
       "category_slug": "hamburger-fassona",
       "_filename": "porchettara.md"
@@ -1394,7 +1394,7 @@
           "Novità",
           "Specialità"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 46,
         "category_slug": "hamburger-fassona",
         "_filename": "porchettara.md"
