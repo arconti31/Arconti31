@@ -1053,7 +1053,7 @@
         "Più venduto",
         "Specialità"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 48,
       "category_slug": "hamburger-fassona",
       "_filename": "hamburger-autunnale.md"
@@ -1415,7 +1415,7 @@
           "Più venduto",
           "Specialità"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 48,
         "category_slug": "hamburger-fassona",
         "_filename": "hamburger-autunnale.md"
