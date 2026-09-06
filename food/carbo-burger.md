@@ -12,7 +12,7 @@ allergeni:
 tags:
   - "Novità"
   - "Specialità"
-disponibile: true
+disponibile: false
 order: 31
 category_slug: "hamburger-fassona"
 ---

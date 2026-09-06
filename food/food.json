@@ -812,7 +812,7 @@
         "Novità",
         "Specialità"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 31,
       "category_slug": "hamburger-fassona",
       "_filename": "carbo-burger.md"
@@ -1354,7 +1354,7 @@
           "Novità",
           "Specialità"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 31,
         "category_slug": "hamburger-fassona",
         "_filename": "carbo-burger.md"
