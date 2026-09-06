@@ -163,7 +163,7 @@
         "Novità",
         "Specialità"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 0,
       "category_slug": "hamburger-fassona",
       "_filename": "pulled-chicken.md"
@@ -1242,7 +1242,7 @@
           "Novità",
           "Specialità"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 0,
         "category_slug": "hamburger-fassona",
         "_filename": "pulled-chicken.md"
