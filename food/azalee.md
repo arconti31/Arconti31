@@ -6,7 +6,7 @@ descrizione: "Ciabatta 180gr con bresaola Valtellina, ricotta di bufala fresca, 
 allergeni:
   - "Glutine"
   - "Latte"
-disponibile: true
+disponibile: false
 order: 9
 category_slug: "panini"
 ---
