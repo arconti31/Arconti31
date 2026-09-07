@@ -101,7 +101,7 @@
         "Novità",
         "Specialità"
       ],
-      "disponibile": false,
+      "disponibile": true,
       "order": 0,
       "category_slug": "panini",
       "_filename": "madonna-in-campagna.md"
@@ -1454,7 +1454,7 @@
           "Novità",
           "Specialità"
         ],
-        "disponibile": false,
+        "disponibile": true,
         "order": 0,
         "category_slug": "panini",
         "_filename": "madonna-in-campagna.md"
