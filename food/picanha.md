@@ -9,7 +9,7 @@ allergeni:
   - "Senape"
 tags:
   - "Specialità"
-disponibile: false
+disponibile: true
 order: 5
 category_slug: "piatti-speciali-e-griglieria"
 ---
