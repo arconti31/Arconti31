@@ -8,6 +8,6 @@ allergeni:
   - "Glutine"
   - "Uova"
   - "Latte"
-disponibile: false
+disponibile: true
 order: 39
 ---
