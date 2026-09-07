@@ -182,7 +182,7 @@
         "Novità",
         "Specialità"
       ],
-      "disponibile": false,
+      "disponibile": true,
       "order": 0,
       "category_slug": "piatti-speciali-e-griglieria",
       "_filename": "pulled-lamb.md"
@@ -1643,7 +1643,7 @@
           "Novità",
           "Specialità"
         ],
-        "disponibile": false,
+        "disponibile": true,
         "order": 0,
         "category_slug": "piatti-speciali-e-griglieria",
         "_filename": "pulled-lamb.md"
