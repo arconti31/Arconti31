@@ -9,7 +9,7 @@ allergeni:
 tags:
   - "Vegetariano"
   - "Vegano"
-disponibile: false
+disponibile: true
 order: 0
 category_slug: "vegetariano-vegano"
 ---
