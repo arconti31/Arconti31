@@ -256,7 +256,7 @@
       "tags": [
         "Novità"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 0,
       "category_slug": "piatti-speciali-e-griglieria",
       "_filename": "tagliata-di-diaframma.md"
@@ -1677,7 +1677,7 @@
         "tags": [
           "Novità"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 0,
         "category_slug": "piatti-speciali-e-griglieria",
         "_filename": "tagliata-di-diaframma.md"
