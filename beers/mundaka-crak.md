@@ -6,7 +6,7 @@ descrizione: "Session IPA | IBU 28\nChiara e snella, luppoli americani ed europe
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1787676684/arconti31/ji4sadslloru98qenlpe.jpg"
 formato: "0,4 l "
 gradazione: "4,6 %"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
