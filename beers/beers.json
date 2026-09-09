@@ -1140,6 +1140,18 @@
       "_filename": "united-birrificio-5050.md"
     },
     {
+      "nome": "UP! - Edizione Limitata: collaborazione con Outer RangeXGranda",
+      "sezione": "Birre artigianali alla spina a rotazione",
+      "prezzo": "7.00",
+      "descrizione": "Hazy Neipa",
+      "formato": "0,4 l",
+      "gradazione": "9% ",
+      "disponibile": true,
+      "order": 0,
+      "sezione_slug": "birre-artigianali",
+      "_filename": "up-edizione-limitata-collaborazione-con-outer-rang.md"
+    },
+    {
       "nome": "Ushuaia - Orso Verde",
       "sezione": "Birre artigianali alla spina a rotazione",
       "prezzo": "6.50",
@@ -2576,6 +2588,18 @@
         "disponibile": false,
         "order": 0,
         "_filename": "united-birrificio-5050.md"
+      },
+      {
+        "nome": "UP! - Edizione Limitata: collaborazione con Outer RangeXGranda",
+        "sezione": "Birre artigianali alla spina a rotazione",
+        "prezzo": "7.00",
+        "descrizione": "Hazy Neipa",
+        "formato": "0,4 l",
+        "gradazione": "9% ",
+        "disponibile": true,
+        "order": 0,
+        "sezione_slug": "birre-artigianali",
+        "_filename": "up-edizione-limitata-collaborazione-con-outer-rang.md"
       },
       {
         "nome": "Ushuaia - Orso Verde",
