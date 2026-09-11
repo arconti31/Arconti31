@@ -8,7 +8,7 @@ tags:
   - "Novità"
   - "Più venduto"
   - "Specialità"
-disponibile: false
+disponibile: true
 order: 8
 category_slug: "dolci"
 ---
