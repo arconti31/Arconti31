@@ -6,7 +6,7 @@ descrizione: "Birra ad alta fermentazione con un uso massiccio di luppoli americ
 immagine_copertina: "https://res.cloudinary.com/ducwseofw/image/upload/v1780952391/arconti31/qixbih9tb3uxwaufygqy.jpg"
 formato: "0,4 l "
 gradazione: "8,3%"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
