@@ -6,7 +6,7 @@ descrizione: "Bock | IBU 35\nLa rossa “non rossa”, gustosa, originale, ribel
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1769112645/arconti31/vxmke9qdbyvs5xqyyb9m.jpg"
 formato: "0,4 l"
 gradazione: "6,2"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
