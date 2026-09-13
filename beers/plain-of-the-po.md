@@ -7,7 +7,7 @@ immagine_copertina: "https://res.cloudinary.com/ducwseofw/image/upload/v17772091
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1777208740/arconti31/teyzawremtb3caldgprb.jpg"
 formato: "0,4L"
 gradazione: "6,6 % vol"
-disponibile: true
+disponibile: false
 order: 23
 sezione_slug: "birre-artigianali"
 ---
