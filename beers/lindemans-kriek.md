@@ -1,5 +1,5 @@
 ---
-nome: "Lindemans Kriek"
+nome: "Kriek - Lindemans"
 sezione: "Birre artigianali alla spina a rotazione"
 prezzo: "6.50"
 descrizione: "LAMBIC \nBirra belga fruttata prodotta con l’aggiunta di amarene. \nCaratterizzata da una fermentazione spontanea e una rifermentazione in bottiglia. \nDai profumi di ciliegia e dal gusto acido che le da un sentore stringente. "
