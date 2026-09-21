@@ -6,7 +6,7 @@ descrizione: "DDH IPA\nEnigma, Nelson Sauvin e Mosaic sono i luppoli selezionati
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1789323552/arconti31/m6urvonqsfnyni3ssge3.webp"
 formato: "0,4 l "
 gradazione: "6,5 %"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
