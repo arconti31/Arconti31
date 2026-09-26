@@ -6,7 +6,7 @@ descrizione: "Divano Belga è la Belgian Tripel di Birrificio Legnone: una birra
 immagine_copertina: "https://res.cloudinary.com/ducwseofw/image/upload/v1789751304/arconti31/waxrgpogh1cg3hlu2ohw.jpg"
 formato: "0,4"
 gradazione: "8,2"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
