@@ -6,7 +6,7 @@ descrizione: "WOW, birra Bock dal colore rosso rubino brillante e dall’aroma f
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1789326709/arconti31/t5le4rdn3ilhrccnfstl.jpg"
 formato: "0,4 l"
 gradazione: "5,8% "
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
