@@ -1,8 +1,8 @@
 ---
-nome: "Salmon Burger"
+nome: "Brezel "
 category: "Piatti Speciali e griglieria"
-prezzo: "14.00"
-descrizione: "Un pane artigianale con all’interno filetto di salmone grigliato, misticanza, pomodori, salsa vinagrette.\nContorno di patatine fritte 🍟.\n🍽️ €1 "
+prezzo: "3.00"
+descrizione: "Il brezel (chiamato anche bretzel o pretzel) è un tipico pane di origine tedesca e alsaziana, celebre per la sua caratteristica forma a nodo intrecciato e il colore bruno lucido"
 allergeni:
   - "Glutine"
   - "Uova"
@@ -12,7 +12,8 @@ allergeni:
 tags:
   - "Novità"
   - "Specialità"
-disponibile: false
+disponibile: true
 order: 0
 category_slug: "piatti-speciali-e-griglieria"
+immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1790527187/arconti31/yz7ycaxz9fiocjp7ckhf.webp"
 ---
