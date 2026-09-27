@@ -121,7 +121,7 @@
       "tags": [
         "Novità"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 0,
       "category_slug": "dolci",
       "_filename": "profitterol.md"
@@ -2012,7 +2012,7 @@
         "tags": [
           "Novità"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 0,
         "category_slug": "dolci",
         "_filename": "profitterol.md"
