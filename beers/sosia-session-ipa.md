@@ -6,7 +6,7 @@ descrizione: "La Varesotta Gluten Free di 50&50 è una IPA da 5% vol. ispirata a
 immagine_copertina: "https://res.cloudinary.com/ducwseofw/image/upload/v1790525358/arconti31/mfmkxpvb6549t9o2m5xp.jpg"
 formato: "0,4"
 gradazione: "5%"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
