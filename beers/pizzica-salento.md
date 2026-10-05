@@ -7,6 +7,6 @@ descrizione: "Slovenia Golden Ale"
 immagine_copertina: "https://res.cloudinary.com/ducwseofw/image/upload/v1773435880/arconti31/o4hznejxgo49vdo0kg6z.webp"
 formato: "0,4"
 gradazione: "5,3%"
-disponibile: false
+disponibile: true
 order: 0
 ---
