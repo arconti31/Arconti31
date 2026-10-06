@@ -875,6 +875,17 @@
       "tipo": "Artigianali"
     },
     {
+      "nome": "Giffard Fleur de Sureau Sauvage",
+      "prezzo": "6.00",
+      "descrizione": "Liquore Premium francese  | \nOttenuto dall’infusione e macerazione di fiori di sambuco selvatici raccolti a mano in primavera ed essiccati naturalmente.\n",
+      "immagine_copertina": "https://res.cloudinary.com/ducwseofw/image/upload/v1791311766/arconti31/owv5zfbapbcny2orlcur.png",
+      "disponibile": true,
+      "order": 0,
+      "tipo_slug": "artigianali",
+      "_filename": "giffard-fleur-de-sureau-sauvage.md",
+      "tipo": "Artigianali"
+    },
+    {
       "nome": "Jefferson",
       "prezzo": "5.00",
       "descrizione": "Calabria | 30 alc.\nCaratterizzato da un gusto mediterraneo e complesso, è ottenuto da botaniche naturali come bergamotto, agrumi, rosmarino, origano ed eucalipto.\n",
@@ -2074,6 +2085,17 @@
         "order": 0,
         "tipo_slug": "artigianali",
         "_filename": "bonaventura-erbe-e-spezie.md",
+        "tipo": "Artigianali"
+      },
+      {
+        "nome": "Giffard Fleur de Sureau Sauvage",
+        "prezzo": "6.00",
+        "descrizione": "Liquore Premium francese  | \nOttenuto dall’infusione e macerazione di fiori di sambuco selvatici raccolti a mano in primavera ed essiccati naturalmente.\n",
+        "immagine_copertina": "https://res.cloudinary.com/ducwseofw/image/upload/v1791311766/arconti31/owv5zfbapbcny2orlcur.png",
+        "disponibile": true,
+        "order": 0,
+        "tipo_slug": "artigianali",
+        "_filename": "giffard-fleur-de-sureau-sauvage.md",
         "tipo": "Artigianali"
       },
       {
