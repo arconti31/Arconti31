@@ -8,7 +8,6 @@ allergeni:
   - "Latte"
 tags:
   - "Vegetariano"
-  - "Vegano"
 disponibile: true
 order: 0
 category_slug: "vegetariano-vegano"
