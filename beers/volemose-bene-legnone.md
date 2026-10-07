@@ -6,7 +6,7 @@ descrizione: "Irish Stout \nNera con riflessi rubino, morbida e scorrevole. Sent
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1787598387/arconti31/fq6gnxnew31zrccshf5x.jpg"
 formato: "0,4 l"
 gradazione: "4,5% "
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
