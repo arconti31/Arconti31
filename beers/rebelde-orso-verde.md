@@ -6,7 +6,7 @@ descrizione: "American Strong Ale | IBU 45\nRossa, Profumata, Ribelle.\nUso foll
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1781723118/arconti31/vaarvi8umvzq2cshfbwf.jpg"
 formato: "0,4 l "
 gradazione: "7,5%"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
