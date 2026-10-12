@@ -63,7 +63,7 @@
       "tags": [
         "Novità"
       ],
-      "disponibile": false,
+      "disponibile": true,
       "order": 0,
       "category_slug": "dolci",
       "_filename": "crostata-di-albicocche.md"
@@ -2026,7 +2026,7 @@
         "tags": [
           "Novità"
         ],
-        "disponibile": false,
+        "disponibile": true,
         "order": 0,
         "category_slug": "dolci",
         "_filename": "crostata-di-albicocche.md"
