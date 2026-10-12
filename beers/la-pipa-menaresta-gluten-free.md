@@ -6,7 +6,7 @@ descrizione: "Trasparente come ghiaccio, fatta con riso brillato (brillante!), p
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1779485664/arconti31/boc60lnzebkkvt3u7ei9.png"
 formato: "0,33 l "
 gradazione: "4,9% "
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "frigo-birre"
 ---
