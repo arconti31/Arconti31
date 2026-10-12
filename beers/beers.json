@@ -1141,6 +1141,18 @@
       "_filename": "stai-seregno-railroad.md"
     },
     {
+      "nome": "Stai Seregno ",
+      "sezione": "Birre speciali in bottiglia",
+      "prezzo": "5.00",
+      "descrizione": "SAISON ",
+      "formato": "0,33 l",
+      "gradazione": "5,8 %",
+      "disponibile": true,
+      "order": 0,
+      "sezione_slug": "birre-speciali-bottiglia",
+      "_filename": "stai-seregno.md"
+    },
+    {
       "nome": "Steven Segale - Railroad",
       "sezione": "Birre artigianali alla spina a rotazione",
       "prezzo": "6.50",
@@ -3239,6 +3251,18 @@
         "disponibile": true,
         "order": 0,
         "_filename": "rodenbach-vintage-2018.md"
+      },
+      {
+        "nome": "Stai Seregno ",
+        "sezione": "Birre speciali in bottiglia",
+        "prezzo": "5.00",
+        "descrizione": "SAISON ",
+        "formato": "0,33 l",
+        "gradazione": "5,8 %",
+        "disponibile": true,
+        "order": 0,
+        "sezione_slug": "birre-speciali-bottiglia",
+        "_filename": "stai-seregno.md"
       },
       {
         "nome": "Theresianer Senza Glutine",
