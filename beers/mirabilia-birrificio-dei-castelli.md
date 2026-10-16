@@ -6,7 +6,7 @@ descrizione: "GLUTEN FREE DDH Pale Ale | IBU 52\nBirra senza glutine in stile DD
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1791405252/arconti31/rzv6midyb2vw0q5pwy8v.png"
 formato: "0,4 cl"
 gradazione: "5,2%"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
