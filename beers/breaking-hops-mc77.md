@@ -6,7 +6,7 @@ descrizione: "Birra ambrata in stile Double IPA in cui l’aroma è dominato da 
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1791492876/arconti31/dvgupvs4dmqavmrfwrae.jpg"
 formato: "0,4 l "
 gradazione: "8,2%"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
