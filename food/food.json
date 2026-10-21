@@ -603,7 +603,7 @@
         "Più venduto",
         "Specialità"
       ],
-      "disponibile": false,
+      "disponibile": true,
       "order": 17,
       "category_slug": "aperitivo",
       "_filename": "tagliere-affettati-e-formaggi.md"
@@ -2237,7 +2237,7 @@
           "Più venduto",
           "Specialità"
         ],
-        "disponibile": false,
+        "disponibile": true,
         "order": 17,
         "category_slug": "aperitivo",
         "_filename": "tagliere-affettati-e-formaggi.md"
