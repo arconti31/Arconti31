@@ -6,7 +6,7 @@ descrizione: "Double IPA \n“Attenzione” provoca dipendenza e non si riesce a
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1792184144/arconti31/cdmvfuzt2cd2oashfzfx.jpg"
 formato: "0,4 l "
 gradazione: "8,3% "
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
