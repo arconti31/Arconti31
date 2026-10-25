@@ -6,7 +6,7 @@ descrizione: "Vera e propria icona del birrificio di Chiswick, questa Bitter è 
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1771180270/arconti31/qtvj9bjg27gdrritvtcj.png"
 formato: "0,4 L "
 gradazione: "4,7% "
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
