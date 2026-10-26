@@ -6,7 +6,7 @@ descrizione: "APA | IBU 40\nAmerican Pale Ale dorata, fresca e intensamente lupp
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1777841700/arconti31/c2y9f7qrjqicgmelvhtj.jpg"
 formato: "0,4 l"
 gradazione: "5,6 %"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
