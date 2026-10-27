@@ -1,5 +1,5 @@
 ---
-nome: "Crush on you - Wild Racoon"
+nome: "Crush on you - Wild Raccoon"
 sezione: "Birre artigianali alla spina a rotazione"
 prezzo: "7.00"
 descrizione: "Session NEIPA.\nLuppoli Idaho 7 e Citra con Galaxy e Mosaic, quest’ultimi due anche in versione Cryo, creano un’esplosione di aromi tropicali di mango, ananas e papaia. Il finale amaro bilancia il tutto, regalando un’esperienza di bevuta straordinaria!"
