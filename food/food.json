@@ -385,7 +385,7 @@
         "Novità",
         "Specialità"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 3,
       "category_slug": "piatti-speciali-e-griglieria",
       "_filename": "mezzo-polletto-grigliato.md"
@@ -1732,7 +1732,7 @@
           "Novità",
           "Specialità"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 3,
         "category_slug": "piatti-speciali-e-griglieria",
         "_filename": "mezzo-polletto-grigliato.md"
