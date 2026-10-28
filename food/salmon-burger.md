@@ -12,7 +12,7 @@ allergeni:
 tags:
   - "Novità"
   - "Specialità"
-disponibile: false
+disponibile: true
 order: 0
 category_slug: "piatti-speciali-e-griglieria"
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1790527187/arconti31/yz7ycaxz9fiocjp7ckhf.webp"
