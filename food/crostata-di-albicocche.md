@@ -1,5 +1,5 @@
 ---
-nome: "Crostata di albicocche "
+nome: "Crostata con marmellata ai frutti di bosco"
 category: "Dolci"
 prezzo: "6.00"
 immagine_copertina: "https://res.cloudinary.com/ducwseofw/image/upload/v1780594841/arconti31/qaljh602msd4okog5nmg.jpg"
@@ -15,4 +15,5 @@ tags:
 disponibile: true
 order: 0
 category_slug: "dolci"
+descrizione: "Crostata fatta rigorosamente in casa, soffice con crostata di mirtilli e frutti di bosco.....da provare!!!!!!"
 ---
