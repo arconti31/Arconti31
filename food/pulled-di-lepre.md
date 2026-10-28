@@ -11,4 +11,5 @@ tags:
 disponibile: true
 order: 0
 category_slug: "hamburger-fassona"
+immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1793205219/arconti31/lgnkyhwodsatahnqwkzt.webp"
 ---
