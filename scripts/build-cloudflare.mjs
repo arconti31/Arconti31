@@ -30,6 +30,9 @@ const FILES = [
   'index.html',
   'menu.html',
   'ristoranti.html',
+  // SEO: indirizzi principali senza .html (gli asset rimandano /menu.html → /menu)
+  'robots.txt',
+  'sitemap.xml',
   // JSON aggregati generati da scripts/generate-json.js
   'food/food.json',
   'beers/beers.json',
