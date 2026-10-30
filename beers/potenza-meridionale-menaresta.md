@@ -6,7 +6,7 @@ descrizione: "Creata con l’amico Br’hant di Potenza (Brigante in vernacolo) 
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1791408706/arconti31/lm8tev1kmmon8e0wmspd.webp"
 formato: "0,4 l "
 gradazione: "8% "
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
