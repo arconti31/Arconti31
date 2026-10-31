@@ -518,7 +518,7 @@
         "Piccante",
         "Più venduto"
       ],
-      "disponibile": false,
+      "disponibile": true,
       "order": 10,
       "category_slug": "fritti",
       "_filename": "chili-cheese.md"
@@ -1987,7 +1987,7 @@
           "Piccante",
           "Più venduto"
         ],
-        "disponibile": false,
+        "disponibile": true,
         "order": 10,
         "category_slug": "fritti",
         "_filename": "chili-cheese.md"
