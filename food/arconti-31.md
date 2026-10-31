@@ -9,6 +9,6 @@ allergeni:
   - "Latte"
 tags:
   - "Piccante"
-disponibile: true
+disponibile: false
 order: 0
 ---
