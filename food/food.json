@@ -533,7 +533,7 @@
         "Glutine",
         "Latte"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 11,
       "category_slug": "piadine",
       "_filename": "gallaratese.md"
@@ -1911,7 +1911,7 @@
           "Glutine",
           "Latte"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 11,
         "category_slug": "piadine",
         "_filename": "gallaratese.md"
