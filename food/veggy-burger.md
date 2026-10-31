@@ -12,7 +12,7 @@ allergeni:
 tags:
   - "Novità"
   - "Vegetariano"
-disponibile: true
+disponibile: false
 order: 0
 category_slug: "vegetariano-vegano"
 ---

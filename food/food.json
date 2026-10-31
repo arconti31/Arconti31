@@ -335,7 +335,7 @@
         "Novità",
         "Vegetariano"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 0,
       "category_slug": "vegetariano-vegano",
       "_filename": "veggy-burger.md"
@@ -1184,7 +1184,7 @@
           "Novità",
           "Vegetariano"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 0,
         "category_slug": "vegetariano-vegano",
         "_filename": "veggy-burger.md"
