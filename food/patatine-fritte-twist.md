@@ -9,7 +9,7 @@ allergeni:
   - "Uova"
 tags:
   - "Novità"
-disponibile: true
+disponibile: false
 order: 45
 category_slug: "fritti"
 ---
