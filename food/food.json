@@ -383,7 +383,7 @@
       "tags": [
         "Novità"
       ],
-      "disponibile": false,
+      "disponibile": true,
       "order": 2,
       "_filename": "hamburger-f1-bufala.md"
     },
@@ -1220,7 +1220,7 @@
         "tags": [
           "Novità"
         ],
-        "disponibile": false,
+        "disponibile": true,
         "order": 2,
         "_filename": "hamburger-f1-bufala.md"
       },
