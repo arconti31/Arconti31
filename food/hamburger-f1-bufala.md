@@ -2,14 +2,13 @@
 nome: "Hamburger F1 Bufala"
 category: "Hamburger di bufala"
 category_slug: "hamburger-bufala"
-prezzo: "15.5"
+prezzo: "15.50"
 descrizione: "Hamburger di bufala (220 gr) con tomino, speck, guarnito con salsa rosa e accompagnato da un cestino di patatine fritte."
 allergeni:
-  - "Uova"
   - "Glutine"
-  - "Lattosio"
+  - "Uova"
 tags:
   - "Novità"
-disponibile: true
+disponibile: false
 order: 2
 ---

@@ -378,14 +378,13 @@
       "prezzo": "15.50",
       "descrizione": "Hamburger di bufala (220 gr) con tomino, speck, guarnito con salsa rosa e accompagnato da un cestino di patatine fritte.",
       "allergeni": [
-        "Uova",
         "Glutine",
-        "Lattosio"
+        "Uova"
       ],
       "tags": [
         "Novità"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 2,
       "_filename": "hamburger-f1-bufala.md"
     },
@@ -1216,14 +1215,13 @@
         "prezzo": "15.50",
         "descrizione": "Hamburger di bufala (220 gr) con tomino, speck, guarnito con salsa rosa e accompagnato da un cestino di patatine fritte.",
         "allergeni": [
-          "Uova",
           "Glutine",
-          "Lattosio"
+          "Uova"
         ],
         "tags": [
           "Novità"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 2,
         "_filename": "hamburger-f1-bufala.md"
       },
