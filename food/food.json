@@ -29,7 +29,7 @@
       "tags": [
         "Vegetariano"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 0,
       "category_slug": "vegetariano-vegano",
       "_filename": "arnate-calcio.md"
@@ -1146,7 +1146,7 @@
         "tags": [
           "Vegetariano"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 0,
         "category_slug": "vegetariano-vegano",
         "_filename": "arnate-calcio.md"
