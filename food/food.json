@@ -755,7 +755,7 @@
         "Novità",
         "Specialità"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 26,
       "category_slug": "piatti-speciali-e-griglieria",
       "_filename": "stinco-di-maiale-al-forno.md"
@@ -1864,7 +1864,7 @@
           "Novità",
           "Specialità"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 26,
         "category_slug": "piatti-speciali-e-griglieria",
         "_filename": "stinco-di-maiale-al-forno.md"

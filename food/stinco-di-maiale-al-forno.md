@@ -11,7 +11,7 @@ allergeni:
 tags:
   - "Novità"
   - "Specialità"
-disponibile: true
+disponibile: false
 order: 26
 category_slug: "piatti-speciali-e-griglieria"
 ---
