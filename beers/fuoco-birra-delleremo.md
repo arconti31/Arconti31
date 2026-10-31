@@ -6,7 +6,7 @@ descrizione: "Triplel \nLa birra artigianale fuoco è una birra di colore oro in
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1791494562/arconti31/dsewrisbjklm8ib2zrqc.png"
 formato: "0,4 l "
 gradazione: "8,5% "
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
