@@ -8,7 +8,7 @@ allergeni:
   - "Latte"
 tags:
   - "Più venduto"
-disponibile: true
+disponibile: false
 order: 23
 category_slug: "piadine"
 ---

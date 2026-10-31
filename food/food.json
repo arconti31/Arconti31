@@ -704,7 +704,7 @@
       "tags": [
         "Più venduto"
       ],
-      "disponibile": true,
+      "disponibile": false,
       "order": 23,
       "category_slug": "piadine",
       "_filename": "ronchi.md"
@@ -1928,7 +1928,7 @@
         "tags": [
           "Più venduto"
         ],
-        "disponibile": true,
+        "disponibile": false,
         "order": 23,
         "category_slug": "piadine",
         "_filename": "ronchi.md"
