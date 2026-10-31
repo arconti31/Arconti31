@@ -12,7 +12,7 @@ tags:
   - "Novità"
   - "Più venduto"
   - "Specialità"
-disponibile: true
+disponibile: false
 order: 48
 category_slug: "hamburger-fassona"
 ---
