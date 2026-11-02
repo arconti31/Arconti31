@@ -1,5 +1,5 @@
 ---
-nome: "Re elle "
+nome: "Rebelde Orso Verde "
 sezione: "Birre speciali in bottiglia"
 prezzo: "7.50"
 descrizione: "American Strong Ale "
