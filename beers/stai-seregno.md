@@ -8,4 +8,5 @@ gradazione: "5,8 %"
 disponibile: true
 order: 0
 sezione_slug: "birre-speciali-bottiglia"
+immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1793655381/arconti31/ivivgitadns8nmgti4xc.png"
 ---
