@@ -6,7 +6,7 @@ descrizione: "Common IPA\nAroma  agrumato e di frutti tropicali del luppolo Citr
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1793048887/arconti31/pqqoe6tr9learv3ukgga.jpg"
 formato: "0,4 l "
 gradazione: "5%"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
