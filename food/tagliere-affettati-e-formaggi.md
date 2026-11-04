@@ -13,7 +13,7 @@ allergeni:
 tags:
   - "Più venduto"
   - "Specialità"
-disponibile: true
+disponibile: false
 order: 17
 category_slug: "aperitivo"
 ---
