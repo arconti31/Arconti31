@@ -1126,6 +1126,15 @@
       "tipo": "I nostri Rum"
     },
     {
+      "nome": "Diplomatico ",
+      "prezzo": "10.00",
+      "disponibile": true,
+      "order": 0,
+      "tipo_slug": "i-nostri-rum",
+      "_filename": "diplomatico.md",
+      "tipo": "I nostri Rum"
+    },
+    {
       "nome": "Kraken black spiced",
       "prezzo": "10.00",
       "disponibile": true,
@@ -2362,6 +2371,15 @@
         "order": 0,
         "tipo_slug": "i-nostri-rum",
         "_filename": "diplomatico-reserva-exclusiva.md",
+        "tipo": "I nostri Rum"
+      },
+      {
+        "nome": "Diplomatico ",
+        "prezzo": "10.00",
+        "disponibile": true,
+        "order": 0,
+        "tipo_slug": "i-nostri-rum",
+        "_filename": "diplomatico.md",
         "tipo": "I nostri Rum"
       },
       {
