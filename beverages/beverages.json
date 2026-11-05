@@ -1126,6 +1126,15 @@
       "tipo": "I nostri Rum"
     },
     {
+      "nome": "Kraken black spiced",
+      "prezzo": "10.00",
+      "disponibile": true,
+      "order": 0,
+      "tipo_slug": "i-nostri-rum",
+      "_filename": "kraken-black-spiced.md",
+      "tipo": "I nostri Rum"
+    },
+    {
       "nome": "Matusalem Solera 7 Years Old",
       "tipo_slug": "i-nostri-rum",
       "prezzo": "10.00",
@@ -2353,6 +2362,15 @@
         "order": 0,
         "tipo_slug": "i-nostri-rum",
         "_filename": "diplomatico-reserva-exclusiva.md",
+        "tipo": "I nostri Rum"
+      },
+      {
+        "nome": "Kraken black spiced",
+        "prezzo": "10.00",
+        "disponibile": true,
+        "order": 0,
+        "tipo_slug": "i-nostri-rum",
+        "_filename": "kraken-black-spiced.md",
         "tipo": "I nostri Rum"
       },
       {
