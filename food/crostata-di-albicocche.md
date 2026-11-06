@@ -12,7 +12,7 @@ allergeni:
   - "Frutta a guscio"
 tags:
   - "Novità"
-disponibile: true
+disponibile: false
 order: 0
 category_slug: "dolci"
 descrizione: "Crostata fatta rigorosamente in casa, soffice con crostata di mirtilli e frutti di bosco.....da provare!!!!!!"
