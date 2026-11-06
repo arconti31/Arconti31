@@ -299,14 +299,14 @@
       "_filename": "divano-belga.md"
     },
     {
-      "nome": "Bitrex California - Soralama’",
+      "nome": "True Tricks - Wild Raccoon",
       "sezione": "Birre artigianali alla spina a rotazione",
       "prezzo": "6.00",
-      "descrizione": "Common IPA\nAroma  agrumato e di frutti tropicali del luppolo Citra è predominante al naso su un sottofondo di crosta di pane dato dal lievito lager. In bocca predomina l’amaro deciso ed una leggera nota di malto. Finale lungo secco e pulito che invoglia un altro sorso ed un altro ancora.",
-      "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1793048887/arconti31/pqqoe6tr9learv3ukgga.jpg",
+      "descrizione": "True Tricks\nUna Double IPA che cavalca l’onda con audacia: Chinook, Citra e Simcoe sprigionano pompelmo, lime, litchi e un soffio di aghi di pino. Scorre veloce e potente, come uno skate lungo le rampe di Venice Beach, libero, selvaggio e pieno di adrenalina.",
+      "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1793985209/arconti31/zbau7oelt5asazegbdoa.jpg",
       "formato": "0,4 l ",
-      "gradazione": "5%",
-      "disponibile": false,
+      "gradazione": "8%",
+      "disponibile": true,
       "order": 0,
       "sezione_slug": "birre-artigianali",
       "_filename": "docker-officine-birrai.md"
@@ -2061,14 +2061,14 @@
         "_filename": "divano-belga.md"
       },
       {
-        "nome": "Bitrex California - Soralama’",
+        "nome": "True Tricks - Wild Raccoon",
         "sezione": "Birre artigianali alla spina a rotazione",
         "prezzo": "6.00",
-        "descrizione": "Common IPA\nAroma  agrumato e di frutti tropicali del luppolo Citra è predominante al naso su un sottofondo di crosta di pane dato dal lievito lager. In bocca predomina l’amaro deciso ed una leggera nota di malto. Finale lungo secco e pulito che invoglia un altro sorso ed un altro ancora.",
-        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1793048887/arconti31/pqqoe6tr9learv3ukgga.jpg",
+        "descrizione": "True Tricks\nUna Double IPA che cavalca l’onda con audacia: Chinook, Citra e Simcoe sprigionano pompelmo, lime, litchi e un soffio di aghi di pino. Scorre veloce e potente, come uno skate lungo le rampe di Venice Beach, libero, selvaggio e pieno di adrenalina.",
+        "immagine_avatar": "https://res.cloudinary.com/ducwseofw/image/upload/v1793985209/arconti31/zbau7oelt5asazegbdoa.jpg",
         "formato": "0,4 l ",
-        "gradazione": "5%",
-        "disponibile": false,
+        "gradazione": "8%",
+        "disponibile": true,
         "order": 0,
         "sezione_slug": "birre-artigianali",
         "_filename": "docker-officine-birrai.md"
