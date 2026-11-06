@@ -6,7 +6,7 @@ descrizione: "Double IPA | IBU 80\nSi mostra dorata e leggermente velata.\nAl na
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1792966923/arconti31/ifcfsyxlmfmluzulqkyl.jpg"
 formato: "0,4 l "
 gradazione: "8,5 %"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
