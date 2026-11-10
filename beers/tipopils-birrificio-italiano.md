@@ -6,7 +6,7 @@ descrizione: "Tipopils è la prima pils con Dry Hopping al mondo.\nBirra artigia
 immagine_copertina: "https://res.cloudinary.com/ducwseofw/image/upload/v1779215336/arconti31/sxtslhx8xxs0onamqska.png"
 formato: "0,4"
 gradazione: "5,2%"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
