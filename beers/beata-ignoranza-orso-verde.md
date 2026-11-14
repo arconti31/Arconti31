@@ -6,7 +6,7 @@ descrizione: "American Pale Ale | IBU 30\nUn biglietto di sola andata per la Sie
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1793827433/arconti31/kmkxlvuohgxun7sjygxz.png"
 formato: "0,4 l "
 gradazione: "4 %"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
