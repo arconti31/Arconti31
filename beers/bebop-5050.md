@@ -6,7 +6,7 @@ descrizione: "Bock | IBU 25\nUna Bock dal colore ramato intenso, robusta ed equi
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1783537526/arconti31/yzvpgscjkbx7h5pbygp4.png"
 formato: "0,4 l "
 gradazione: "6,8 % "
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
