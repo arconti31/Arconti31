@@ -872,7 +872,7 @@
       "tags": [
         "Più venduto"
       ],
-      "disponibile": false,
+      "disponibile": true,
       "order": 34,
       "_filename": "tortino-con-cuore-morbido-al-cioccolato.md"
     },
@@ -2200,7 +2200,7 @@
         "tags": [
           "Più venduto"
         ],
-        "disponibile": false,
+        "disponibile": true,
         "order": 34,
         "_filename": "tortino-con-cuore-morbido-al-cioccolato.md"
       },
