@@ -6,7 +6,7 @@ descrizione: "ITALIAN PILSNER.\nPer il direttore, la Pils non era abbastanza. Pe
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1794343714/arconti31/c9ldyok3bcg1tkskny04.jpg"
 formato: "0,4 l "
 gradazione: "5 % vol."
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
