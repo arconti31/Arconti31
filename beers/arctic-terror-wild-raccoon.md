@@ -1,5 +1,5 @@
 ---
-nome: "Arctic Terror - Wild Raccoon"
+nome: "Arctic Terror - Wild Raccoon GLUTEN FREE"
 sezione: "Birre artigianali alla spina a rotazione"
 prezzo: "7.00"
 descrizione: "Un brivido di freschezza!\nLa sapiente miscela di luppoli Citra e Citra Cryo, combinati al neozelandese Nectaron, sprigiona un’esplosione di frutto della passione, pesca e ananas.\nIl finale secco e agrumato completa l’esperienza con un tocco di vivacità unica."
