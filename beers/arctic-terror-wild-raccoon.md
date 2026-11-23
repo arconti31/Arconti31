@@ -6,7 +6,7 @@ descrizione: "Un brivido di freschezza!\nLa sapiente miscela di luppoli Citra e 
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1794701739/arconti31/ghlaxjo6awzkdomy3eg5.jpg"
 formato: "0,4 l "
 gradazione: "5.9%"
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
