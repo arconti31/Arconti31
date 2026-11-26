@@ -390,7 +390,7 @@
       "tipo": "Bibite"
     },
     {
-      "nome": "Coca cola",
+      "nome": "Coca cola (bott. in vetro 330 ml)",
       "tipo_slug": "bibite",
       "prezzo": "4.50",
       "formato": "Bottiglia vetro 33cl",
@@ -1634,7 +1634,7 @@
         "tipo": "Bibite"
       },
       {
-        "nome": "Coca cola",
+        "nome": "Coca cola (bott. in vetro 330 ml)",
         "tipo_slug": "bibite",
         "prezzo": "4.50",
         "formato": "Bottiglia vetro 33cl",
