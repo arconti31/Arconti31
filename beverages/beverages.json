@@ -359,6 +359,15 @@
       "tipo": "Bibite"
     },
     {
+      "nome": "Coca cola alla spina",
+      "prezzo": "4.00",
+      "disponibile": true,
+      "order": 0,
+      "tipo_slug": "bibite",
+      "_filename": "coca-cola-alla-spina.md",
+      "tipo": "Bibite"
+    },
+    {
       "nome": "Ginger ale | Fever-Tree",
       "tipo_slug": "bibite",
       "prezzo": "4.00",
@@ -1600,6 +1609,15 @@
         "disponibile": true,
         "order": 0,
         "_filename": "acqua-tonica.md",
+        "tipo": "Bibite"
+      },
+      {
+        "nome": "Coca cola alla spina",
+        "prezzo": "4.00",
+        "disponibile": true,
+        "order": 0,
+        "tipo_slug": "bibite",
+        "_filename": "coca-cola-alla-spina.md",
         "tipo": "Bibite"
       },
       {
