@@ -906,8 +906,8 @@
     },
     {
       "nome": "Sex on the meat",
-      "category": "Piatti Speciali e griglieria",
-      "category_slug": "piatti-speciali-e-griglieria",
+      "category": "Hamburger Fassona e Street food",
+      "category_slug": "hamburger-fassona",
       "prezzo": "16.00",
       "descrizione": "Pane hamburger artigianale con  picanha grigliata tagliata fine, peperoni grigliati, cipolle caramellate, fontina.\nContorno: patatine fritte 🍟 ",
       "tags": [
@@ -1428,6 +1428,21 @@
         "_filename": "carbo-burger.md"
       },
       {
+        "nome": "Sex on the meat",
+        "category": "Hamburger Fassona e Street food",
+        "category_slug": "hamburger-fassona",
+        "prezzo": "16.00",
+        "descrizione": "Pane hamburger artigianale con  picanha grigliata tagliata fine, peperoni grigliati, cipolle caramellate, fontina.\nContorno: patatine fritte 🍟 ",
+        "tags": [
+          "Novità",
+          "Più venduto",
+          "Specialità"
+        ],
+        "disponibile": true,
+        "order": 37,
+        "_filename": "sex-on-the-meat.md"
+      },
+      {
         "nome": "Pulled Pork",
         "category": "Hamburger Fassona e Street food",
         "prezzo": "15.50",
@@ -1882,21 +1897,6 @@
         "disponibile": false,
         "order": 27,
         "_filename": "tartare-di-manzo-battuta-a-coltello.md"
-      },
-      {
-        "nome": "Sex on the meat",
-        "category": "Piatti Speciali e griglieria",
-        "category_slug": "piatti-speciali-e-griglieria",
-        "prezzo": "16.00",
-        "descrizione": "Pane hamburger artigianale con  picanha grigliata tagliata fine, peperoni grigliati, cipolle caramellate, fontina.\nContorno: patatine fritte 🍟 ",
-        "tags": [
-          "Novità",
-          "Più venduto",
-          "Specialità"
-        ],
-        "disponibile": true,
-        "order": 37,
-        "_filename": "sex-on-the-meat.md"
       }
     ],
     "Piadine": [
