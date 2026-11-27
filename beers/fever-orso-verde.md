@@ -6,7 +6,7 @@ descrizione: "IPA IBU 32\nBirra ad alta fermentazione. | Chiara, Febbricitante, 
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1794428826/arconti31/zybjdbtg1y4whphppnw5.jpg"
 formato: "0,4 l "
 gradazione: "6% "
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
