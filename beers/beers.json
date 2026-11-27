@@ -659,6 +659,18 @@
       "_filename": "kalopsia-5050.md"
     },
     {
+      "nome": "Katzenbräu - Orso Verde ",
+      "sezione": "Birre artigianali alla spina a rotazione",
+      "prezzo": "6.00",
+      "descrizione": "Italian Pilsner ",
+      "formato": "0,4 l",
+      "gradazione": "4,8 % ",
+      "disponibile": true,
+      "order": 0,
+      "sezione_slug": "birre-artigianali",
+      "_filename": "katzenbrau-orso-verde.md"
+    },
+    {
       "nome": "Killer Queen - Hammer ",
       "sezione": "Birre artigianali alla spina a rotazione",
       "prezzo": "7.00",
@@ -2431,6 +2443,18 @@
         "order": 0,
         "sezione_slug": "birre-artigianali",
         "_filename": "kalopsia-5050.md"
+      },
+      {
+        "nome": "Katzenbräu - Orso Verde ",
+        "sezione": "Birre artigianali alla spina a rotazione",
+        "prezzo": "6.00",
+        "descrizione": "Italian Pilsner ",
+        "formato": "0,4 l",
+        "gradazione": "4,8 % ",
+        "disponibile": true,
+        "order": 0,
+        "sezione_slug": "birre-artigianali",
+        "_filename": "katzenbrau-orso-verde.md"
       },
       {
         "nome": "Killer Queen - Hammer ",
