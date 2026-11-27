@@ -1,6 +1,6 @@
 ---
 nome: "Pulled Lamb "
-category: "Piatti Speciali e griglieria"
+category: "Hamburger Fassona e Street food"
 prezzo: "15.50"
 descrizione: "Una farcitura di spalla di agnello marinata e speziata (CBT 6 ore, cavolo viola e salsa bbq.\nContorno di patatine fritte. 🍟 \n€1 🍽️ "
 allergeni:
@@ -12,5 +12,5 @@ tags:
   - "Specialità"
 disponibile: false
 order: 0
-category_slug: "piatti-speciali-e-griglieria"
+category_slug: "hamburger-fassona"
 ---
