@@ -6,7 +6,7 @@ descrizione: "Dubbel\nBirre del genere son solo d’abbazia: con quella ricchezz
 immagine_avatar: "https://res.cloudinary.com/ducwseofw/image/upload/v1793827204/arconti31/simapraco6uik39nnkxf.png"
 formato: "0,4 l"
 gradazione: "8% "
-disponibile: true
+disponibile: false
 order: 0
 sezione_slug: "birre-artigianali"
 ---
